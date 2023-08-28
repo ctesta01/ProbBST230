@@ -1,9 +1,5 @@
 ---
-title: "BST 232 Week 1"
-format: 
-  html:
-    toc: true
-    theme: ../style.scss
+title: "Week 1"
 ---
 
 August 28 — September 1, 2023 

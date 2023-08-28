@@ -5,5 +5,3 @@ format:
     toc: true
     theme: ../style.scss
 ---
-
-

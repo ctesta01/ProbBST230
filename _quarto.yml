@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: docs
 
 book:
   title: "Methods (BST 232) Notes"
@@ -21,3 +22,4 @@ format:
     documentclass: scrreport
   # epub:
   #   cover-image: cover.png
+  
