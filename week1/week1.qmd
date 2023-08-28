@@ -1,0 +1,127 @@
+---
+title: "BST 232 Week 1"
+format: 
+  html:
+    toc: true
+    theme: ../style.scss
+---
+
+August 28 — September 1, 2023 
+
+"By now you've probably figured out this is a class on linear models and
+generalized linear models"
+
+Sal's office hours: Tuesdays 4-5pm; in-person, Building 1 Room 415 
+
+Lab time: Fridays: 2-3:30, usually Kresge LL6. 
+
+Use the discussion section of Canvas for random questions so 
+everyone has the same access to information. 
+
+We'll assume that students know random variables, hypothesis testing,
+basic probability, etc.
+
+Kutner's *Applied Linear Statistical Models* book will be a helpful 
+reference for the first half of the class, while Agresti's *Categorical 
+Data Analysis* will be more helpful for the second half of the class. 
+
+```{r, out.width='3.5in', echo=FALSE, fig.align='center'}
+knitr::include_graphics("standalone_figures/scientific_process/scientific_process.svg")
+```
+
+While it would be nice for statisticians to be more often than not included
+in study design, it's quite usual that statisticians are often sought out 
+by their colleagues who bring them data that they want to analyze. Hence
+our class will mostly take an interest in the indicated section of the idealized
+scientific process, and moreover we'll assume that we're often not in a 
+randomized- controlled trial. 
+
+We'll focus on <span class='vocab'>associational studies</span>. While
+it's almost always the case that when associational studies are performed 
+that investigators are actually interested in are 
+<span class='vocab'>causal effects</span>. However, in this class we'll tend
+not to talk about causal effects or "causal" -anything because these days
+causal inference tends to refer to a specific set of methods used in 
+observational causal inference. 
+
+We'll be concerned quite substantively around confounding. 
+
+## il famoso Smoking RA Fisher
+
+We'll talk about a lot of the methods that Ronald A. Fisher developed. 
+Already in the 1900s it was being observed that there was a strong association
+between smoking and lung cancer. However, Fisher was a smoker himself and 
+posited that the association between lung cancer and smoking could be explained
+away by some genetic or biological difference between the smoking and non-smoking
+population (positing some genes that caused people to desire to smoke). 
+
+```{r, out.width='3.5in', echo=FALSE, fig.align='center', fig.cap="Ronald Fisher's unsupported theory of genetics confounding the smoking-lung cancer relationship"}
+knitr::include_graphics("standalone_figures/confounding/smoking_confounding.svg")
+```
+
+We're pretty sure that this was driven not by any substance matter expertise,
+but rather by Fisher's love of smoking.
+
+## Hormone Replacement Therapy 
+
+In the mid- to late- 20th century there were a ton of studies linking hormone replacement
+therapy for older women to better cardiovascular outcomes (lack of coronary heart disease). 
+
+However, thankfully due to the Heart and Estrogen/Progestin Study (HERS, in the early 90s) we now
+know that a lot of those studies were not controlling for socioeconomic status.
+It turns out that socioeconomic status was highly associated with HRT usage, and
+associated at least in the US with a lot of better health outcomes across the
+board.
+
+It turned out that HRT when applied at certain times for some people can actually 
+be harmful — but the point is the picture is much muddier than was initially thought
+and recommendations were rolled back. Later randomized studies were performed
+that produced reliable bodies of evidence demonstrating either no effect or 
+in some cases harmful effects. 
+
+We'll use the baseline data from HERS (not so much interested in the HRT treatment effect), but
+to investigate the research question: 
+
+> How is systolic blood pressure related to age, independently of other well-known
+cardiovascular risk factors? (Age, diabetes, smoking, etc.)
+
+## Prediction Studies 
+
+Typically in prediction settings, there's no single exposure of particular interest; 
+mechanisms and confounding is treated as less of a concern (if at all), and 
+the main challenge is that we need to take care to not <span class='vocab'>overfit</span> 
+the data. 
+
+A major theme of this class will be that different tasks require different 
+analysis strategies and diffrent statistical tools.
+
+## Quantifying Uncertainty 
+
+Typically standard statistical models have nice theoretical properties 
+because years-and-years ago, we didn't have much data so people spent their
+time studying theory instead of data. As a result, we have a lot of nice 
+theories about the uncertainty represented in statistical models. 
+
+An example of the kind of uncertainty we might be interested in 
+is shown in this figure relating Alzheimer's disease rates 
+and exposure to PM~2.5~. 
+
+```{r, echo=FALSE, out.width='4in', fig.align='center'}
+knitr::include_graphics("standalone_figures/pm2.5/pm25.jpg")
+```
+
+This figure is taken from the article [*Long-term effects of PM2·5 on neurological disorders in the American Medicare population: a longitudinal cohort study* by Shi et al, Lancet Planetary Health (2020)](https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(20)30227-8/fulltext).
+
+## Why Learn Methods Before Study Design
+
+An interesting point made is that it's important to understand 
+the limitations, strengths of methods, what they can and can't do, and 
+how to use them before designing a study. 
+
+## Recommended Reading 
+
+Kutner M, Nachtsheim C, Neter J, Li W. Applied Linear Statistical Model. 5th edition.
+chapters 1-3
+
+Shmueli, G. (2010). To explain or to predict? *Statistical Science.* 
+<https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf>

@@ -1,0 +1,9 @@
+---
+title: "Methods (BST 232) Notes"
+format: 
+  html:
+    toc: true
+    theme: ../style.scss
+---
+
+

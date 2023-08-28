@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "week1/week1.html",
+    "href": "week1/week1.html",
+    "title": "2  BST 232 Week 1",
+    "section": "",
+    "text": "August 28 — September 1, 2023\n“By now you’ve probably figured out this is a class on linear models and generalized linear models”\nSal’s office hours: Tuesdays 4-5pm; in-person, Building 1 Room 415\nLab time: Fridays: 2-3:30, usually Kresge LL6.\nUse the discussion section of Canvas for random questions so everyone has the same access to information.\nWe’ll assume that students know random variables, hypothesis testing, basic probability, etc.\nKutner’s Applied Linear Statistical Models book will be a helpful reference for the first half of the class, while Agresti’s Categorical Data Analysis will be more helpful for the second half of the class.\n\n\n\n\n\n\n\n\n\nWhile it would be nice for statisticians to be more often than not included in study design, it’s quite usual that statisticians are often sought out by their colleagues who bring them data that they want to analyze. Hence our class will mostly take an interest in the indicated section of the idealized scientific process, and moreover we’ll assume that we’re often not in a randomized- controlled trial.\nWe’ll focus on associational studies. While it’s almost always the case that when associational studies are performed that investigators are actually interested in are causal effects. However, in this class we’ll tend not to talk about causal effects or “causal” -anything because these days causal inference tends to refer to a specific set of methods used in observational causal inference.\nWe’ll be concerned quite substantively around confounding.\nWe’ll talk about a lot of the methods that Ronald A. Fisher developed. Already in the 1900s it was being observed that there was a strong association between smoking and lung cancer. However, Fisher was a smoker himself and posited that the association between lung cancer and smoking could be explained away by some genetic or biological difference between the smoking and non-smoking population (positing some genes that caused people to desire to smoke)."
+  },
+  {
+    "objectID": "week1/week1.html#il-famoso-smoking-ra-fisher",
+    "href": "week1/week1.html#il-famoso-smoking-ra-fisher",
+    "title": "2  BST 232 Week 1",
+    "section": "2.1 il famoso Smoking RA Fisher",
+    "text": "2.1 il famoso Smoking RA Fisher\nWe’ll talk about a lot of the methods that Ronald A. Fisher developed. Already in the 1900s it was being observed that there was a strong association between smoking and lung cancer. However, Fisher was a smoker himself and posited that the association between lung cancer and smoking could be explained away by some genetic or biological difference between the smoking and non-smoking population (positing some genes that caused people to desire to smoke).\n\n\n\n\n\nRonald Fisher’s unsupported theory of genetics confounding the smoking-lung cancer relationship\n\n\n\n\nWe’re pretty sure that this was driven not by any substance matter expertise, but rather by Fisher’s love of smoking."
+  },
+  {
+    "objectID": "week1/week1.html#hormone-replacement-therapy",
+    "href": "week1/week1.html#hormone-replacement-therapy",
+    "title": "2  BST 232 Week 1",
+    "section": "2.2 Hormone Replacement Therapy",
+    "text": "2.2 Hormone Replacement Therapy\nIn the mid- to late- 20th century there were a ton of studies linking hormone replacement therapy for older women to better cardiovascular outcomes (lack of coronary heart disease).\nHowever, thankfully due to the Heart and Estrogen/Progestin Study (HERS, in the early 90s) we now know that a lot of those studies were not controlling for socioeconomic status. It turns out that socioeconomic status was highly associated with HRT usage, and associated at least in the US with a lot of better health outcomes across the board.\nIt turned out that HRT when applied at certain times for some people can actually be harmful — but the point is the picture is much muddier than was initially thought and recommendations were rolled back. Later randomized studies were performed that produced reliable bodies of evidence demonstrating either no effect or in some cases harmful effects.\nWe’ll use the baseline data from HERS (not so much interested in the HRT treatment effect), but to investigate the research question:\n\nHow is systolic blood pressure related to age, independently of other well-known cardiovascular risk factors? (Age, diabetes, smoking, etc.)"
+  },
+  {
+    "objectID": "week1/week1.html#prediction-studies",
+    "href": "week1/week1.html#prediction-studies",
+    "title": "2  BST 232 Week 1",
+    "section": "2.3 Prediction Studies",
+    "text": "2.3 Prediction Studies\nTypically in prediction settings, there’s no single exposure of particular interest; mechanisms and confounding is treated as less of a concern (if at all), and the main challenge is that we need to take care to not overfit the data.\nA major theme of this class will be that different tasks require different analysis strategies and diffrent statistical tools."
+  },
+  {
+    "objectID": "week1/week1.html#quantifying-uncertainty",
+    "href": "week1/week1.html#quantifying-uncertainty",
+    "title": "2  BST 232 Week 1",
+    "section": "2.4 Quantifying Uncertainty",
+    "text": "2.4 Quantifying Uncertainty\nTypically standard statistical models have nice theoretical properties because years-and-years ago, we didn’t have much data so people spent their time studying theory instead of data. As a result, we have a lot of nice theories about the uncertainty represented in statistical models.\nAn example of the kind of uncertainty we might be interested in is shown in this figure relating Alzheimer’s disease rates and exposure to PM2.5.\n\n\n\n\n\n\n\n\n\nThis figure is taken from the article Long-term effects of PM2·5 on neurological disorders in the American Medicare population: a longitudinal cohort study by Shi et al, Lancet Planetary Health (2020)."
+  },
+  {
+    "objectID": "week1/week1.html#why-learn-methods-before-study-design",
+    "href": "week1/week1.html#why-learn-methods-before-study-design",
+    "title": "2  BST 232 Week 1",
+    "section": "2.5 Why Learn Methods Before Study Design",
+    "text": "2.5 Why Learn Methods Before Study Design\nAn interesting point made is that it’s important to understand the limitations, strengths of methods, what they can and can’t do, and how to use them before designing a study."
+  },
+  {
+    "objectID": "week1/week1.html#recommended-reading",
+    "href": "week1/week1.html#recommended-reading",
+    "title": "2  BST 232 Week 1",
+    "section": "2.6 Recommended Reading",
+    "text": "2.6 Recommended Reading\nKutner M, Nachtsheim C, Neter J, Li W. Applied Linear Statistical Model. 5th edition. chapters 1-3\nShmueli, G. (2010). To explain or to predict? Statistical Science. https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf"
+  }
+]
