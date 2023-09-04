@@ -3,23 +3,16 @@ project:
   output-dir: docs
 
 book:
-  title: "Methods (BST 232) Notes"
+  title: "Probability (BST 230) Notes"
   author: "Christian Testa"
-  # date: "8/28/2023"
   chapters:
     - index.qmd
     - week1/week1.qmd
-    # - week2.qmd
-    # - week3.qmd
-
-# bibliography: references.bib
 
 format:
   html:
-    # theme: cosmo
     theme: style.scss
+    number-sections: false
   pdf:
     documentclass: scrreport
-  # epub:
-  #   cover-image: cover.png
   

@@ -4,120 +4,394 @@ title: "Week 1"
 
 August 28 — September 1, 2023 
 
-"By now you've probably figured out this is a class on linear models and
-generalized linear models"
+# Introductory Overview
 
-Sal's office hours: Tuesdays 4-5pm; in-person, Building 1 Room 415 
+Jeffrey Miller's office hours: Noon-1pm on Thursdays
 
-Lab time: Fridays: 2-3:30, usually Kresge LL6. 
+TA: Cathy Xue
+Office hours: 5:30-6:30pm on Tuesdays in 2-434 (Building 2, Room 434)
 
-Use the discussion section of Canvas for random questions so 
-everyone has the same access to information. 
+## Course description: 
 
-We'll assume that students know random variables, hypothesis testing,
-basic probability, etc.
+> Axiomatic foundations of probability, independence, conditional probability,
+joint distributions, transformations, moment generating functions,
+characteristic functions, moment inequalities, sampling distributions, modes of
+convergence and their interrelationships, laws of large numbers, central limit
+theorem, and stochastic processes
 
-Kutner's *Applied Linear Statistical Models* book will be a helpful 
-reference for the first half of the class, while Agresti's *Categorical 
-Data Analysis* will be more helpful for the second half of the class. 
+## Course Readings: 
 
-```{r, out.width='3.5in', echo=FALSE, fig.align='center'}
-knitr::include_graphics("standalone_figures/scientific_process/scientific_process.svg")
+  - Statistical Inference (Second Edition), by George Casella and Roger L. Berger. Cengage
+  Learning, 2021.
+  - Probability: Theory and Examples (Fourth Edition), by Richard Durrett. Cambridge University Press, 2010.
+  (<https://services.math.duke.edu/~rtd/PTE/PTE5_011119.pdf>)
+  - Introduction to Stochastic Processes (Second Edition), by Gregory F. Lawler. Chapman & Hall/CRC, 2006.
+  
+  
+The Durrett book is more measure-theoretic, but covers some things better
+(according to Miller) than Casella and Berger. Lawler's book is a 
+gentle introduction to stochastic processes. 
+
+## Labs 
+
+Weekly Tuesdays at 3:45-5:15 in FXB G10 
+
+## Outline of Topics 
+
+  - Fundamentals (CB 1.1 - 1.2.2)
+    - Set theory basics, Measure theory basics, Properties of probability measures
+  - Probability basics (CB 1.2.3 - 1.6)
+    - Combinatorics, Conditional probability and Independence, Random variables
+  - Transformations of random variables (CB 2.1)
+    - Change of variable formula for r.v.s, Probability integral transform
+  - Expectations of random variables CB 2.2 - 2.4)
+    - Mean and variance, Moments, MGFs, Differentiation and limits of integrals
+  - Families of distributions (CB 3.1 - 3.5)
+    - Discrete and continuous families, exponential families, location-scale families
+  - Inequalities (CB 3.6, 3.8, 4.7)
+    - Markov, Chebyshev, Gauss, Hölder, Cauchy-Schwarz, Minkowski, Jensen
+  - Multiple random variables (CB 4.1 - 4.6)
+    - Random vectors, conditional distributions, independence, mixtures, covariance and correlation
+  - Gaussian distributions (Bishop pp. 78-93, in Files/Reading on Canvas site)
+    - Multivariate normal, marginals and conditionals, linear-Gaussian model
+  - Statistics of a random sample (CB 5.1 - 5.4)
+    - Sampling distributions, Sums of random variables, Student's t and Snedecor's F
+    distribution, Order statistics and friends
+  - Asymptotics (CB 5.5)
+    - Modes of convergence, Limit theorems, Delta method, Borel-Cantelli lemma
+  - Laws of large numbers (CB 5.5, D 2.2 - 2.4)
+    - Weak laws of large numbers, Strong laws of large numbers, Generalizations
+  - Central limit theorems (CB 5.5, D 3.1 - 3.4)
+    - Weak convergence, characteristic functions, central limit theorems
+  - Generating random samples (CB 5.6)
+    - Inverse cdf method, accept/reject method, Markov chain Monte Carlo
+  - Stochastics processes (L 1 - 3)
+    - Markov chains, Random walks, Branching processes, Poisson processes
+
+# Lecture 1 Foundations
+
+## Introduction 
+
+How could we tell if either of the two sequences were faked.
+
+```{r}
+str1 <- "1 0 0 0 0 1 0 0 1 1 0 0 1 1 0 0 0 1 1 1 1 1 0 0 0 1 1 1 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 1 0 0 0 1 1 0 1 1 0 0 0 0 0 1 1 0 1 0 0 1 0 1 1 0 0 0 1 0 1 1 0 1 0 0 1 0 1 0 1 1 0 0 1 0 1"
+
+str2 <- "1 1 0 0 1 0 0 0 1 1 1 0 1 0 1 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1 1 1 0 0 0 1 1 0 1 0 1 1 1 0 0 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 0 1 0 1 0 1 0 0 1 1 0 1 0 0 1 0 1 0 0 1 1 1 0 1 1 1 0 0 1 1 1 0 1 0 1 0 1 0 1 0"
+
+library(tidyverse)
+
+str_count(str1, "0|1")
+str_count(str1, "1")
+str_count(str1, "0")
+
+str_count(str2, "0|1")
+str_count(str2, "1")
+str_count(str2, "0")
+
+str1_num <- as.numeric(unlist(stringr::str_split(str1, " ")))
+str2_num <- as.numeric(unlist(stringr::str_split(str2, " ")))
+
+# the first way I proposed was to look at the probability of 
+# the coin being "fair" given the beta distribution parameterized 
+# by the observed coinflips 
+x <- seq(0,1,0.01)
+curve(dbeta(x, str_count(str1, "0")+1, str_count(str1, "1")+1))
+curve(dbeta(x, str_count(str2, "0")+1, str_count(str2, "1")+1))
+
+
+# then we tried looking at the running mean
+plot(1:100, cummean(str1_num), type='l')
+plot(1:100, cummean(str2_num), type='l')
+
+# another classmate suggested that the human-generated 
+# sequence may have more anti-correlation than the
+# real sequence because more anti-correlation "looks" more
+# random 
+cor(lag(str1_num), str1_num, use = 'pairwise.complete.obs')
+cor(lag(str2_num), str2_num, use = 'pairwise.complete.obs')
 ```
 
-While it would be nice for statisticians to be more often than not included
-in study design, it's quite usual that statisticians are often sought out 
-by their colleagues who bring them data that they want to analyze. Hence
-our class will mostly take an interest in the indicated section of the idealized
-scientific process, and moreover we'll assume that we're often not in a 
-randomized- controlled trial. 
+Miller suggests we could also look at it as a sequence of 
+random variables. 
 
-We'll focus on <span class='vocab'>associational studies</span>. While
-it's almost always the case that when associational studies are performed 
-that investigators are actually interested in are 
-<span class='vocab'>causal effects</span>. However, in this class we'll tend
-not to talk about causal effects or "causal" -anything because these days
-causal inference tends to refer to a specific set of methods used in 
-observational causal inference. 
+```{r}
+str1_as_geometric_series <- sapply(unlist(stringr::str_split(stringr::str_remove_all(str1, " "), "1")), nchar)
+unname(str1_as_geometric_series)
 
-We'll be concerned quite substantively around confounding. 
+str2_as_geometric_series <- sapply(unlist(stringr::str_split(stringr::str_remove_all(str2, " "), "1")), nchar)
+unname(str2_as_geometric_series)
 
-## il famoso Smoking RA Fisher
-
-We'll talk about a lot of the methods that Ronald A. Fisher developed. 
-Already in the 1900s it was being observed that there was a strong association
-between smoking and lung cancer. However, Fisher was a smoker himself and 
-posited that the association between lung cancer and smoking could be explained
-away by some genetic or biological difference between the smoking and non-smoking
-population (positing some genes that caused people to desire to smoke). 
-
-```{r, out.width='3.5in', echo=FALSE, fig.align='center', fig.cap="Ronald Fisher's unsupported theory of genetics confounding the smoking-lung cancer relationship"}
-knitr::include_graphics("standalone_figures/confounding/smoking_confounding.svg")
+curve(dgeom(x, prob = .5), from = 0, to = 10, n = 11)
 ```
 
-We're pretty sure that this was driven not by any substance matter expertise,
-but rather by Fisher's love of smoking.
 
-## Hormone Replacement Therapy 
 
-In the mid- to late- 20th century there were a ton of studies linking hormone replacement
-therapy for older women to better cardiovascular outcomes (lack of coronary heart disease). 
+## History of Probability
 
-However, thankfully due to the Heart and Estrogen/Progestin Study (HERS, in the early 90s) we now
-know that a lot of those studies were not controlling for socioeconomic status.
-It turns out that socioeconomic status was highly associated with HRT usage, and
-associated at least in the US with a lot of better health outcomes across the
-board.
+Games of chance have been played for millenia. Early dice games were played with “astragali”, or
+“knucklebones”, from the ankle of a sheep or goat.
 
-It turned out that HRT when applied at certain times for some people can actually 
-be harmful — but the point is the picture is much muddier than was initially thought
-and recommendations were rolled back. Later randomized studies were performed
-that produced reliable bodies of evidence demonstrating either no effect or 
-in some cases harmful effects. 
-
-We'll use the baseline data from HERS (not so much interested in the HRT treatment effect), but
-to investigate the research question: 
-
-> How is systolic blood pressure related to age, independently of other well-known
-cardiovascular risk factors? (Age, diabetes, smoking, etc.)
-
-## Prediction Studies 
-
-Typically in prediction settings, there's no single exposure of particular interest; 
-mechanisms and confounding is treated as less of a concern (if at all), and 
-the main challenge is that we need to take care to not <span class='vocab'>overfit</span> 
-the data. 
-
-A major theme of this class will be that different tasks require different 
-analysis strategies and diffrent statistical tools.
-
-## Quantifying Uncertainty 
-
-Typically standard statistical models have nice theoretical properties 
-because years-and-years ago, we didn't have much data so people spent their
-time studying theory instead of data. As a result, we have a lot of nice 
-theories about the uncertainty represented in statistical models. 
-
-An example of the kind of uncertainty we might be interested in 
-is shown in this figure relating Alzheimer's disease rates 
-and exposure to PM~2.5~. 
-
-```{r, echo=FALSE, out.width='4in', fig.align='center'}
-knitr::include_graphics("standalone_figures/pm2.5/pm25.jpg")
+```{r, echo=FALSE, fig.align='center', out.width='2in'}
+knitr::include_graphics("images/knucklebones.jpg")
 ```
 
-This figure is taken from the article [*Long-term effects of PM2·5 on neurological disorders in the American Medicare population: a longitudinal cohort study* by Shi et al, Lancet Planetary Health (2020)](https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(20)30227-8/fulltext).
+Egyptian tomb paintings from 3500 BC show games played with astragali, and
+ancient Greek vases show young men tossing the bones into a circle. Gambling in
+these games was common, so it would have been advantageous to have some
+understanding of probability.
 
-## Why Learn Methods Before Study Design
+Interest in gambling led mathematicians in the 1500-1600s to
+begin to formalize the rules of probability.
 
-An interesting point made is that it's important to understand 
-the limitations, strengths of methods, what they can and can't do, and 
-how to use them before designing a study. 
+Two players put equal money in a pot. The first player to win
+8 rounds of a game gets all the money. If they have to stop
+before finishing, how should the money be divided between
+them based on how much they would have won, on average?
 
-## Recommended Reading 
+Around 1654, Blaise Pascal and Pierre de Fermat developed
+the concept of expected value to solve this problem.
 
-Kutner M, Nachtsheim C, Neter J, Li W. Applied Linear Statistical Model. 5th edition.
-chapters 1-3
+Christiaan Huuygens built upon this in his 1657 textbook on
+probability, “De Ratiociniis in Ludo Aleae” ("The Value of all Chances in Games of Fortune,")
 
-Shmueli, G. (2010). To explain or to predict? *Statistical Science.* 
-<https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf>
+In the early 1700s, Jacob Bernoulli and Abraham De Moivre
+wrote foundational books on probability.
+
+They systematically developed the mathematics of probability,
+focusing primarily on discrete problems.
+
+Combinatorial approaches were developed to handle difficult
+probability calculations.
+
+Bernoulli proved the first version of the law of large numbers.
+
+In 1812, Pierre-Simon Laplace published his book “Théorie
+analytique des probabilités”.
+
+Laplace developed or advanced many key methods and results
+in modern probability and statistics.
+
+Generating functions, characteristic functions, linear regression,
+density functions, Bayesian inference, and hypothesis testing.
+
+He employed advanced calculus and real/complex analysis,
+
+taking probability calculations to a whole new level.
+
+Laplace proved the first general version of the central limit
+theorem.
+
+In the 1930s, Andrey Kolmogorov introduced the measure
+theoretic foundations of modern probability.
+
+Measure theory had recently been developed to resolve certain
+paradoxes that arose in defining volume and integration.
+
+Kolmogorov applied measure theory to put probability on solid
+theoretical footing.
+
+This is particularly important for limits and derivatives of
+integrals, conditional distributions, and stochastic processes.
+
+## Set Theory Basics
+
+The sample space denoted $S$ is the set of possible outcomes of an 
+experiment. 
+
+Examples include $S = \{ H, T \}$ for a coin toss, or 
+math SAT scores $S = \{ 200, 201, ..., 799, 800 \}$, or
+time-to-events: $S = (0, \infty)$.
+
+We say that an event $E$ is a subset of $S$ that is $E \subset S$. 
+
+A set $A$ is a collection of \textbf{distinct} elements. 
+We say that $$A \cup B = \{ x \colon x \in A \text{ or } x \in B \}.$$
+
+$$A \cap B = \{ x \colon x \in A \text{ and } x \in B \}.$$
+
+$$A^c = \{ x \in S \colon x \not \in A \}$$
+
+$$A \backslash B = \{ x \colon x \in A \text{ and } x \not \in B \}.$$
+
+The empty set is denoted $\varnothing = \{\}$. 
+
+$A \subset B$ means that if $x \in A$ then $x \in B$. 
+
+### Properties of Set Operations
+
+Commutativity: 
+
+$$A \cup B = B \cup A, \quad A \cap B = B \cap A$$
+
+Associativity: 
+
+$$
+A \cup (B \cup C) = (A \cup B) \cup C \quad 
+A \cap (B \cap C) = (A \cap B) \cap C
+$$
+
+Distributive Laws: 
+
+$$ A \cup (B \cup C) = (A \cap B) \cup (A \cap C)
+\quad 
+A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$$
+
+DeMorgan's Laws:
+
+$$ (A \cup B)^c = A^c \cap B^c \quad
+(A \cap B)^c = A^c \cup B^c $$
+
+### Sigma Algebras 
+
+**Definition.** Suppose that $\mathcal B$ is a set of subsets of 
+a sample space $S$. Then $\mathcal B$ is a 
+sigma-algebra if: 
+
+  1. $\varnothing \in \mathcal B$. 
+  2. if $A \in \mathcal B$ then $A^c \in \mathcal B$. 
+  3. if $A_1, A_2, ... \in \mathcal B$ then 
+  $\bigcup_{i=1}^\infty A_i \in \mathcal B$
+
+
+:::{.cooltip}
+The powerset, denoted $2^S$ is a specific example of a sigma algebra. 
+:::
+<span style='padding-top:5px;'></span>
+
+:::{.hottip}
+We have to be very careful that $\varnothing$ must be an 
+element of $\mathcal B$ in order for $\mathcal B$ to be a 
+sigma algebra. $\varnothing$ is certainly a subset of any 
+set, but $\varnothing$ needs to be an *element* of $\mathcal B$ as a collection of sets. 
+:::
+
+The smallest sigma algebra, called the *trivial sigma algebra*, is $\{ \varnothing, S \}$ for a sample space $S$. 
+When $S$ is uncountable, we usually don't use the 
+power set as a sigma algebra. Instead, we typically opt 
+for using the Borel sigma algebra. 
+
+For a topological space $S$, the Borel sigma algebra, denoted $\mathcal B(S)$ is the smallest sigma algebra
+containing all open sets. 
+
+**Definition.**
+Let $X$ be a set and $\tau$ be a family of subsets of $X$. 
+Then $\tau$ is a topology and $(X, \tau)$ is a topological space
+if 
+
+  1. Both the empty set and $X$ are elements in $\tau$. 
+  2. Any union of elements of $\tau$ is an element of $\tau$. 
+  3. Any intersection of finitely many elements of $\tau$
+  is an element of $\tau$. 
+  
+The members of $\tau$ are called *open sets* in $X$. 
+
+When $A \in \mathcal B$, we say that $A$ is a measurable set. 
+
+
+### Probability Measures 
+
+**Definition.** If $(S, \mathcal B)$ is a measurable space, 
+then $P: \mathcal B \to \mathbb R$ is a 
+probability measure if: 
+
+  1. $P(A) \geq 0$ for all $A \in \mathcal B$. (non-negativity)
+  2. $P(S) = 1$ (unitarity)
+  3. if $A_1, A_2, ... \in \mathcal B$ are 
+  pairwise disjoint, then 
+  $$P\left(\bigcup_{i=1}^\infty A_i \right) = 
+  \sum_{i=1}^\infty P(A_i).$$ (countable additivity)
+
+These properties are called the *axioms of probability*, or sometimes Kolmogorov's axioms. 
+
+If $A \in \mathcal B$ we call $A$ a measurable set. 
+
+In this course, we may assume that the sets we are working with
+are measurable. Almost exclusively we will be working with the 
+Borel sigma algebra. While non-measurable sets do exist in this setting, 
+they do not often arise in practice. 
+
+:::{.cooltip}
+TJ asks: "I know it's possible to demonstrate non-measureable 
+sets non-constructively, but is it possible to demonstrate them 
+constructively?" 
+
+Miller: "I think you have to use infinite series/sets [and the axiom of choice]." 
+:::
+
+## Probability measure on a countable set 
+
+Suppose that $S = \{ s_1, s_2, ... \}$ is a countable set. 
+
+Let $p_1, p_2, ... \geq 0$ such that $\sum_{i=1}^\infty p_i = 1$. 
+
+For $A \subset S$, define 
+$$P(A) = \sum_{i=1}^\infty p_i \mathbb 1(i \in A).$$
+
+We will write that $\mathbb 1(\cdot)$ to denote the indicator function, where
+
+$$\mathbb 1(C) = \left\{ \begin{array}{ll}
+1 & \text{ if condition } C \text{ is true} \\
+0 & \text{ if condition } C \text{ is false}
+\end{array}
+\right.$$
+
+Suppose you toss a fair coin until you get heads. Then $p_k$, the probability that you toss the coin $k$ times, is $(1/2)^k$. This defines a probability measure on $S = \{ 1, 2, ... \}$. 
+
+We could imagine measuring how long a lightbulb lasts until it dies after being left on. It could die at any non-negative time $t \geq 0$. The probability $P([0,t))$ be the probability the lightbulb dies before time $t$. This defines a probability measure on $S = [0,\infty).$ (Of course, $[0,\infty)$ is a continuous example and not a countable set). 
+
+For any probability measure, we have that: 
+
+  1. $P(A^c) = 1 - P(A)$
+  2. $P(\varnothing) = 0$
+  3. $P(A) \leq 1$
+  4. if $A \subset B$ then $P(A) \leq P(B)$
+  5. $P(A) = P(A \cap B) + P(A \cap B^c)$
+  6. $P(A \cup B) = P(A) + P(B) - P(A \cap B)$. 
+  
+Proofs: 
+
+  1. $P(S) = 1$, and $A, A^c$ are pairwise disjoint and 
+  a partition of $S$, so $1 = P(S) = P(A^c \cup A) = P(A) + P(A^c)$. Subtracting from both sides, $P(A) = 1 - P(A^c)$.
+  2. $\varnothing$ and $S$ are disjoint, so $1 = P(S) = P(S) + P(\varnothing)$. Subtracting from both sides, we have that $1 - 1 = P(\varnothing)$
+  3. We have from 1 that 
+  $1 - P(A^c) = P(A)$, and $P(A^c) \geq 0$, so then $P(A) \leq 1$
+  4. We can write that $B \backslash A$ and $A$ as disjoint sets since $A \subset B$. Then $P(B) = P(A \cup B \backslash A) = P(A) + P(B \backslash A)$. Since $P(B \backslash A)$ we have that $P(B) \geq P(A)$. 
+  5. We need to show that $A = (A \cap B) \cup (A \cup B^c)$. If $a \in A$ then either $a \in B$ or $a \in B^c$, but not both by the definition of complement. Therefore 
+  $A \cap B$ and $A \cap B^c$ are disjoint and their union
+  is equal to $A$. Hence $P(A) = P(A \cap B \bigcup A \cap B^c) = P(A \cap B) + P(A \cap B^c)$. 
+  6. First, note that $A \cup B = A \cap (B \backslash A)$.
+    Thus $P(A \cup B) = P(A \cup (B \backslash A))$. 
+    Since the latter are disjoint, we establish that 
+    $P(A \cup B) = P(A) + P(B \backslash A)$. 
+    Now if we consider that $B = (B \backslash A) \cup (A \cap B)$, and that 
+    these are disjoint sets, we have that $P(B) = P(B \backslash A) + P(A \cap B)$. 
+    Rearranging, we have that $P(B \backslash A) = P(B) - P(A \cap B)$. 
+    Substituting, now we have that $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ as desired.
+
+
+## Properties of Probability Measures
+
+**Law of total probability:** for any partition $B_1, B_2, ...$ of $S$, we have that 
+$$P(A) = \sum P(A \cap B_i)$$
+
+**Boole's inequality (aka union bound):** For $A_1, A_2, ...$, 
+
+$$P(\bigcup_{i=1}^\infty A_i) \leq \sum_{i=1}^\infty P(A_i).$$
+
+**Bonferroni's inequality:** For any $A_1, A_2,...$,
+
+$$P\left(\bigcap_{i=1}^\infty A_i \right) \geq 1 - \sum_{i=1}^\infty P(A_i^c).$$
+
+Boole's inequality is often useful when we want to show that 
+some event has probability near zero. 
+For example, $P(E) = P(A_1 \cup A_2 \cup A_3)
+\leq P(A_1) + P(A_2) + P(A_3) \leq 3\epsilon$.
+
+## Selecting $k$ items from $n$ options 
+
+| | without replacement | with replacement|
+|-|-|-|
+|ordered| $\frac{n!}{(n-k)!}$ | $n^k$ | 
+|unordered| ${n \choose k}$ | ${ n + k - 1 \choose k }$ | 
+
