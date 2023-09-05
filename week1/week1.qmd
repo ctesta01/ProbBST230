@@ -395,3 +395,17 @@ For example, $P(E) = P(A_1 \cup A_2 \cup A_3)
 |ordered| $\frac{n!}{(n-k)!}$ | $n^k$ | 
 |unordered| ${n \choose k}$ | ${ n + k - 1 \choose k }$ | 
 
+## Determining the Leading Factor in Stirling's Formula
+
+Stirling's formula is that for large values of $n$, the following
+is a good approximation for the factorial function: 
+
+$$ n! \approx \frac{n^n}{e^n} \sqrt{2 \pi n}. $$ 
+
+I'll concern myself with, as an exercise, showing the leading factor 
+$n^n e^{-n}$ is correct. 
+
+First, observe the relationship between $n!$ and $n^n$: 
+
+$$n! = \underbrace{n \cdot (n-1) \cdots 1}_{n \text{ terms}} < \underbrace{n \cdot n \cdots n}_{n \text{ times}} = n^n$$
+

@@ -195,6 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#probability-measure-on-a-countable-set" id="toc-probability-measure-on-a-countable-set" class="nav-link" data-scroll-target="#probability-measure-on-a-countable-set">Probability measure on a countable set</a></li>
   <li><a href="#properties-of-probability-measures" id="toc-properties-of-probability-measures" class="nav-link" data-scroll-target="#properties-of-probability-measures">Properties of Probability Measures</a></li>
   <li><a href="#selecting-k-items-from-n-options" id="toc-selecting-k-items-from-n-options" class="nav-link" data-scroll-target="#selecting-k-items-from-n-options">Selecting <span class="math inline">\(k\)</span> items from <span class="math inline">\(n\)</span> options</a></li>
+  <li><a href="#determining-the-leading-factor-in-stirlings-formula" id="toc-determining-the-leading-factor-in-stirlings-formula" class="nav-link" data-scroll-target="#determining-the-leading-factor-in-stirlings-formula">Determining the Leading Factor in Stirling’s Formula</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -272,9 +273,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li>Multiple random variables (CB 4.1 - 4.6)
 <ul>
-<li>Random vectors, conditional distributions, independence, mixtures, covariance</li>
+<li>Random vectors, conditional distributions, independence, mixtures, covariance and correlation</li>
 </ul></li>
-<li>and correlation</li>
 <li>Gaussian distributions (Bishop pp.&nbsp;78-93, in Files/Reading on Canvas site)
 <ul>
 <li>Multivariate normal, marginals and conditionals, linear-Gaussian model</li>
@@ -578,6 +578,15 @@ A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\]</span></p>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="determining-the-leading-factor-in-stirlings-formula" class="level2">
+<h2 class="anchored" data-anchor-id="determining-the-leading-factor-in-stirlings-formula">Determining the Leading Factor in Stirling’s Formula</h2>
+<p>Stirling’s formula is that for large values of <span class="math inline">\(n\)</span>, the following is a good approximation for the factorial function:</p>
+<p><span class="math display">\[ n! \approx \frac{n^n}{e^n} \sqrt{2 \pi n}. \]</span></p>
+<p>I’ll concern myself with, as an exercise, showing the leading factor <span class="math inline">\(n^n e^{-n}\)</span> is correct.</p>
+<p>First, observe the relationship between <span class="math inline">\(n!\)</span> and <span class="math inline">\(n^n\)</span>:</p>
+<p><span class="math display">\[n! = \underbrace{n \cdot (n-1) \cdots 1}_{n \text{ terms}} &lt; \underbrace{n \cdot n \cdots n}_{n \text{ times}} = n^n\]</span></p>
+<p>This establishes that</p>
 
 
 </section>
