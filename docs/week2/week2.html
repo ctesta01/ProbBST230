@@ -190,6 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence">Independence</a></li>
   </ul></li>
   <li><a href="#random-variables" id="toc-random-variables" class="nav-link" data-scroll-target="#random-variables">Random Variables</a></li>
+  <li><a href="#practice-problems" id="toc-practice-problems" class="nav-link" data-scroll-target="#practice-problems">Practice Problems</a></li>
   </ul>
 </nav>
     </div>
@@ -401,6 +402,47 @@ window.MathJax = {
 \mathbb 1(X(s) = x)\]</span> <span class="math display">\[ = \sum_{s \in S} q^x (1-q)^{N-x} \mathbb 1 (X(s)=x)\]</span> <span class="math display">\[ {N \choose x} q^x (1-q)^{N-x}\]</span></p>
 <p><span class="math inline">\(X\)</span> is said to follow the binomial distribution with parameters <span class="math inline">\(N\)</span> and <span class="math inline">\(q\)</span>. This is denoted by writing <span class="math inline">\(X \sim \text{Binomial}(N,q)\)</span>.</p>
 <p>We often think of <span class="math inline">\(X\)</span> as a random quantity, but formally it is a function.</p>
+</section>
+<section id="practice-problems" class="level1">
+<h1>Practice Problems</h1>
+<p><strong>Exercise 1.</strong> Prove a generalized Bonferroni inequality:</p>
+<p><span class="math display">\[ P \left( \cap_{i=1}^n A_i \right) \geq \sum_{i=1}^n P(A_i) - (n-1) \quad \text{ for any events } A_1, ..., A_n.\]</span></p>
+<p><em>Proof 1.</em> We proceed by induction. The base case is clear: <span class="math inline">\(P(A_1) \geq P(A_1) - (1-1)\)</span>.</p>
+<p>Assume an inductive hypothesis: <span class="math display">\[P(\cap_{i=1}^n A_i) \geq \sum_{i=1}^n P(A_i) - (n-1).\]</span></p>
+<p>Now we can write that <span class="math display">\[P\left(\bigcap_{i=1}^{n+1} A_i \right) = P\left(A_{n+1} \cap \bigcap_{i=1}^n A_i \right).\]</span></p>
+<p>Recall Boole’s inequality: <span class="math inline">\(P(B \cap A^c) = P(B) - P(A \cap B)\)</span>, and then let <span class="math inline">\(B = \cap_{i=1}^n A_i\)</span> and <span class="math inline">\(A^c = A_{n+1}\)</span>. Then <span class="math display">\[\begin{aligned}
+P\left(A_{n+1} \cap \bigcap_{i=1}^n A_i \right) &amp; =
+P\left(\bigcap_{i=1}^n A_i\right) - P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i\right) \\
+&amp; \geq \sum_{i=1}^n P(A_i) - (n-1) - P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right). \quad (\star)
+\end{aligned}\]</span></p>
+<p>Now let’s apply Boole’s inequality again to the right-most probability, this time letting <span class="math inline">\(B = A^c_{n+1}\)</span> and <span class="math inline">\(A^c = \bigcap_{i=1}^n A_i\)</span>.</p>
+<p><span class="math display">\[
+P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
+P(A^c_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right).
+\]</span></p>
+<p>Applying the fact that <span class="math inline">\(P(A) = 1-P(A^c)\)</span> for any set <span class="math inline">\(A\)</span>, we then have that <span class="math display">\[P(A^c_{n+1}) = 1 - P(A_{n+1}) \quad (\star) \]</span></p>
+<p>Substituting that back in, we have that:</p>
+<p><span class="math display">\[
+P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
+1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right).
+\]</span></p>
+<p>And then substituting that back into <span class="math inline">\((\star)\)</span>:</p>
+<p><span class="math display">\[P\left( \bigcap_{i=1}^{n+1} A_i \right) \leq
+\sum_{i=1}^n P(A_i) - (n-1) -
+\left[ 1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right) \right]
+\]</span> <span class="math display">\[
+= \sum_{i=1}^n P(A_i) - (n-1) -
+1 + P(A_{n+1}) + P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right)
+\]</span> <span class="math display">\[
+= \sum_{i=1}^{n+1} P(A_i) - (n+1-1) + \underbrace{P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right)}_{\geq 0 \, \text{ by the axioms of probability}}
+\]</span> <span class="math display">\[
+\geq \sum_{i=1}^{n+1} P(A_i) - (n+1-1)
+\]</span></p>
+<p>This concludes the proof.</p>
+<p><em>Proof 2.</em> We proceed by proof by contradiction: Assume that <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; \sum_{i=1}^n P(A_i) - (n-1)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + \sum_{i=1}^n P(A_i)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + \sum_{i=1}^n 1 - P(A_i^c)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + n - \sum_{i=1}^n P(A_i^c)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - \sum_{i=1}^n P(A_i^c)\]</span></p>
+<p>But this contradicts (the un-generalized version of) Bonferroni’s inequality. <span class="math inline">\(\rightarrow \leftarrow\)</span>. This concludes the proof.</p>
+<p><strong>Exercise 2.</strong> Given <span class="math inline">\(B \subset C\)</span> and <span class="math inline">\(P(B) &gt; 0\)</span>, prove that <span class="math display">\[P(A | C) &gt; P(A | B) \Leftrightarrow P(A | C \cap B^c) &gt; P(A | B).\]</span></p>
+<p><strong>Exercise 3.</strong> Prove or disprove the following statement: For events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that <span class="math inline">\(0 &lt; P(A) &lt; 1\)</span> and <span class="math inline">\(0 &lt; P(B) &lt; 1\)</span>, <span class="math display">\[P(A|B) &gt; P(A) \Leftrightarrow P(B | A) &gt; P(B|A^c).\]</span></p>
 
 
 </section>

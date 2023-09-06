@@ -278,3 +278,80 @@ $N$ and $q$. This is denoted by writing $X \sim \text{Binomial}(N,q)$.
 
 We often think of $X$ as a random quantity, but
 formally it is a function. 
+
+# Practice Problems 
+
+**Exercise 1.** Prove a generalized Bonferroni inequality: 
+
+$$ P \left( \cap_{i=1}^n A_i \right) \geq \sum_{i=1}^n P(A_i) - (n-1) \quad \text{ for any events } A_1, ..., A_n.$$
+
+*Proof 1.* We proceed by induction. The base case is clear: $P(A_1) \geq P(A_1) - (1-1)$. 
+
+Assume an inductive hypothesis: $$P(\cap_{i=1}^n A_i) \geq \sum_{i=1}^n P(A_i) - (n-1).$$
+
+Now we can write that 
+$$P\left(\bigcap_{i=1}^{n+1} A_i \right) = P\left(A_{n+1} \cap \bigcap_{i=1}^n A_i \right).$$
+
+Recall Boole's inequality: $P(B \cap A^c) = P(B) - P(A \cap B)$, and then let $B = \cap_{i=1}^n A_i$ 
+and $A^c = A_{n+1}$. Then 
+$$\begin{aligned}
+P\left(A_{n+1} \cap \bigcap_{i=1}^n A_i \right) & = 
+P\left(\bigcap_{i=1}^n A_i\right) - P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i\right) \\ 
+& \geq \sum_{i=1}^n P(A_i) - (n-1) - P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right). \quad (\star)
+\end{aligned}$$ 
+
+Now let's apply Boole's inequality again to the right-most probability, this time letting
+$B = A^c_{n+1}$ and $A^c = \bigcap_{i=1}^n A_i$. 
+
+$$
+P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) = 
+P(A^c_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right).
+$$
+
+Applying the fact that $P(A) = 1-P(A^c)$ for any set $A$, we then have that 
+$$P(A^c_{n+1}) = 1 - P(A_{n+1}) \quad (\star) $$
+
+Substituting that back in, we have that: 
+
+$$
+P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) = 
+1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right).
+$$
+
+And then substituting that back into $(\star)$:
+
+$$P\left( \bigcap_{i=1}^{n+1} A_i \right) \geq 
+\sum_{i=1}^n P(A_i) - (n-1) - 
+\left[ 1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right) \right]
+$$
+$$
+= \sum_{i=1}^n P(A_i) - (n-1) - 
+1 + P(A_{n+1}) + P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right)
+$$
+$$
+= \sum_{i=1}^{n+1} P(A_i) - (n+1-1) + \underbrace{P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right)}_{\geq 0 \, \text{ by the axioms of probability}}
+$$
+$$
+\geq \sum_{i=1}^{n+1} P(A_i) - (n+1-1)
+$$
+
+This concludes the proof. 
+
+*Proof 2.* We proceed by proof by contradiction: Assume that 
+$$P\left( \bigcap_{i=1}^n A_i \right) < \sum_{i=1}^n P(A_i) - (n-1)$$
+$$P\left( \bigcap_{i=1}^n A_i \right) < 1 - n + \sum_{i=1}^n P(A_i)$$
+$$P\left( \bigcap_{i=1}^n A_i \right) < 1 - n + \sum_{i=1}^n 1 - P(A_i^c)$$
+$$P\left( \bigcap_{i=1}^n A_i \right) < 1 - n + n - \sum_{i=1}^n P(A_i^c)$$
+$$P\left( \bigcap_{i=1}^n A_i \right) < 1 - \sum_{i=1}^n P(A_i^c)$$ 
+
+But this contradicts (the un-generalized version of) Bonferroni's inequality. $\rightarrow \leftarrow$. 
+This concludes the proof. 
+
+**Exercise 2.** Given $B \subset C$ and $P(B) > 0$, prove that 
+$$P(A | C) > P(A | B) \Longleftrightarrow P(A | C \cap B^c) > P(A | B).$$
+
+**Exercise 3.** Prove or disprove the following statement: For events $A$ and $B$ 
+such that $0 < P(A) < 1$ and $0 < P(B) < 1$, 
+$$P(A|B) > P(A) \Longleftrightarrow P(B | A) > P(B|A^c).$$
+
+
