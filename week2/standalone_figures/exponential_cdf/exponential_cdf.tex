@@ -1,0 +1,25 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={x},
+    title={CDF of the Exponential Distribution},
+    xmin=-1, xmax=4,
+    ymin=-0.025, ymax=1.025,
+    xtick={-1,0,1,2,3,4},
+    ytick={0,0.2,0.4,0.6,0.8,1},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!50},
+    % axis lines=middle,
+    samples=100,
+]
+
+\addplot[blue, thick, domain=0:4] {1-exp(-1*x)};
+\addplot[blue, thick, domain=-1:0] {0};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

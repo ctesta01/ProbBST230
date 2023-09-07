@@ -355,3 +355,214 @@ such that $0 < P(A) < 1$ and $0 < P(B) < 1$,
 $$P(A|B) > P(A) \Longleftrightarrow P(B | A) > P(B|A^c).$$
 
 
+# Day 2 
+
+1-2pm Office Hours for Miller, Building 1 Room 245 
+
+## Continuing on Random Variables
+
+If the range of a random variable 
+$\{X(s) : s \in S \}$ is countable then 
+$X$ is a discrete random variable. 
+
+For a discreet random variable, the 
+function $f(x) = P(X = x)$ is called a 
+<span class='vocab'>probability mass function</span>.
+
+Recall how we define probability on random variables:
+$$P(X = x)  = P(\{ s \in S : X(s) = x \})$$
+
+## Cumulative Distribution Functions 
+
+The cumulative distribution function (cdf) of $X$ is
+defined to be 
+$$F(x) = P(X \leq x).$$
+
+**Definition.** A function $F \colon \mathbb R \to \mathbb R$ is a cdf if and only if 
+
+  1. $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$
+  2. $F(x)$ is non-decreasing. 
+  3. $F(x)$ is right-continuous, that is for all $x' \in \mathbb R$
+  $$ \lim_{x \downarrow x'} F(x) = F(x')$$
+  
+Here's an example for a binomial distribution:
+
+![Binomial distribution CDF](standalone_figures/binomial_cdf/binomial_cdf.svg)
+  
+For any discrete probability distribution, the cdf 
+will necessarily be discontinuous. 
+  
+An example of a continuous cdf is 
+$$F(x) = (1- e^{-\lambda x}) \mathbb 1 (x > 0),$$
+where $\lambda$ is a positive fixed number. 
+
+![Exponential distribution CDF](standalone_figures/exponential_cdf/exponential_cdf.svg)
+
+### Continuous Random Variables
+
+A random variable is continuous if its cdf is a continuous 
+function. 
+
+In other words, if $\lim_{x \to x'} F(x) = F(x')$ for 
+every $x' \in \mathbb R$. 
+
+A probability density function  of a continuous random 
+variable function $f: \mathbb R \to [0,\infty)$ such that 
+for all $x \in \mathbb R$, 
+$$F(x) = \int_{-\infty}^\infty f(t) dt.$$
+
+Therefore we need to integrate to get probabilities:
+
+$$P(X \in A) = \int_A f(x) dx$$
+
+## Relationship between CDF and PDF
+
+"Randavble" = "Random Variable" (Nice abbreviation, but a joke)
+
+Suppose we had a cdf $F$, we could derive a pdf $f$ 
+by differentiating (usually). 
+
+Similarly, we can obtain $F$ from $f$. 
+
+If $f(x)$ is continuous at $x$, then 
+$$f(x) = \frac{d}{dx} F(x),$$ 
+by the fundamental theorem of calculus.
+
+A function $f: \mathbb R \to [0,\infty)$ is a 
+probability density function if and only if 
+$\int f(x) dx = 1$. 
+
+In fact any integrable non-negative function can 
+be normalized to a pdf, by performing
+$f(x) = \tilde{f}(x)/C$ for a 
+constant $C$. 
+
+![Normalizing a pdf to have integral 1](standalone_figures/normalizing_pdfs/normalizing_pdfs.svg)
+
+There is not a unique pdf for a given distribution 
+since the pdf can change arbitrarily on sets with 
+Lebesgue measure 0. However, any two pdfs for the 
+same distribution will agree "almost everywhere."
+
+Not every continuous distribution has a pdf, since there 
+are continuous cdfs that are nondifferentiable at uncountably many points, such as the Cantor function. 
+
+```{r, out.width="2.5in", echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/CantorEscalier-2.svg/1920px-CantorEscalier-2.svg.png")
+```
+
+Recall that the Exponential($\lambda$) distribution is
+defined by the cdf: 
+$$F(x) = (1-e^{-\lambda x}) \mathbb 1\{x > 0\}.$$
+
+The pdf can be obtained by differentiating:
+
+$$f(x) = \frac{d}{dx} F(x)= \lambda e^{-\lambda x} \mathbb 1 \{x > 0\}.$$
+
+$F(x)$ is not differentiable at 0, but it doesn't matter
+since $f(x)$ can be defined arbitrarily on any countable 
+set. 
+
+![The exponential pdf](standalone_figures/exponential_pdf/exponential_pdf.svg)
+
+For measurable sets $A \subset \mathbb R$, we define 
+$$X^{-1}(A) = \{ s \in S \colon X(s) = x \}$$
+
+For any random variable $X$ not necessarily discrete
+or continuous, we define 
+$$P(X \in A) = P(X^{-1}(A)).$$
+
+## Identically distributed random variables
+
+Random variables $X$ and $Y$ are <span class='vocab'>identically distributed</span> if
+for every measurable set $A$,
+$$P(X \in A) = P(Y \in A).$$
+
+This is denoted by $P \stackrel{d}{=} Y$. 
+
+It turns out that $X \stackrel{d}{=} Y$ if and only if 
+$F_X(x) = F_Y(x)$ for all $x \in \mathbb R$. 
+
+## Transformations of Random Variables
+
+Often we are interested in functions $g(X)$ of
+a random variable $X$. 
+
+If $g$ is measurable, then $g(X)$ is a random variable. 
+
+Letting $Y = g(X)$, the distribution of $Y$ is characterized
+by $$P(Y \in A) = P(g(X) \in A) = P(X \in g^{-1}(A)).$$
+
+Recall that 
+$$g^{-1}(A) = \{ x \colon g(x) \in A \},$$
+so this does not require that $g$ be invertible. 
+
+In the discrete case, 
+
+$$f_Y(y) = P(Y = y) = P(g(X) = y) = \sum_{x \colon g(x) = y} f_X(x).$$
+
+## Binomial Variable Transformation Example 
+
+Suppose $X \sim Binomial(N,q)$ and $Y = N - X$. 
+Then 
+$$P(Y = k) = P(g(X) = k) = P(N - X = k) = P(X = N-k).$$
+
+Thus plugging in the pdf of $X$:
+
+$$ P(Y=k) = {N \choose N-k} q^{N-k} (1-q)^{N-(N-k)}$$
+$$ = { N \choose k} (1-q)^k q^{N-k}.$$
+
+Therefore $Y ~ Binomial(N,1-q)$.
+
+## Transformations of continuous random variables
+
+For a continuous r.v. $X$ we have to take more care. 
+
+:::{.hottip}
+If $g$ is invertible, then you might mistakenly think 
+the pdf of $Y = g(X)$ equals $f_X(g^{-1}(y))$, but this is
+not true in general. The reason is that the pdf $f_Y$ is
+a density, not a probability. 
+
+The correct formula accounts for the derivative. 
+
+Suppose $X$ is a continuous r.v. and let $\mathcal X = 
+\{ x \colon f_X(x) > 0 \}$. If $Y = g(X)$ where $g \colon 
+\mathcal X \to \mathbb R$ is a strictly monotone function such 
+that the inverse $g^{-1}(y)$ has a continuous derivative then 
+$$f_Y(y) = f_X(g^{-1}(y)) \left \lvert \frac{d}{dy}g^{-1}(y) \right\rvert$$
+
+for $y \in \mathcal Y \coloneqq \{ g(x) \colon x \in \mathcal X \}$ and $f_Y(y) = 0$ elsewhere. 
+
+"This is a great source for exam problems!" 
+:::
+
+### Monotonicity 
+
+A function is <span class='vocab'>monotone increasing</span> if $$x < x' \Longrightarrow g(x) \leq g(x').$$ We also call this 
+non-decreasing. 
+
+Similarly, a function is <span class='vocab'>monotone decreasing</span> (or non-increasing) if 
+$$ x < x' \Longrightarrow g(x) \geq g(x').$$
+
+Note that Casella and Berger use "monotone" to 
+imply strictly monotone, though the definitions above
+are the more conventional meaning.
+
+## Example: Square root of an Exponential r.v.
+
+Suppose $X \sim \text{Exponential}(\lambda)$ and $Y=\sqrt{X}$. 
+
+Then $f_X(x) = \lambda e^{-\lambda x) \mathbb 1 \{ x > 0 \}$, so $\mathcal X = (0,\infty).$
+
+We write $Y = g(X)$ where $g(x) = \sqrt{x}$ for $x \in \mathcal X$. 
+
+For $y \in \mathcal Y = (0,\infty)$, the inverse of $g$ 
+is $$g^{-1}(y) = y^2.$$
+
+$$\frac{d}{dx} g^{-1}(y) = 2y.$$
+
+Thus by the change of variables formula above, 
+
+$$f_Y(y) = f_X(g^{-1}(y)) \left\lvert \frac{d}{dx} g^{-1}(y) \right\rvert$$ 
+$$ = 2\lambda y \exp (-\lambda y^2) \mathbb 1 \{ y > 0 \}.$$

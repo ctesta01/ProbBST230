@@ -191,6 +191,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#random-variables" id="toc-random-variables" class="nav-link" data-scroll-target="#random-variables">Random Variables</a></li>
   <li><a href="#practice-problems" id="toc-practice-problems" class="nav-link" data-scroll-target="#practice-problems">Practice Problems</a></li>
+  <li><a href="#day-2" id="toc-day-2" class="nav-link" data-scroll-target="#day-2">Day 2</a>
+  <ul class="collapse">
+  <li><a href="#continuing-on-random-variables" id="toc-continuing-on-random-variables" class="nav-link" data-scroll-target="#continuing-on-random-variables">Continuing on Random Variables</a></li>
+  <li><a href="#cumulative-distribution-functions" id="toc-cumulative-distribution-functions" class="nav-link" data-scroll-target="#cumulative-distribution-functions">Cumulative Distribution Functions</a>
+  <ul class="collapse">
+  <li><a href="#continuous-random-variables" id="toc-continuous-random-variables" class="nav-link" data-scroll-target="#continuous-random-variables">Continuous Random Variables</a></li>
+  </ul></li>
+  <li><a href="#relationship-between-cdf-and-pdf" id="toc-relationship-between-cdf-and-pdf" class="nav-link" data-scroll-target="#relationship-between-cdf-and-pdf">Relationship between CDF and PDF</a></li>
+  <li><a href="#identically-distributed-random-variables" id="toc-identically-distributed-random-variables" class="nav-link" data-scroll-target="#identically-distributed-random-variables">Identically distributed random variables</a></li>
+  <li><a href="#transformations-of-random-variables" id="toc-transformations-of-random-variables" class="nav-link" data-scroll-target="#transformations-of-random-variables">Transformations of Random Variables</a></li>
+  <li><a href="#binomial-variable-transformation-example" id="toc-binomial-variable-transformation-example" class="nav-link" data-scroll-target="#binomial-variable-transformation-example">Binomial Variable Transformation Example</a></li>
+  <li><a href="#transformations-of-continuous-random-variables" id="toc-transformations-of-continuous-random-variables" class="nav-link" data-scroll-target="#transformations-of-continuous-random-variables">Transformations of continuous random variables</a>
+  <ul class="collapse">
+  <li><a href="#monotonicity" id="toc-monotonicity" class="nav-link" data-scroll-target="#monotonicity">Monotonicity</a></li>
+  </ul></li>
+  <li><a href="#example-square-root-of-an-exponential-r.v." id="toc-example-square-root-of-an-exponential-r.v." class="nav-link" data-scroll-target="#example-square-root-of-an-exponential-r.v.">Example: Square root of an Exponential r.v.</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -427,7 +444,7 @@ P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
 1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right).
 \]</span></p>
 <p>And then substituting that back into <span class="math inline">\((\star)\)</span>:</p>
-<p><span class="math display">\[P\left( \bigcap_{i=1}^{n+1} A_i \right) \leq
+<p><span class="math display">\[P\left( \bigcap_{i=1}^{n+1} A_i \right) \geq
 \sum_{i=1}^n P(A_i) - (n-1) -
 \left[ 1 - P(A_{n+1}) - P\left(A^c_{n+1} \cap \left( \bigcap_{i=1}^n A_i\right)^c \right) \right]
 \]</span> <span class="math display">\[
@@ -441,10 +458,140 @@ P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
 <p>This concludes the proof.</p>
 <p><em>Proof 2.</em> We proceed by proof by contradiction: Assume that <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; \sum_{i=1}^n P(A_i) - (n-1)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + \sum_{i=1}^n P(A_i)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + \sum_{i=1}^n 1 - P(A_i^c)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - n + n - \sum_{i=1}^n P(A_i^c)\]</span> <span class="math display">\[P\left( \bigcap_{i=1}^n A_i \right) &lt; 1 - \sum_{i=1}^n P(A_i^c)\]</span></p>
 <p>But this contradicts (the un-generalized version of) Bonferroni’s inequality. <span class="math inline">\(\rightarrow \leftarrow\)</span>. This concludes the proof.</p>
-<p><strong>Exercise 2.</strong> Given <span class="math inline">\(B \subset C\)</span> and <span class="math inline">\(P(B) &gt; 0\)</span>, prove that <span class="math display">\[P(A | C) &gt; P(A | B) \Leftrightarrow P(A | C \cap B^c) &gt; P(A | B).\]</span></p>
-<p><strong>Exercise 3.</strong> Prove or disprove the following statement: For events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that <span class="math inline">\(0 &lt; P(A) &lt; 1\)</span> and <span class="math inline">\(0 &lt; P(B) &lt; 1\)</span>, <span class="math display">\[P(A|B) &gt; P(A) \Leftrightarrow P(B | A) &gt; P(B|A^c).\]</span></p>
+<p><strong>Exercise 2.</strong> Given <span class="math inline">\(B \subset C\)</span> and <span class="math inline">\(P(B) &gt; 0\)</span>, prove that <span class="math display">\[P(A | C) &gt; P(A | B) \Longleftrightarrow P(A | C \cap B^c) &gt; P(A | B).\]</span></p>
+<p><strong>Exercise 3.</strong> Prove or disprove the following statement: For events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> such that <span class="math inline">\(0 &lt; P(A) &lt; 1\)</span> and <span class="math inline">\(0 &lt; P(B) &lt; 1\)</span>, <span class="math display">\[P(A|B) &gt; P(A) \Longleftrightarrow P(B | A) &gt; P(B|A^c).\]</span></p>
+</section>
+<section id="day-2" class="level1">
+<h1>Day 2</h1>
+<p>1-2pm Office Hours for Miller, Building 1 Room 245</p>
+<section id="continuing-on-random-variables" class="level2">
+<h2 class="anchored" data-anchor-id="continuing-on-random-variables">Continuing on Random Variables</h2>
+<p>If the range of a random variable <span class="math inline">\(\{X(s) : s \in S \}\)</span> is countable then <span class="math inline">\(X\)</span> is a discrete random variable.</p>
+<p>For a discreet random variable, the function <span class="math inline">\(f(x) = P(X = x)\)</span> is called a <span class="vocab">probability mass function</span>.</p>
+<p>Recall how we define probability on random variables: <span class="math display">\[P(X = x)  = P(\{ s \in S : X(s) = x \})\]</span></p>
+</section>
+<section id="cumulative-distribution-functions" class="level2">
+<h2 class="anchored" data-anchor-id="cumulative-distribution-functions">Cumulative Distribution Functions</h2>
+<p>The cumulative distribution function (cdf) of <span class="math inline">\(X\)</span> is defined to be <span class="math display">\[F(x) = P(X \leq x).\]</span></p>
+<p><strong>Definition.</strong> A function <span class="math inline">\(F \colon \mathbb R \to \mathbb R\)</span> is a cdf if and only if</p>
+<ol type="1">
+<li><span class="math inline">\(\lim_{x \to -\infty} F(x) = 0\)</span> and <span class="math inline">\(\lim_{x \to \infty} F(x) = 1\)</span></li>
+<li><span class="math inline">\(F(x)\)</span> is non-decreasing.</li>
+<li><span class="math inline">\(F(x)\)</span> is right-continuous, that is for all <span class="math inline">\(x' \in \mathbb R\)</span> <span class="math display">\[ \lim_{x \downarrow x'} F(x) = F(x')\]</span></li>
+</ol>
+<p>Here’s an example for a binomial distribution:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/binomial_cdf/binomial_cdf.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Binomial distribution CDF</figcaption><p></p>
+</figure>
+</div>
+<p>For any discrete probability distribution, the cdf will necessarily be discontinuous.</p>
+<p>An example of a continuous cdf is <span class="math display">\[F(x) = (1- e^{-\lambda x}) \mathbb 1 (x &gt; 0),\]</span> where <span class="math inline">\(\lambda\)</span> is a positive fixed number.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/exponential_cdf/exponential_cdf.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Exponential distribution CDF</figcaption><p></p>
+</figure>
+</div>
+<section id="continuous-random-variables" class="level3">
+<h3 class="anchored" data-anchor-id="continuous-random-variables">Continuous Random Variables</h3>
+<p>A random variable is continuous if its cdf is a continuous function.</p>
+<p>In other words, if <span class="math inline">\(\lim_{x \to x'} F(x) = F(x')\)</span> for every <span class="math inline">\(x' \in \mathbb R\)</span>.</p>
+<p>A probability density function of a continuous random variable function <span class="math inline">\(f: \mathbb R \to [0,\infty)\)</span> such that for all <span class="math inline">\(x \in \mathbb R\)</span>, <span class="math display">\[F(x) = \int_{-\infty}^\infty f(t) dt.\]</span></p>
+<p>Therefore we need to integrate to get probabilities:</p>
+<p><span class="math display">\[P(X \in A) = \int_A f(x) dx\]</span></p>
+</section>
+</section>
+<section id="relationship-between-cdf-and-pdf" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-between-cdf-and-pdf">Relationship between CDF and PDF</h2>
+<p>“Randavble” = “Random Variable” (Nice abbreviation, but a joke)</p>
+<p>Suppose we had a cdf <span class="math inline">\(F\)</span>, we could derive a pdf <span class="math inline">\(f\)</span> by differentiating (usually).</p>
+<p>Similarly, we can obtain <span class="math inline">\(F\)</span> from <span class="math inline">\(f\)</span>.</p>
+<p>If <span class="math inline">\(f(x)\)</span> is continuous at <span class="math inline">\(x\)</span>, then <span class="math display">\[f(x) = \frac{d}{dx} F(x),\]</span> by the fundamental theorem of calculus.</p>
+<p>A function <span class="math inline">\(f: \mathbb R \to [0,\infty)\)</span> is a probability density function if and only if <span class="math inline">\(\int f(x) dx = 1\)</span>.</p>
+<p>In fact any integrable non-negative function can be normalized to a pdf, by performing <span class="math inline">\(f(x) = \tilde{f}(x)/C\)</span> for a constant <span class="math inline">\(C\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/normalizing_pdfs/normalizing_pdfs.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Normalizing a pdf to have integral 1</figcaption><p></p>
+</figure>
+</div>
+<p>There is not a unique pdf for a given distribution since the pdf can change arbitrarily on sets with Lebesgue measure 0. However, any two pdfs for the same distribution will agree “almost everywhere.”</p>
+<p>Not every continuous distribution has a pdf, since there are continuous cdfs that are nondifferentiable at uncountably many points, such as the Cantor function.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/CantorEscalier-2.svg/1920px-CantorEscalier-2.svg.png" class="img-fluid figure-img" style="width:2.5in"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recall that the Exponential(<span class="math inline">\(\lambda\)</span>) distribution is defined by the cdf: <span class="math display">\[F(x) = (1-e^{-\lambda x}) \mathbb 1\{x &gt; 0\}.\]</span></p>
+<p>The pdf can be obtained by differentiating:</p>
+<p><span class="math display">\[f(x) = \frac{d}{dx} F(x)= \lambda e^{-\lambda x} \mathbb 1 \{x &gt; 0\}.\]</span></p>
+<p><span class="math inline">\(F(x)\)</span> is not differentiable at 0, but it doesn’t matter since <span class="math inline">\(f(x)\)</span> can be defined arbitrarily on any countable set.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/exponential_pdf/exponential_pdf.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The exponential pdf</figcaption><p></p>
+</figure>
+</div>
+<p>For measurable sets <span class="math inline">\(A \subset \mathbb R\)</span>, we define <span class="math display">\[X^{-1}(A) = \{ s \in S \colon X(s) = x \}\]</span></p>
+<p>For any random variable <span class="math inline">\(X\)</span> not necessarily discrete or continuous, we define <span class="math display">\[P(X \in A) = P(X^{-1}(A)).\]</span></p>
+</section>
+<section id="identically-distributed-random-variables" class="level2">
+<h2 class="anchored" data-anchor-id="identically-distributed-random-variables">Identically distributed random variables</h2>
+<p>Random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <span class="vocab">identically distributed</span> if for every measurable set <span class="math inline">\(A\)</span>, <span class="math display">\[P(X \in A) = P(Y \in A).\]</span></p>
+<p>This is denoted by <span class="math inline">\(P \stackrel{d}{=} Y\)</span>.</p>
+<p>It turns out that <span class="math inline">\(X \stackrel{d}{=} Y\)</span> if and only if <span class="math inline">\(F_X(x) = F_Y(x)\)</span> for all <span class="math inline">\(x \in \mathbb R\)</span>.</p>
+</section>
+<section id="transformations-of-random-variables" class="level2">
+<h2 class="anchored" data-anchor-id="transformations-of-random-variables">Transformations of Random Variables</h2>
+<p>Often we are interested in functions <span class="math inline">\(g(X)\)</span> of a random variable <span class="math inline">\(X\)</span>.</p>
+<p>If <span class="math inline">\(g\)</span> is measurable, then <span class="math inline">\(g(X)\)</span> is a random variable.</p>
+<p>Letting <span class="math inline">\(Y = g(X)\)</span>, the distribution of <span class="math inline">\(Y\)</span> is characterized by <span class="math display">\[P(Y \in A) = P(g(X) \in A) = P(X \in g^{-1}(A)).\]</span></p>
+<p>Recall that <span class="math display">\[g^{-1}(A) = \{ x \colon g(x) \in A \},\]</span> so this does not require that <span class="math inline">\(g\)</span> be invertible.</p>
+<p>In the discrete case,</p>
+<p><span class="math display">\[f_Y(y) = P(Y = y) = P(g(X) = y) = \sum_{x \colon g(x) = y} f_X(x).\]</span></p>
+</section>
+<section id="binomial-variable-transformation-example" class="level2">
+<h2 class="anchored" data-anchor-id="binomial-variable-transformation-example">Binomial Variable Transformation Example</h2>
+<p>Suppose <span class="math inline">\(X \sim Binomial(N,q)\)</span> and <span class="math inline">\(Y = N - X\)</span>. Then <span class="math display">\[P(Y = k) = P(g(X) = k) = P(N - X = k) = P(X = N-k).\]</span></p>
+<p>Thus plugging in the pdf of <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[ P(Y=k) = {N \choose N-k} q^{N-k} (1-q)^{N-(N-k)}\]</span> <span class="math display">\[ = { N \choose k} (1-q)^k q^{N-k}.\]</span></p>
+<p>Therefore <span class="math inline">\(Y ~ Binomial(N,1-q)\)</span>.</p>
+</section>
+<section id="transformations-of-continuous-random-variables" class="level2">
+<h2 class="anchored" data-anchor-id="transformations-of-continuous-random-variables">Transformations of continuous random variables</h2>
+<p>For a continuous r.v. <span class="math inline">\(X\)</span> we have to take more care.</p>
+<div class="hottip">
+<p>If <span class="math inline">\(g\)</span> is invertible, then you might mistakenly think the pdf of <span class="math inline">\(Y = g(X)\)</span> equals <span class="math inline">\(f_X(g^{-1}(y))\)</span>, but this is not true in general. The reason is that the pdf <span class="math inline">\(f_Y\)</span> is a density, not a probability.</p>
+<p>The correct formula accounts for the derivative.</p>
+<p>Suppose <span class="math inline">\(X\)</span> is a continuous r.v. and let <span class="math inline">\(\mathcal X = \{ x \colon f_X(x) &gt; 0 \}\)</span>. If <span class="math inline">\(Y = g(X)\)</span> where <span class="math inline">\(g \colon \mathcal X \to \mathbb R\)</span> is a strictly monotone function such that the inverse <span class="math inline">\(g^{-1}(y)\)</span> has a continuous derivative then <span class="math display">\[f_Y(y) = f_X(g^{-1}(y)) \left \lvert \frac{d}{dy}g^{-1}(y) \right\rvert\]</span></p>
+<p>for <span class="math inline">\(y \in \mathcal Y \coloneqq \{ g(x) \colon x \in \mathcal X \}\)</span> and <span class="math inline">\(f_Y(y) = 0\)</span> elsewhere.</p>
+<p>“This is a great source for exam problems!”</p>
+</div>
+<section id="monotonicity" class="level3">
+<h3 class="anchored" data-anchor-id="monotonicity">Monotonicity</h3>
+<p>A function is <span class="vocab">monotone increasing</span> if <span class="math display">\[x &lt; x' \Longrightarrow g(x) \leq g(x').\]</span> We also call this non-decreasing.</p>
+<p>Similarly, a function is <span class="vocab">monotone decreasing</span> (or non-increasing) if <span class="math display">\[ x &lt; x' \Longrightarrow g(x) \geq g(x').\]</span></p>
+<p>Note that Casella and Berger use “monotone” to imply strictly monotone, though the definitions above are the more conventional meaning.</p>
+</section>
+</section>
+<section id="example-square-root-of-an-exponential-r.v." class="level2">
+<h2 class="anchored" data-anchor-id="example-square-root-of-an-exponential-r.v.">Example: Square root of an Exponential r.v.</h2>
+<p>Suppose <span class="math inline">\(X \sim \text{Exponential}(\lambda)\)</span> and <span class="math inline">\(Y=\sqrt{X}\)</span>.</p>
+<p>Then <span class="math inline">\(f_X(x) = \lambda e^{-\lambda x) \mathbb 1 \{ x &gt; 0 \}\)</span>, so <span class="math inline">\(\mathcal X = (0,\infty).\)</span></p>
+<p>We write <span class="math inline">\(Y = g(X)\)</span> where <span class="math inline">\(g(x) = \sqrt{x}\)</span> for <span class="math inline">\(x \in \mathcal X\)</span>.</p>
+<p>For <span class="math inline">\(y \in \mathcal Y = (0,\infty)\)</span>, the inverse of <span class="math inline">\(g\)</span> is <span class="math display">\[g^{-1}(y) = y^2.\]</span></p>
+<p><span class="math display">\[\frac{d}{dx} g^{-1}(y) = 2y.\]</span></p>
+<p>Thus by the change of variables formula above,</p>
+<p><span class="math display">\[f_Y(y) = f_X(g^{-1}(y)) \left\lvert \frac{d}{dx} g^{-1}(y) \right\rvert\]</span> <span class="math display">\[ = 2\lambda y e^{-\lambda y^2} \mathbb 1 \{ y &gt; 0 \}.\]</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
