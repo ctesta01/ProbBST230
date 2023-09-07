@@ -503,7 +503,7 @@ $$f_Y(y) = P(Y = y) = P(g(X) = y) = \sum_{x \colon g(x) = y} f_X(x).$$
 
 ## Binomial Variable Transformation Example 
 
-Suppose $X \sim Binomial(N,q)$ and $Y = N - X$. 
+Suppose $X \sim \text{Binomial}(N,q)$ and $Y = N - X$. 
 Then 
 $$P(Y = k) = P(g(X) = k) = P(N - X = k) = P(X = N-k).$$
 
@@ -512,7 +512,7 @@ Thus plugging in the pdf of $X$:
 $$ P(Y=k) = {N \choose N-k} q^{N-k} (1-q)^{N-(N-k)}$$
 $$ = { N \choose k} (1-q)^k q^{N-k}.$$
 
-Therefore $Y ~ Binomial(N,1-q)$.
+Therefore $Y \sim \text{Binomial}(N,1-q)$.
 
 ## Transformations of continuous random variables
 
@@ -553,7 +553,7 @@ are the more conventional meaning.
 
 Suppose $X \sim \text{Exponential}(\lambda)$ and $Y=\sqrt{X}$. 
 
-Then $f_X(x) = \lambda e^{-\lambda x) \mathbb 1 \{ x > 0 \}$, so $\mathcal X = (0,\infty).$
+Then $f_X(x) = \lambda \exp(-\lambda x) \mathbb 1 \{ x > 0 \}$, so $\mathcal X = (0,\infty).$
 
 We write $Y = g(X)$ where $g(x) = \sqrt{x}$ for $x \in \mathcal X$. 
 

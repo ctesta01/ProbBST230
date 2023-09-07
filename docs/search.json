@@ -228,6 +228,6 @@
     "href": "week2/week2.html#example-square-root-of-an-exponential-r.v.",
     "title": "Week 2",
     "section": "Example: Square root of an Exponential r.v.",
-    "text": "Example: Square root of an Exponential r.v.\nSuppose \\(X \\sim \\text{Exponential}(\\lambda)\\) and \\(Y=\\sqrt{X}\\).\nThen \\(f_X(x) = \\lambda e^{-\\lambda x) \\mathbb 1 \\{ x > 0 \\}\\), so \\(\\mathcal X = (0,\\infty).\\)\nWe write \\(Y = g(X)\\) where \\(g(x) = \\sqrt{x}\\) for \\(x \\in \\mathcal X\\).\nFor \\(y \\in \\mathcal Y = (0,\\infty)\\), the inverse of \\(g\\) is \\[g^{-1}(y) = y^2.\\]\n\\[\\frac{d}{dx} g^{-1}(y) = 2y.\\]\nThus by the change of variables formula above,\n\\[f_Y(y) = f_X(g^{-1}(y)) \\left\\lvert \\frac{d}{dx} g^{-1}(y) \\right\\rvert\\] \\[ = 2\\lambda y e^{-\\lambda y^2} \\mathbb 1 \\{ y > 0 \\}.\\]"
+    "text": "Example: Square root of an Exponential r.v.\nSuppose \\(X \\sim \\text{Exponential}(\\lambda)\\) and \\(Y=\\sqrt{X}\\).\nThen \\(f_X(x) = \\lambda e^{-\\lambda x) \\mathbb 1 \\{ x > 0 \\}\\), so \\(\\mathcal X = (0,\\infty).\\)\nWe write \\(Y = g(X)\\) where \\(g(x) = \\sqrt{x}\\) for \\(x \\in \\mathcal X\\).\nFor \\(y \\in \\mathcal Y = (0,\\infty)\\), the inverse of \\(g\\) is \\[g^{-1}(y) = y^2.\\]\n\\[\\frac{d}{dx} g^{-1}(y) = 2y.\\]\nThus by the change of variables formula above,\n\\[f_Y(y) = f_X(g^{-1}(y)) \\left\\lvert \\frac{d}{dx} g^{-1}(y) \\right\\rvert\\] \\[ = 2\\lambda y \\exp (-\\lambda y^2) \\mathbb 1 \\{ y > 0 \\}.\\]"
   }
 ]
