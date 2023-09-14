@@ -1,5 +1,8 @@
 ---
 title: "Week 1"
+comments:
+  giscus:
+    repo: ctesta01/ProbBST230
 ---
 
 August 28 — September 1, 2023 

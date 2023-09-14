@@ -1,6 +1,26 @@
 ---
 title: "Week 2"
+comments:
+  giscus:
+    repo: ctesta01/ProbBST230
 ---
+
+::: {.content-hidden}
+$$
+\newcommand{\E}[0]{\mathbb E}
+\newcommand{\R}[0]{\mathbb R}
+\newcommand{\t}[1]{\text{#1}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\e}[0]{\epsilon}
+$$
+:::
+
 
 Wrapping up Probability Basics 
 
@@ -566,3 +586,5 @@ Thus by the change of variables formula above,
 
 $$f_Y(y) = f_X(g^{-1}(y)) \left\lvert \frac{d}{dx} g^{-1}(y) \right\rvert$$ 
 $$ = 2\lambda y \exp (-\lambda y^2) \mathbb 1 \{ y > 0 \}.$$
+
+

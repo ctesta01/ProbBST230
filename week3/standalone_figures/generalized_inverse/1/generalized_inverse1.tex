@@ -1,0 +1,29 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        xlabel = \(x\),
+        ylabel = {\(F(x)\)},
+        domain = -.025:1.25,
+        xmax = 1.015,
+        ymin = -.015,
+        ymax = 1.015,
+        samples = 100,
+        title = {CDF $F(x)$},
+        width = 12cm,
+        height = 8cm,
+        legend pos = north east
+    ]
+    
+    \addplot[blue, thick, no markers] (-.15,0) -- (0,0) -- (0.5, 0.5);
+    \addplot[blue, thick, no markers] (.5, 1) -- (1,1);
+    \node [blue, draw, circle, fill, inner sep = 1.5pt] at (0.5, 1) {};
+    
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}

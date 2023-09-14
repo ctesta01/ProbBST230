@@ -93,6 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../week3/week3.html" rel="next">
 <link href="../week1/week1.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -169,6 +170,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../week2/week2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
   </div>
 </li>
     </ul>
@@ -558,10 +564,10 @@ P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
 </section>
 <section id="binomial-variable-transformation-example" class="level2">
 <h2 class="anchored" data-anchor-id="binomial-variable-transformation-example">Binomial Variable Transformation Example</h2>
-<p>Suppose <span class="math inline">\(X \sim Binomial(N,q)\)</span> and <span class="math inline">\(Y = N - X\)</span>. Then <span class="math display">\[P(Y = k) = P(g(X) = k) = P(N - X = k) = P(X = N-k).\]</span></p>
+<p>Suppose <span class="math inline">\(X \sim \text{Binomial}(N,q)\)</span> and <span class="math inline">\(Y = N - X\)</span>. Then <span class="math display">\[P(Y = k) = P(g(X) = k) = P(N - X = k) = P(X = N-k).\]</span></p>
 <p>Thus plugging in the pdf of <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[ P(Y=k) = {N \choose N-k} q^{N-k} (1-q)^{N-(N-k)}\]</span> <span class="math display">\[ = { N \choose k} (1-q)^k q^{N-k}.\]</span></p>
-<p>Therefore <span class="math inline">\(Y ~ Binomial(N,1-q)\)</span>.</p>
+<p>Therefore <span class="math inline">\(Y \sim \text{Binomial}(N,1-q)\)</span>.</p>
 </section>
 <section id="transformations-of-continuous-random-variables" class="level2">
 <h2 class="anchored" data-anchor-id="transformations-of-continuous-random-variables">Transformations of continuous random variables</h2>
@@ -583,7 +589,7 @@ P\left(A^c_{n+1} \cap \bigcap_{i=1}^n A_i \right) =
 <section id="example-square-root-of-an-exponential-r.v." class="level2">
 <h2 class="anchored" data-anchor-id="example-square-root-of-an-exponential-r.v.">Example: Square root of an Exponential r.v.</h2>
 <p>Suppose <span class="math inline">\(X \sim \text{Exponential}(\lambda)\)</span> and <span class="math inline">\(Y=\sqrt{X}\)</span>.</p>
-<p>Then <span class="math inline">\(f_X(x) = \lambda e^{-\lambda x) \mathbb 1 \{ x &gt; 0 \}\)</span>, so <span class="math inline">\(\mathcal X = (0,\infty).\)</span></p>
+<p>Then <span class="math inline">\(f_X(x) = \lambda \exp(-\lambda x) \mathbb 1 \{ x &gt; 0 \}\)</span>, so <span class="math inline">\(\mathcal X = (0,\infty).\)</span></p>
 <p>We write <span class="math inline">\(Y = g(X)\)</span> where <span class="math inline">\(g(x) = \sqrt{x}\)</span> for <span class="math inline">\(x \in \mathcal X\)</span>.</p>
 <p>For <span class="math inline">\(y \in \mathcal Y = (0,\infty)\)</span>, the inverse of <span class="math inline">\(g\)</span> is <span class="math display">\[g^{-1}(y) = y^2.\]</span></p>
 <p><span class="math display">\[\frac{d}{dx} g^{-1}(y) = 2y.\]</span></p>
@@ -728,6 +734,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="ctesta01/ProbBST230" data-repo-id="R_kgDOKPRYwg" data-category="General" data-category-id="" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../week1/week1.html" class="pagination-link">
@@ -735,6 +743,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../week3/week3.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Week 3</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -1,0 +1,30 @@
+\documentclass[tikz,border=3.14mm]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        xlabel = \(u\),
+        ylabel = {\(G(u)\)},
+        domain = -.025:1.25,
+        xmax = 1.015,
+        ymin = -.015,
+        ymax = .515,
+        samples = 100,
+        title = {Generalized inverse $G(u)$},
+        width = 12cm,
+        height = 8cm,
+        legend pos = north east,
+        grid style={line width=.1pt, draw=gray!10},
+        major grid style={line width=.2pt,draw=gray!50},
+    ]
+    
+    \addplot[blue, thick, no markers] (-.15,0) -- (0,0) -- (0.5, 0.5);
+    \addplot[blue, thick, no markers] (.5, .5) -- (1,.5);
+    
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}
