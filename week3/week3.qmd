@@ -187,7 +187,7 @@ The two transforms can be summarized as follows. Suppose $U \sim \t{Uniform}(0,1
 variable with cdf $F$. Then 
 
   1. $F^{-1}(U) \stackrel{d}{=} X.$
-  2. $F(X) = \stackrel{d}{=} U$ if $F$ is continuous, but not otherwise. 
+  2. $F(X) \stackrel{d}{=} U$ if $F$ is continuous, but not otherwise. 
 
   
 :::{.cooltip}
