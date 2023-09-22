@@ -15,6 +15,8 @@ $$
 \newcommand{\Var}[0]{\text{Var}}
 \newcommand{\Cov}[0]{\text{Cov}}
 \newcommand{\e}[0]{\epsilon}
+
+\newcommand{\argmax}[0]{\text{argmax}}
 $$
 :::
 
@@ -271,7 +273,7 @@ This does not hold in general for unbounded distributions.
 There's such an example in Casella and Berger. 
 :::
 
-### Differentiating under the integral sign 
+## Differentiating under the integral sign 
 
 Often we want to interchange the order of differentiation 
 and integration. 
@@ -307,7 +309,7 @@ This proof uses one of the most important results in measure
 theory: the dominated convergence theorem. 
 
 We present a non-measure theoretic version of the 
-dominated convergence theorem here, which is not fully 
+<span class='vocab'>dominated convergence theorem</span> here, which is not fully 
 general but gets the main idea across. 
 
 Suppose that $f(x,t)$ is continuous at $t_0$ for each 
@@ -320,3 +322,202 @@ Then
 $$\lim_{t\to t_0} \int_{-\infty}^\infty f(x,t) dx = \int_{-\infty}^{\infty} \lim_{t\to t_0} f(x,t) dx.$$
 
 The dominated convergence theorem allows us to justify switching the order of limits and integrals. 
+
+We can think about the dominated convergence theorem as describing a situation 
+where we have a sequence of functions: 
+
+$$f_1(x),\, f_2(x),\, f_3(x),\, \cdots$$
+
+And what we're saying is $$\lim_{n \to \infty} \int f_n(x) dx = \int \left( \lim_{n \to \infty} f_n(x))\right) dx.$$
+
+```{r, echo=FALSE, fig.align='center', out.width = '75%'}
+knitr::include_graphics("standalone_figures/converging_normals/converging_normals.svg")
+```
+
+:::{.hottip}
+A counter-example would be $f_n(x) = 1/n$, so $f_*(x) = 0$, but $\int f_n(x) dx > 0$ for all $n$. 
+
+Another counter-example is $f_n(x) = \mathbb 1(n < x < n+1)$. The limit $f_*(x) = 0$ because for every 
+$x$, as $n\to \infty$, there is an $N \in \mathbb N$ such that for all $N' > N$ $f_{N'}(x) = 0$. 
+
+This is what the requirements around the existence of such a function $g(x)$ are telling us (that $g(x)$ is an 
+envelope for all $f_n(x)$ and $\int_{-\infty}^\infty g(x) dx < \infty$. 
+:::
+
+# Families of Distributions
+
+In statistics, families of distributions play a key role. 
+Many statistical methods are based on assuming that the data are distributed according to some family of distributions. 
+Estimation and inference then proceeds by finding the parameters of the family that could plausibly have 
+generated the observed data.
+
+For instance, if one assumes that data $X_1, ..., X_n$ are $\mathcal N(\mu, \sigma^2)$ distributed, then we could use maximum likelihood to estimate $\mu$ and $\sigma^2$ as: 
+
+$$\hat \mu = \frac{1}{n} \sigma_{i=1}^n X_i \quad \quad \hat \sigma^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \bar X)^2.$$
+
+Many commonly used distributions have special properties that make them well-justified in particular applications.
+
+Examples: 
+
+  * Gaussians have the central limit theorem. 
+  * Poissons have the law of small numbers.
+  * Exponentials have memorylessness.
+  * Pareto distributions have the power law.
+  * Exponential families have maximum entropy.
+  * The Poisson process is the limit of Bernoulli processes.
+  
+Selecting, combining, and/or transforming distributions according to the
+"physics" of the data generating process is important for good statistical
+modeling.
+
+We often write the name of the distribution itself to denote the pdf/pmf. For instance, 
+$\text{Uniform(x|a,b)$ denotes the pdf of $\text{Uniform(a,b)}$. 
+
+If the distribution $X$ has been defined, say as $X \sim \text{Uniform}(a,b)$, another shorthand 
+is to write $p(x|a,b)$ for the pdf/pmf. 
+
+We will often denote pdfs or pmfs as $p(\cdot)$ instead of $f(\cdot)$. 
+
+When dealing with multiple r.v.s, say $X$ and $Y$, it is common 
+to simply write $p(x)$ and $p(y)$ for the pdf/pmf of $X$ and $Y$, respectively,
+instead of $p_X(x)$ and $p_Y(y)$. In other words, the letters used ($x$ or $y$)
+indicates which random variable we're talking about.
+
+### Discrete Uniform Distribution 
+
+The $\text{Uniform}(N)$ distribution has pmf 
+
+$$p(x|N) = \frac{1}{N} \mathbb 1(x \in \{ 1, 2, ..., N \})$$
+
+$$EX = (N+1)/2$$
+$$\Var (X) = (N+1)(N+2)/12$$
+
+More generally, for any set $\mathcal X$, the uniform distribution on $\mathcal X$ is
+denoted $\text{Uniform}(\mathcal X)$. 
+
+$\text{Uniform}(\mathcal X)$ represents maximal uncertainty in the outcome of a quantity 
+$x \in \mathcal X$. It also maximizes the <span class='vocab'>entropy</span>,
+
+$$H = - \sum_{x \in \mathcal X} p(x) \log p(x),$$
+
+over all distributions of $\mathcal X$, when $\mathcal X$ is a finite set. 
+
+One characteristic of entropy is that it can be defined for $\mathcal X$ that 
+is not a subset of $\mathbb R$. 
+
+Boltzmann was the first to study entropy, and it was later studied by Claude Shannon 
+in information theory (applied to communication across lossy channels and [en-]coding theory).
+
+### Hypergeometric Distribution 
+
+The $\text{Hypergeometric}(N,M,K)$ distribution has pmf 
+
+$$p(x|N,M,K) = \frac{{M \choose x}{N-M \choose K-x}}{N \choose K} \mathbb 1 (x \in \mathcal X),$$
+
+where $\mathcal X = \{ x \in \{ 0, 1, ..., K\} : K - N + M \leq x \leq M\}.$
+
+The parameters are $N, M, K \in \{ 0, 1, 2, ... \}$. 
+
+The mean and variance of $X \sim \text{Hypergeometric}(N,M,K)$ are 
+$$EX = KM/N$$
+$$\Var(X) = \frac{KM}{N} \frac{(N-M)(N-K)}{N(N-1)}.$$
+
+Another example, besides drawing balls for a lottery, is the scenario of testing
+for defects in manufacturing. If a batch of $N$ items has $M$ defects and $K$
+randomly selected items are tested, what is the probability that $x$ of the
+tested items are defective?
+
+Approaches outlined: 
+  * Assume that $\frac{x}{K} \approx \frac{M}{N} \to x \approx \frac{MK}{N} = \E X$ and 
+  choose $\hat M \approx \frac{xN}{K}$. This is called the <span class='vocab'>method of moments</span>. 
+  * Look at the probability mass function $p(x|N,M,K) = f(M)$ and maximize with 
+  respect to $0 \leq M \leq N$. Basically, let $\hat M = \argmax_{M} p(x|N,M,K)$. 
+  This is the <span class='vocab'>maximum likelihood estimator (MLE)</span>.
+  * <span class='vocab'>Simulation methods</span> where if, say we didn't know the analytic formula for the mean,
+  we could empirically estimate the mean, and search for the distributions with simulated empirical mean 
+  close to $x$. This comes up when models are analytically intractable: for example, a weather model. 
+  * The Bayesian approach would be to consider the probably that $M$ as a random variable is a particular $m$ given 
+  the parameters (the posterior):
+  $$p(M=m|N,K,X=x) = \frac{p(X=x | N,K,M=m) p(M=m)}{\sum_{m'=0}^\infty p(X=x|N,K,M=m')p(M=m')$$
+  If we've been doing testing for a long time, we may have a good prior for $p(M=m')$. 
+  Two important quantities are the posterior mean: 
+  $$\hat M = \E(M|N,K,X=x)$$
+  And the maximum a posteriori estimate, 
+  $$\hat M = \argmax_m p(M=m|N,K,X=x)$$
+  
+Probability is the forward process of going from the parameters to the
+outcome. Inference (statistics) is the inductive process of going from data to
+knowledge about the parameters (and generalized knowledge).
+
+### Binomial Distribution 
+
+The $\text{Binomial}(N,q)$ distribution has pmf 
+
+$$p(x|N,q) = {N \choose x} q^x(1-q)^{N-x} \mathbb 1(x \in \mathcal X)$$
+
+where $\mathcal X = \{ 0, 1, ..., N \}$. The parameters are $N \in \{ 1, 2, ... \}$
+and $q \in (0,1)$. 
+
+The mean and variance are 
+
+$$\E X = Nq$$
+
+$$\Var(X) = Nq(1-q)$$
+
+## Independence of Random Variables
+
+Random variables $X_1, ..., X_n$ are independent if 
+
+$$P(X_1 \in A_1, ..., X_n \in A_n) = P(X_1 \in A_1) \cdots P(X_n \in A_n)$$
+for all measurable subsets $A_1, ..., A_n \subset \R$. 
+
+The $\t{Bernoulli}(q)$ distribution is the special case of 
+$\t{Binomial}(N,q)$ when $N=1$. 
+
+If $X_1, ..., X_n \sim \t{Bernoulli}(q)$ are independent, then 
+
+$\sum_{i=1}^n X_i \sim \t{Binomial}(N,q).$
+
+From this, it is easy to derive the mean of the Binomial distribution: 
+
+$$\E\left( \sum_{i=1}^n X_i \right) = \sum_{i=1}^n \E X_i = \sum_{i=1}^n q = nq.$$
+
+### Poisson Distribution 
+
+The $\t{Poisson}(\lambda)$ distribution has pmf 
+
+$$p(x|\lambda) = e^{-\lambda} \frac{\lambda^x}{x!} \mathbb 1(x \in \mathcal X)$$
+
+where $\mathcal X = \{ 0, 1, 2,...\}$. The parameter $\lambda > 0$ is referred to 
+as the <span class='vocab'>rate</span>, for reasons that will become clear when we study 
+Poisson processes. 
+
+The mean and variance of $X \sim \t{Poisson}(\lambda)$. 
+
+The Poisson model is often a good model for counting the occurrences of independent rare events. 
+
+Examples: 
+
+  * In genomics, the number of reads covering a given locus is well-modeled as Poisson.
+  * In physics, the number of photons hitting a detector during a given period of time is Poisson distributed.
+  * In ecology, the number of organisms in a given region is often well-modeled as Poisson. 
+  
+This is all due to a special property of the Poisson distribution jokingly referred to as the 
+"law of small numbers". 
+
+The Poisson is a limit of Binomials: if $q_N \in (0,1)$ is such that 
+$$N q_N \to \lambda$$
+as $N \to \infty$ for some $\lambda > 0$, then for all $x \in \{ 0, 1, 2, ...\}$,
+
+$$\t{Binomial}(x|N,q_N) \longrightarrow \t{Poisson}(x|\lambda).$$
+
+### Geometric Distribution 
+
+The $\t{Geometric}(q)$ distribution has pmf 
+
+$$p(x|q) = (1-q)^{x-1}q \mathbb 1(x \in \mathcal X).$$
+
+$$\E X = 1/q$$
+
+$$\Var(X) = \frac{1-q}{q^2}.$$
+
