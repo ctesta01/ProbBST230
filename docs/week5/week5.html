@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability (BST 230) Notes - 6&nbsp; Week 5</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../week4/week4.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Week 5</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Probability (BST 230) Notes</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methods (BST 232) Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week1/week1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week2/week2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week4/week4.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week5/week5.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 5</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#families-of-distribution-cont.-discrete-distributions" id="toc-families-of-distribution-cont.-discrete-distributions" class="nav-link active" data-scroll-target="#families-of-distribution-cont.-discrete-distributions">Families of Distribution (cont. Discrete Distributions)</a>
+  <ul class="collapse">
+  <li><a href="#poisson-as-limit-of-binomials-law-of-small-numbers" id="toc-poisson-as-limit-of-binomials-law-of-small-numbers" class="nav-link" data-scroll-target="#poisson-as-limit-of-binomials-law-of-small-numbers">Poisson as limit of Binomials (“Law of small numbers”)</a></li>
+  <li><a href="#geometric-distribution" id="toc-geometric-distribution" class="nav-link" data-scroll-target="#geometric-distribution">Geometric Distribution</a>
+  <ul class="collapse">
+  <li><a href="#gamblers-fallacy" id="toc-gamblers-fallacy" class="nav-link" data-scroll-target="#gamblers-fallacy">Gambler’s Fallacy</a></li>
+  <li><a href="#memorylessness-property" id="toc-memorylessness-property" class="nav-link" data-scroll-target="#memorylessness-property">Memorylessness property</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#families-of-continuous-distributions" id="toc-families-of-continuous-distributions" class="nav-link" data-scroll-target="#families-of-continuous-distributions">Families of Continuous Distributions</a>
+  <ul class="collapse">
+  <li><a href="#uniform-distribution" id="toc-uniform-distribution" class="nav-link" data-scroll-target="#uniform-distribution">Uniform Distribution</a></li>
+  <li><a href="#normal-gaussian-distribution" id="toc-normal-gaussian-distribution" class="nav-link" data-scroll-target="#normal-gaussian-distribution">Normal (Gaussian) Distribution</a>
+  <ul class="collapse">
+  <li><a href="#special-properties-of-the-normal-distribution" id="toc-special-properties-of-the-normal-distribution" class="nav-link" data-scroll-target="#special-properties-of-the-normal-distribution">Special Properties of the Normal Distribution</a></li>
+  </ul></li>
+  <li><a href="#chi-squared-distribution" id="toc-chi-squared-distribution" class="nav-link" data-scroll-target="#chi-squared-distribution">Chi-Squared Distribution</a></li>
+  <li><a href="#gamma-distribution" id="toc-gamma-distribution" class="nav-link" data-scroll-target="#gamma-distribution">Gamma Distribution</a>
+  <ul class="collapse">
+  <li><a href="#gamma-relationships" id="toc-gamma-relationships" class="nav-link" data-scroll-target="#gamma-relationships">Gamma relationships</a></li>
+  <li><a href="#exponential-distribution-memorylessness-property" id="toc-exponential-distribution-memorylessness-property" class="nav-link" data-scroll-target="#exponential-distribution-memorylessness-property">Exponential Distribution: Memorylessness Property</a></li>
+  </ul></li>
+  <li><a href="#the-log-normal-distribution" id="toc-the-log-normal-distribution" class="nav-link" data-scroll-target="#the-log-normal-distribution">The Log-Normal Distribution</a>
+  <ul class="collapse">
+  <li><a href="#log-normal-relationships" id="toc-log-normal-relationships" class="nav-link" data-scroll-target="#log-normal-relationships">Log-Normal Relationships</a></li>
+  </ul></li>
+  <li><a href="#beta-distribution" id="toc-beta-distribution" class="nav-link" data-scroll-target="#beta-distribution">Beta distribution</a></li>
+  <li><a href="#location-scale-families" id="toc-location-scale-families" class="nav-link" data-scroll-target="#location-scale-families">Location-Scale Families</a></li>
+  <li><a href="#laplace-distribution-aka-the-double-exponential" id="toc-laplace-distribution-aka-the-double-exponential" class="nav-link" data-scroll-target="#laplace-distribution-aka-the-double-exponential">Laplace Distribution (aka the Double Exponential)</a></li>
+  <li><a href="#cauchy-distribution" id="toc-cauchy-distribution" class="nav-link" data-scroll-target="#cauchy-distribution">Cauchy Distribution</a></li>
+  <li><a href="#exponential-families" id="toc-exponential-families" class="nav-link" data-scroll-target="#exponential-families">Exponential Families</a>
+  <ul class="collapse">
+  <li><a href="#examples-of-one-parameter-exponential-families" id="toc-examples-of-one-parameter-exponential-families" class="nav-link" data-scroll-target="#examples-of-one-parameter-exponential-families">Examples of One-parameter Exponential Families</a></li>
+  </ul></li>
+  <li><a href="#multi-parameter-exponential-families" id="toc-multi-parameter-exponential-families" class="nav-link" data-scroll-target="#multi-parameter-exponential-families">Multi-Parameter Exponential Families</a>
+  <ul class="collapse">
+  <li><a href="#gamma-example" id="toc-gamma-example" class="nav-link" data-scroll-target="#gamma-example">Gamma Example</a></li>
+  <li><a href="#exponential-families-special-properties" id="toc-exponential-families-special-properties" class="nav-link" data-scroll-target="#exponential-families-special-properties">Exponential Families: Special Properties</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#multiple-random-variables" id="toc-multiple-random-variables" class="nav-link" data-scroll-target="#multiple-random-variables">Multiple Random Variables</a>
+  <ul class="collapse">
+  <li><a href="#random-vectors" id="toc-random-vectors" class="nav-link" data-scroll-target="#random-vectors">Random Vectors</a></li>
+  <li><a href="#joint-probability-mass-functions" id="toc-joint-probability-mass-functions" class="nav-link" data-scroll-target="#joint-probability-mass-functions">Joint Probability Mass Functions</a>
+  <ul class="collapse">
+  <li><a href="#expected-winnings-in-the-monty-hall-problem" id="toc-expected-winnings-in-the-monty-hall-problem" class="nav-link" data-scroll-target="#expected-winnings-in-the-monty-hall-problem">Expected winnings in the Monty Hall problem</a></li>
+  </ul></li>
+  <li><a href="#marginal-probability-mass-functions" id="toc-marginal-probability-mass-functions" class="nav-link" data-scroll-target="#marginal-probability-mass-functions">Marginal Probability Mass Functions</a></li>
+  <li><a href="#conditional-probability-mass-functions" id="toc-conditional-probability-mass-functions" class="nav-link" data-scroll-target="#conditional-probability-mass-functions">Conditional Probability Mass Functions</a></li>
+  <li><a href="#joint-marginal-and-conditional-probability-density-functions" id="toc-joint-marginal-and-conditional-probability-density-functions" class="nav-link" data-scroll-target="#joint-marginal-and-conditional-probability-density-functions">Joint, marginal, and conditional probability density functions</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Week 5</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Recap:</p>
+<p>What’s the most important thing to learn about these distributions?</p>
+<ul>
+<li>Memorize the mean and variance formulas?</li>
+<li>The intuition of how to derive those?</li>
+</ul>
+<p>Nay; the thing that’s most important is to know <em>when a distribution is appropriate to use or not</em>.</p>
+<p>Say our data is zero or ones — a normal distribution is not appropriate.</p>
+<p>What about the number of times a coin-flip comes up heads when flipped 10,000 heads? It’s not a normal distribution, but it’s pretty close to one.</p>
+<p>Another important ability to develop is to recognize the forms of distributions when they come up, since it’s a handy trick to be able to spot the integral of a pdf (or something close to it) which will always be 1.</p>
+<p>An example could be spotting a probability density function like <span class="math inline">\(e^{-ax}\)</span>.</p>
+<p>If one writes that <span class="math inline">\(1-q = e^{-a}\)</span>, then <span class="math inline">\(e^{-ax} \propto (1-q)^x q\)</span>, the Geometric distribution (which is a discrete exponential distribution).</p>
+<p>In general, one may want to be familiar with the <a href="https://en.wikipedia.org/wiki/Relationships_among_probability_distributions">relationships among probability distributions</a>.</p>
+<section id="families-of-distribution-cont.-discrete-distributions" class="level1">
+<h1>Families of Distribution (cont. Discrete Distributions)</h1>
+<section id="poisson-as-limit-of-binomials-law-of-small-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="poisson-as-limit-of-binomials-law-of-small-numbers">Poisson as limit of Binomials (“Law of small numbers”)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">size =</span> <span class="dv">100</span>, <span class="at">prob =</span> .<span class="dv">05</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dpois</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">20</span>), <span class="at">lambda =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="geometric-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="geometric-distribution">Geometric Distribution</h2>
+<p>The Geometric(q) distribution has pmf</p>
+<p><span class="math display">\[p(x|q) = (1-q)^{x-1} q \mathbb 1(x \in \mathcal X),\]</span></p>
+<p>where <span class="math inline">\(\mathcal X = \{ 1, 2,... \}\)</span>. The parameter <span class="math inline">\(q \in (0,1)\)</span>.</p>
+<p>The mean and variance of <span class="math inline">\(X \sim \text{Geometric}(q)\)</span> are:</p>
+<p><span class="math display">\[EX = 1/q\]</span> <span class="math display">\[\text{Var}(X) = \frac{1-q}{q^2}.\]</span></p>
+<section id="gamblers-fallacy" class="level3">
+<h3 class="anchored" data-anchor-id="gamblers-fallacy">Gambler’s Fallacy</h3>
+<p>Suppose you are playing a game with dice and someone notices that 1 hasn’t been rolled yet. Since the proportion of times that 1 is rolled must converge to 1/6, they think there is a high probability of rolling a 1 next.</p>
+<p>Do you think that the probability of rolling 1 next is (a) higher than 1/6, (b) equal to 1/6, or (c) lower than 1/6?</p>
+<p>A statistician might say we actually don’t <em>know</em> that the die is fair, and would need to come up with some empirical evidence describing our uncertainty around the fairness of the die.</p>
+<p>However, in general, if we assume that the die is fair, then the correct answer is that the probability of rolling 1 does not depend on the prior rolls, and hence would be 1/6.</p>
+</section>
+<section id="memorylessness-property" class="level3">
+<h3 class="anchored" data-anchor-id="memorylessness-property">Memorylessness property</h3>
+<p>The gambler’s fallacy is related to a special property of the Geometric distribution.</p>
+<p>Suppose you have flipped tails <span class="math inline">\(t\)</span> times. What is the probability that it will take <span class="math inline">\(\geq x\)</span> more flips to get heads? It doesn’t matter that we got tails <span class="math inline">\(t\)</span> times already!</p>
+<p>Memorylessness property: If <span class="math inline">\(X \sim \text{Geometric}(q)\)</span>, then for all integers <span class="math inline">\(t, x \geq 0\)</span>,</p>
+<p><span class="math display">\[P(X &gt; t + x | X &gt; t) = P(X &gt; x).\]</span></p>
+<p>Geometric distributions are the only discrete distributions on <span class="math inline">\(\{1,2,...\}\)</span> satisfying this property.</p>
+<div class="hottip">
+<p>Why would we say that a normal distribution doesn’t have this memorylessness property? Well, if <span class="math inline">\(X \sim \mathcal N(\mu, \sigma^2)\)</span> then it’s not true that <span class="math inline">\(X | X &gt; x_0\)</span> is a normal distribution.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="families-of-continuous-distributions" class="level1">
+<h1>Families of Continuous Distributions</h1>
+<section id="uniform-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="uniform-distribution">Uniform Distribution</h2>
+<p>The uniform distribution from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span> has pdf</p>
+<p><span class="math display">\[p(x| a,b) = \frac{1}{b-a} \mathbb 1(x \in \mathcal X)\]</span></p>
+<p>where <span class="math inline">\(\mathcal X = (a,b).\)</span> The parameters are <span class="math inline">\(a,b \in \mathbb R\)</span> with <span class="math inline">\(a &lt; b\)</span>.</p>
+<p>The mean and variance of <span class="math inline">\(X \sim \text{Uniform}(a,b)\)</span> are:</p>
+<p><span class="math display">\[EX = (a+b)/2\]</span> <span class="math display">\[\text{Var}(X) = \frac{(b-a)^2}{12}.\]</span></p>
+</section>
+<section id="normal-gaussian-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="normal-gaussian-distribution">Normal (Gaussian) Distribution</h2>
+<p>The <span class="math inline">\(\mathcal N(\mu, \sigma^2)\)</span> distribution has pdf</p>
+<p><span class="math display">\[p(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp
+\left(
+-\frac{1}{2\sigma^2} (x-\mu)^2
+\right)\]</span></p>
+<p>for all <span class="math inline">\(x \in \mathbb R\)</span>. The parameters are <span class="math inline">\(\mu \in \mathbb R\)</span> and <span class="math inline">\(\sigma^2 &gt; 0.\)</span></p>
+<p>The mean and variance of <span class="math inline">\(X \sim \mathcal N(\mu, \sigma^2)\)</span> are <span class="math display">\[EX = \mu\]</span> <span class="math display">\[\text{Var}(X) = \sigma^2.\]</span></p>
+<p>Be careful that some people write <span class="math inline">\(\mathcal N(\mu, \sigma)\)</span> to denote the normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>. This comes up when there’s a formula in the second parameter position.</p>
+<section id="special-properties-of-the-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="special-properties-of-the-normal-distribution">Special Properties of the Normal Distribution</h3>
+<p>The normal distribution’s most special property relates to the central limit theorem (CLT).</p>
+<ul>
+<li>CLT tells us that the sum of a large number of independent random variables is approximately normal.</li>
+<li>Consequently, many real-world quantities tend to be normally distributed.</li>
+<li>When designing models, the CLT helps us understand when a normal model would be appropriate.</li>
+</ul>
+<p>Why would human height be roughly normal? Because there are so many little factors (huge numbers of genetic loci, specific environmental factors, etc.) that add up together to form individual observations leading to the variability observed being reminiscent of the CLT.</p>
+<p>Analytic tractability:</p>
+<ul>
+<li>Calculations can often be done in closed form, making normal models computationally convenient. Normal distributions can be combined to build complex models that are still tractable, such as <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman filters</a>.</li>
+</ul>
+<p>For details on the analytic properties of the normal distribution and how its “niceness” led to its derivation:</p>
+<ul>
+<li>https://link.springer.com/chapter/10.1007/978-0-387-46409-1_7</li>
+<li>https://www3.nd.edu/~rwilliam/stats1/x21.pdf</li>
+<li>https://maa.org/sites/default/files/pdf/upload_library/22/Allendoerfer/stahl96.pdf</li>
+<li>https://math.stackexchange.com/questions/384893/how-was-the-normal-distribution-derived</li>
+</ul>
+</section>
+</section>
+<section id="chi-squared-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="chi-squared-distribution">Chi-Squared Distribution</h2>
+<p>Suppose that <span class="math inline">\(X_1, ..., X_n \sim \mathcal N(0,1)\)</span> independently.</p>
+<p>The distribution of <span class="math inline">\(\sum_{i=1}^n X_i^2\)</span> is called the <em>chi-squared</em> distribution with <span class="math inline">\(n\)</span> degrees of freedom, denoted <span class="math inline">\(\chi^2(n)\)</span> or <span class="math inline">\(\chi_n^2\)</span>.</p>
+<p>The chi-squared distribution comes up a lot in statistical hypothesis testing, for instance when performing a <span class="math inline">\(t\)</span> test.</p>
+<p>If <span class="math inline">\(X_1,...,X_n \sim \mathcal N(\mu, \sigma^2)\)</span> independently, then</p>
+<p><span class="math display">\[(1/\sigma^2) \sum_{i=1}^n (X_i - \bar X)^2 \sim \chi^2(n-1).\]</span></p>
+<p>Why the <span class="math inline">\(n-1\)</span> instead of <span class="math inline">\(n\)</span>? One already uses one degree of freedom to estimate the sample mean.</p>
+<p>It turns out that <span class="math inline">\(\chi^2(n)\)</span> is a special case of the Gamma distribution.</p>
+</section>
+<section id="gamma-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="gamma-distribution">Gamma Distribution</h2>
+<p>The Gamma(a,b) distribution with shape <span class="math inline">\(a&gt;0\)</span> and rate <span class="math inline">\(b&gt;0\)</span> has pdf</p>
+<p><span class="math display">\[p(x | a,b) = \frac{b^a}{\Gamma(a)} x^{a-1}\exp(-bx) \mathbb 1(x \in \mathcal X)\]</span></p>
+<p>where <span class="math inline">\(\mathcal X = (0,\infty)\)</span>. Here, <span class="math inline">\(\Gamma(a) = \int_0^\infty t^{a-1}e^{-t} dt.\)</span>$</p>
+<p>The mean and variance of <span class="math inline">\(X \sim \Gamma(a,b)\)</span> are:</p>
+<p><span class="math display">\[EX = a/b\]</span></p>
+<p><span class="math display">\[\text{Var}(X) = a/b^2.\]</span></p>
+<p>Be careful that there is another parameterization of the Gamma distribution that is often used. (In fact, Casella &amp; Berger seem to prefer this parameterization.)</p>
+<p><span class="math inline">\(\text{Gamma}(a, \theta)\)</span> with shape <span class="math inline">\(a &gt; 0\)</span> and <em>scale</em> <span class="math inline">\(\theta &gt; 0\)</span> (where <span class="math inline">\(1/\theta\)</span> is the same as the rate parameter from before) has pdf:</p>
+<p><span class="math display">\[p(x | a, \theta) = \frac{(1/\theta)^a}{\Gamma(a)} x^{a-1} \exp(-x / \theta) \mathbb 1 (x \in \mathcal X)\]</span></p>
+<p>where <span class="math inline">\(\mathcal X = (0,\infty)\)</span>. When coding and reading books, make sure one knows which is being used. In what follows, unless otherwise specified, we’ll use the shape and rate parameterization.</p>
+<section id="gamma-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="gamma-relationships">Gamma relationships</h3>
+<ul>
+<li><span class="math inline">\(\text{Gamma}(1,\lambda) = \text{Exponential}(\lambda).\)</span></li>
+<li>If <span class="math inline">\(X \sim \text{Gamma}(a,b)\)</span> then <span class="math inline">\(cX \sim \text{Gamma}(a,b/c)\)</span>.</li>
+<li>If <span class="math inline">\(X_i \sim \text{Gamma}(a,b)\)</span> independently for <span class="math inline">\(i = 1,...,n\)</span>, then <span class="math display">\[\sum_{i=1}^n X_i \sim \text{Gamma}(a_1 + ... + a_n, b).\]</span></li>
+<li><span class="math inline">\(\text{Gamma}(n/2,1/2) = \chi^2(n)\)</span>, the <em>chi-squared distribution with <span class="math inline">\(n\)</span> degrees of freedom</em>.</li>
+</ul>
+</section>
+<section id="exponential-distribution-memorylessness-property" class="level3">
+<h3 class="anchored" data-anchor-id="exponential-distribution-memorylessness-property">Exponential Distribution: Memorylessness Property</h3>
+<p>The exponential distribution is a special case of the Gamma distribution.</p>
+<p>The exponential distribution has the special property that it is the only continuous distribution on <span class="math inline">\((0,\infty)\)</span> with this property.</p>
+<p>If <span class="math inline">\(X \sim \text{Exponential}(\lambda)\)</span>, then for all <span class="math inline">\(x, t &gt; 0\)</span>, <span class="math display">\[P(X &gt; t+x | X&gt;t) = P(X&gt;x).\]</span></p>
+<p>This is the same as the memorylessness property of the Geometric distribution, but in the continuous case.</p>
+<p>Memorylessness will come up again when we study stochastic processes, particularly Poisson processes.</p>
+</section>
+</section>
+<section id="the-log-normal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="the-log-normal-distribution">The Log-Normal Distribution</h2>
+<p>The <span class="math inline">\(\text{LogNormal}(\mu, \sigma^2)\)</span> distribution has pdf</p>
+<p><span class="math display">\[p(x | \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \frac{1}{x}
+\exp\left(-\frac{1}{2\sigma^2}(\log(x) - \mu)^2\right) \mathbb 1(x \in \mathcal X)\]</span> where <span class="math inline">\(\mathcal X = (0, \infty)\)</span>. The parameters are <span class="math inline">\(\mu \in \mathbb R\)</span> and <span class="math inline">\(\sigma^2 &gt; 0\)</span>.</p>
+<p>The mean and variance of <span class="math inline">\(X \sim \text{LogNormal}(\mu, \sigma^2)\)</span> are <span class="math display">\[EX = \exp(\mu + \frac{1}{2}\sigma^2)\]</span> <span class="math display">\[\text{Var}(X) = \exp(2\mu + 2\sigma^2) - \exp(2\mu + \sigma^2).\]</span></p>
+<section id="log-normal-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="log-normal-relationships">Log-Normal Relationships</h3>
+<p>If <span class="math inline">\(X \sim \text{LogNormal}(\mu, \sigma^2)\)</span>, then <span class="math inline">\(\log(X) \sim \mathcal N(\mu, \sigma^2)\)</span>.</p>
+<p>The log-normal is very useful for regression models of nonnegative continuous outcomes.</p>
+<p>In such applications, it is often preferable to parameterize in terms of <span class="math inline">\(\theta = \log(EX)\)</span> instead of <span class="math inline">\(\mu = E\log(X)\)</span>:</p>
+<p><span class="math display">\[\theta = \log(EX) = \mu + \frac{1}{2}\sigma^2.\]</span></p>
+<p>While the log-normal looks similar to the Gamma distribution, the log-normal tends to be better behaved for regression.</p>
+<p>Suppose <span class="math inline">\(X \sim \text{Gamma}(a,b)\)</span> and <span class="math inline">\(Y = \log(X)\)</span>. Then the pdf of <span class="math inline">\(Y\)</span> is asymmetric and has a factor of <span class="math inline">\(\exp(-be^y)\)</span>, which makes it strongly disfavor larger values of <span class="math inline">\(y\)</span>.</p>
+<p>Jensens Inequality tells us that if we have a convex function like <span class="math inline">\(g(X) = -\log (X)\)</span>, we have that <span class="math display">\[g(EX) \leq Eg(X).\]</span></p>
+</section>
+</section>
+<section id="beta-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="beta-distribution">Beta distribution</h2>
+<p>The <span class="math inline">\(\text{Beta}(a,b)\)</span> distribution with parameters <span class="math inline">\(a,b &gt; 0\)</span> has pdf</p>
+<p><span class="math display">\[p(x | a,b) = \frac{1}{B(a,b)}x^{a-1}(1-x)^{b-1} \mathbb 1(x \in \mathcal X),\]</span></p>
+<p>where <span class="math inline">\(\mathcal X = (0,1)\)</span> and <span class="math inline">\(B(a,b)\)</span> is the <em>beta function</em>,</p>
+<p><span class="math display">\[B(a,b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)},\]</span></p>
+<p>recalling that <span class="math inline">\(\Gamma(a) = \int_0^\infty t^{a-1}e^{-t} dt\)</span>$ is the gamma function.</p>
+<p>The mean and variance of <span class="math inline">\(X \sim \text{Beta}(a,b)\)</span> are:</p>
+<p><span class="math display">\[EX = \frac{a}{a+b}\]</span></p>
+<p><span class="math display">\[\text{Var}(X) = \frac{ab}{(a+b)^2(a+b+1)}.\]</span></p>
+<p><span class="math inline">\(\text{Beta}(a,b)\)</span> often arises as the distribution of a random variable that is the probability of some event.</p>
+<p>In Bayesian statistics, <span class="math inline">\(\text{Beta}(a,b)\)</span> is often used as a prior on probabilities <span class="math inline">\(q\)</span>, such as the parameters of Bernoulli, Binomial, Geometric, or Negative Binomial distributions.</p>
+<p>If <span class="math inline">\(X_1 \sim \text{Gamma}(a_1, b)\)</span> and <span class="math inline">\(X_2 \sim \text{Gamma}(a_2, b)\)</span> are independent then <span class="math inline">\(X_1 / (X_1 + X_2) \sim \text{Beta}(a_1, a_2)\)</span>.</p>
+</section>
+<section id="location-scale-families" class="level2">
+<h2 class="anchored" data-anchor-id="location-scale-families">Location-Scale Families</h2>
+<p>Location-scale families are formed by starting from a single standard pdf <span class="math inline">\(f(x)\)</span> and considering all pdfs of the form</p>
+<p><span class="math display">\[f(x | m, s) = \frac{1}{s} f\left( \frac{x - m}{s} \right)\]</span></p>
+<p>for <span class="math inline">\(m \in \mathbb{R}\)</span> and <span class="math inline">\(s &gt; 0\)</span>. The location is <span class="math inline">\(m\)</span> and the scale is <span class="math inline">\(s\)</span>.</p>
+<p>If <span class="math inline">\(X\)</span> has pdf <span class="math inline">\(f(x)\)</span> then <span class="math inline">\(sX + m\)</span> has pdf <span class="math inline">\(f(x | m, s)\)</span> by the change of variable formula.</p>
+<p>If <span class="math inline">\(g(x) = sx + m\)</span>, then <span class="math inline">\(g^{-1}(y) = \frac{y-m}{s}\)</span> and <span class="math inline">\(\frac{d}{dy}g^{-1} (y) = \frac{1}{s}.\)</span></p>
+<p><span class="math inline">\(\mathcal N(\mu, \sigma^2)\)</span> is a location scale family with standard pdf <span class="math display">\[f(x) = \mathcal N(x | 0,1) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{1}{2} x^2).\]</span></p>
+<p>If <span class="math inline">\(X \sim \mathcal N(0,1)\)</span> then <span class="math inline">\(\sigma X + \mu \sim \mathcal N(\mu, \sigma^2)\)</span>.</p>
+</section>
+<section id="laplace-distribution-aka-the-double-exponential" class="level2">
+<h2 class="anchored" data-anchor-id="laplace-distribution-aka-the-double-exponential">Laplace Distribution (aka the Double Exponential)</h2>
+<p>The <span class="math inline">\(\text{Laplace}(\mu, s)\)</span> distribution has pdf</p>
+<p><span class="math display">\[p(x | \mu, s) = \frac{1}{2s} \exp\left( -\frac{1}{s} |x-\mu|\right),\]</span></p>
+<p>for all <span class="math inline">\(x \in \mathbb R\)</span>. The location is <span class="math inline">\(\mu \in \mathbb{R}\)</span> and the scale is <span class="math inline">\(s &gt; 0\)</span>.</p>
+<div class="cell" data-layout-align="center" data-fig.asp="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,.<span class="dv">1</span>)), <span class="fu">aes</span>(x)) <span class="sc">+</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun=</span>\(x) { (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fu">abs</span>(x)) }) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"f(x)"</span>) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Laplace Distribution"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="week5_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The mean and variance of <span class="math inline">\(X \sim \text{Laplace}(\mu, s)\)</span> are</p>
+<p><span class="math display">\[EX = \mu\]</span></p>
+<p><span class="math display">\[\text{Var}(X) = 2s^2.\]</span></p>
+<p>If <span class="math inline">\(X \sim \text{Laplace}(0,1)\)</span> then <span class="math inline">\(sX+\mu \sim \text{Laplace}(\mu, s)\)</span>.</p>
+<p>The standard Laplace pdf is <span class="math inline">\(f(x) = \frac{1}{2} \exp(-|x|).\)</span></p>
+<p>The Laplace distribution has heavier tails than the Gaussian but still has finite moments of all order, that is <span class="math inline">\(E|X|^k &lt; \infty\)</span> for all <span class="math inline">\(k \in \{ 1, 2, ... \}\)</span>.</p>
+<p>It is called the “double exponential” because the Laplace(0,1) pdf is proportional to an Exponential(1) pdf reflected around 0.</p>
+<p>If <span class="math inline">\(X \sim \text{Laplace}(\mu, s)\)</span> then <span class="math inline">\(\left \lvert \frac{X-\mu}{s}\right\rvert \sim \text{Exponential}(1)\)</span>.</p>
+</section>
+<section id="cauchy-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="cauchy-distribution">Cauchy Distribution</h2>
+<p>The Cauchy(m,s) distribution has pdf</p>
+<p><span class="math display">\[p(x | m,s) = \frac{1}{\pi s\left( 1 + \left( \frac{x-m}{s} \right)^2 \right)}\]</span></p>
+<p>for all <span class="math inline">\(x \in \mathbb{R}\)</span>. The location is <span class="math inline">\(m \in \mathbb{R}\)</span> and the scale is <span class="math inline">\(s &gt; 0\)</span>.</p>
+<p>No moments of the Cauchy distribution are well-defined.</p>
+<div class="cooltip">
+<p>Why is it that the tails of the Cauchy distribution are so much larger than the normal distribution?</p>
+<p>The density of the normal distribution are decaying like <span class="math inline">\(\mathcal O(e^{-x^2})\)</span>, whereas the Cauchy distributions tails are decaying like <span class="math inline">\(\mathcal O(\frac{1}{x^2})\)</span>. Even worse is the log-Gamma distribution which decays like <span class="math inline">\(e^{-e^x}\)</span>.</p>
+</div>
+<p>If <span class="math inline">\(X \sim \text{Cauchy}(0,1)\)</span> then $sX + m (m,s).</p>
+<p>Even though the Cauchy distribution looks roughly similar to a Gaussian, the Cauchy distributions have much heavier tails than Gaussian or Laplace distributions.</p>
+<p>What happens if you try to estimate <span class="math inline">\(m\)</span> via the sample mean?</p>
+<p>If <span class="math inline">\(X_1,...,X_n \sim \text{Cauchy}(m,s)\)</span> independently, then</p>
+<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n X_i \sim \text{Cauchy}(m,s).\]</span></p>
+<p>If <span class="math inline">\(X,Y \sim \mathcal N(0,1)\)</span> independently, then <span class="math inline">\(X/Y \sim \text{Cauchy}(0,1)\)</span>.</p>
+</section>
+<section id="exponential-families" class="level2">
+<h2 class="anchored" data-anchor-id="exponential-families">Exponential Families</h2>
+<p><span class="vocab">Exponential families</span> are a unifying generalization of many common distributions and possess many nice properties.</p>
+<p>Examples include:</p>
+<ul>
+<li>Bernoulli, Binomial, Poisson, Exponential, Beta, Gamma, Inverse-Gamma, Normal (Gaussian), Multivariate Gaussian, Log-Normal, Inverse Gaussian, Multinomial, Dirichlet</li>
+</ul>
+<p>Non-examples include:</p>
+<ul>
+<li>Uniform, Cauchy, Students’ t-Distribution</li>
+</ul>
+<p>A one parameter exponential family is a collection of distributions indexed by <span class="math inline">\(\theta \in \Theta\)</span> with pdfs/pmfs of the form</p>
+<p><span class="math display">\[p(x \mid \theta) = \exp (\phi(\theta) t(x) - \kappa(\theta)) h(x)\]</span></p>
+<p>for some real-valued functions <span class="math inline">\(\phi(\theta), t(x), \kappa(\theta),\)</span> and <span class="math inline">\(h(x)\)</span>.</p>
+<p><span class="math inline">\(h(x)\)</span> has to be non-negative.</p>
+<p><span class="math inline">\(k(\theta)\)</span> is a log-normalization constant: since <span class="math inline">\(\int p(x | \theta) dx = 1\)</span>,</p>
+<p><span class="math display">\[\kappa(\theta) = \log \int \exp (\phi(\theta) t(x)) h(x) dx.\]</span></p>
+<p><span class="math inline">\(t(x)\)</span> is called the <span class="vocab">sufficient statistic.</span></p>
+<section id="examples-of-one-parameter-exponential-families" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-one-parameter-exponential-families">Examples of One-parameter Exponential Families</h3>
+<section id="the-exponential-distribution-family" class="level4">
+<h4 class="anchored" data-anchor-id="the-exponential-distribution-family">The Exponential Distribution Family</h4>
+<p>The simplest example is the <span class="math inline">\(\text{Exponential}(\theta)\)</span> distribution family:</p>
+<p>since the pdfs are:</p>
+<p><span class="math display">\[p(x \mid \theta) = \theta e^{-\theta sx} \mathbb 1 (x &gt; 0) =
+\exp (\phi(\theta) t(x) - \kappa(\theta)) h(x),\]</span> for <span class="math inline">\(\theta \in \Theta = (0,\infty)\)</span>, where <span class="math inline">\(t(x)= -x\)</span>, <span class="math inline">\(\phi(\theta) = \theta\)</span>, <span class="math inline">\(\kappa(\theta) = -\log(\theta)\)</span>, and <span class="math inline">\(h(x) = \mathbb 1 (x &gt; 0)\)</span>.</p>
+<p>We could just as easily move the <span class="math inline">\(-\)</span> sign on <span class="math inline">\(t(x) = -x\)</span> to <span class="math inline">\(\phi(\theta)\)</span>, so there’s not necessarily a unique choice of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(t\)</span>. There are multiple equivalent formulations. Sometimes people use different notation, such as <span class="math display">\[h(x) c(\theta) e^{\phi(\theta)t(x)},\]</span></p>
+<p>where <span class="math inline">\(c(\theta) = e^{-\kappa(\theta)}\)</span>.</p>
+<p>In this case we’re just defining <span class="math inline">\(t(x)\)</span> to be the sufficient statistic, but there’s another sense in which a sufficient statistic is information that tells one all the information about a parameter in question — these turn out to be equivalent.</p>
+</section>
+<section id="the-poisson-distribution-family" class="level4">
+<h4 class="anchored" data-anchor-id="the-poisson-distribution-family">The Poisson Distribution Family</h4>
+<p>The <span class="math inline">\(\text{Poisson}(\theta)\)</span> distributions form an exponential family since the pmfs are</p>
+<p><span class="math display">\[p(x \mid \theta) = \frac{\theta^x e^{-\theta}}{x!} \mathbb 1 \left(x \in \mathcal X\right) = \exp (x \log (\theta) - \theta) \frac{1}{x!} \mathbb 1\left(x \in \mathcal X\right) = \exp (\phi(\theta) t(x) - \kappa(\theta)) h(x)\]</span></p>
+<p>for $= $, where <span class="math inline">\(\mathcal X = \{0,1,2,...\}\)</span>, <span class="math inline">\(t(x) = x\)</span>, <span class="math inline">\(\phi(\theta) = \log(\theta)\)</span>, <span class="math inline">\(\kappa(\theta) = \theta\)</span>, and <span class="math inline">\(h(x) = \frac{1}{x!} \mathbb 1(x \in \mathcal X)\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="multi-parameter-exponential-families" class="level2">
+<h2 class="anchored" data-anchor-id="multi-parameter-exponential-families">Multi-Parameter Exponential Families</h2>
+<p>An exponential family is a collection of distributions indexed by <span class="math inline">\(\theta \in \Theta\)</span> with pdfs/pmfs of the form</p>
+<p>$p(x ) = ( $</p>
+<section id="gamma-example" class="level3">
+<h3 class="anchored" data-anchor-id="gamma-example">Gamma Example</h3>
+<p>The <span class="math inline">\(\text{Gamma}(a,b)\)</span> distributions, with <span class="math inline">\(a, b &gt; 0\)</span> are an exponential family:</p>
+<p><span class="math display">\[p(x \mid \theta) = \exp ( \phi(\theta)^T t(x) - \kappa(\theta)) h(x),\]</span></p>
+<p>for some <em>vector-valued</em> functions</p>
+<p><span class="math display">\[\phi(\theta) = \begin{pmatrix} \phi_1(x) \\ \vdots \\ \phi_k(\theta) \end{pmatrix} \quad \text{ and } \quad
+\text{(}x) = \begin{pmatrix} t_1(x) \\ \vdots \\ t_k(x) \end{pmatrix}\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+\text{Gamma}(x \mid a,b) &amp; = \frac{b^a}{\Gamma(a)}x^{a-1} \exp (-bx) \mathbb 1(x &gt; 0)  \\
+&amp; = \exp(\phi(\theta)^Tt(x) - \kappa(\theta)) h(x)
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(\theta = (a,b)^T\)</span>, <span class="math inline">\(\phi(\theta) = (-b, a-1)^T\)</span>, <span class="math inline">\(t(x) = (x,\log x)^T\)</span>, and <span class="math inline">\(h(x) = \mathbb 1(x &gt; 0)\)</span>, and since <span class="math inline">\(\kappa(\theta)\)</span> is always the normalizing constant, that’s where the <span class="math inline">\(\Gamma(a)\)</span> term goes.</p>
+<p>So we’d have to get that <span class="math display">\[\kappa(\theta) = -a \log b + \log \Gamma(a),\]</span> <span class="math display">\[\text{since } e^{-\kappa(\theta)} = \frac{b^a}{\Gamma(a)}.\]</span></p>
+</section>
+<section id="exponential-families-special-properties" class="level3">
+<h3 class="anchored" data-anchor-id="exponential-families-special-properties">Exponential Families: Special Properties</h3>
+<p>The entropy of a random variable <span class="math inline">\(X\)</span> is</p>
+<p><span class="math display">\[H(X) = -\sum_{x \in \mathcal X} p(x) \log(p(x)) \quad \text{ if $X$ is discrete},\]</span> <span class="math display">\[h(X) = -\int p(x) \log (p(x)) dx \quad \text{ if $X$ is continuous.}\]</span></p>
+<p>Exponential families have maximum entropy subject to a linear constraint. More precisely, among all distributions satisfying the constraint that <span class="math inline">\(\mathbb{E}t(X) = \tau\)</span> for some <span class="math inline">\(\tau \in \mathbb{R}^k\)</span>, an exponential family distribution with sufficient statistic <span class="math inline">\(t(x)\)</span> has maximum entropy.</p>
+<div class="cooltip">
+<p>Can we use this framework to show how the discrete uniform distribution is the maximum entropy distribution on a discrete set?</p>
+<p>Yes — in that case, the idea is that there is <em>no</em> constraint <span class="math inline">\(t(x)\)</span>, or <span class="math inline">\(t(x)\)</span> could be said to be a zero-dimensional vector.</p>
+</div>
+<p><br></p>
+<div class="cooltip">
+<p>One might be interested in the fact that entropy represents the average minimum number of bits needed to encode a message.</p>
+<p><a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" class="uri">https://en.wikipedia.org/wiki/Entropy_(information_theory)</a></p>
+<p><a href="https://machinelearningmastery.com/what-is-information-entropy/" class="uri">https://machinelearningmastery.com/what-is-information-entropy/</a></p>
+<p><a href="https://math.stackexchange.com/questions/2299145/why-does-the-average-number-of-questions-bits-needed-for-storage-in-shannons-en" class="uri">https://math.stackexchange.com/questions/2299145/why-does-the-average-number-of-questions-bits-needed-for-storage-in-shannons-en</a></p>
+</div>
+<p>The rough interpretation is that if all you know is that <span class="math inline">\(\mathbb E t(X) = \tau\)</span> then an exponential family distribution makes the fewest assumptions about the rest of that distribution.</p>
+<p>In Bayesian statistics, exponential families are (incredibly) useful because they admit conjugate priors, facilitating posterior computation.</p>
+</section>
+</section>
+</section>
+<section id="multiple-random-variables" class="level1">
+<h1>Multiple Random Variables</h1>
+<section id="random-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="random-vectors">Random Vectors</h2>
+<p>It’s often important to consider multiple random variables at a time, like clinical measurements on height, weight, age, sex, blood pressure, etc. on a set of subjects.</p>
+<p>A <span class="vocab">random vector</span> is a function from the sample space to a <span class="math inline">\(d\)</span>-dimensional real space.</p>
+<p>Sometimes we denote a random vector by a single letter like <span class="math inline">\(X\)</span>, like <span class="math display">\[X(s) = (X_1(s), ..., X_d(s)) \in \mathbb{R}^d.\]</span></p>
+<p>Other times we’ll use different letters for each entry, like <span class="math inline">\((X,Y,Z)\)</span> that takes values <span class="math inline">\((X(s), Y(s), Z(s)) \in \mathbb{R}^3\)</span>.</p>
+<p>We’ll return now to the Monty Hall problem to illustrate multiple random variables.</p>
+<p>Let <span class="math inline">\(X\)</span> be the door that the car is behind, and <span class="math inline">\(Y\)</span> is the door that Monty opens.</p>
+<p>The pair <span class="math inline">\((X,Y)\)</span> is a random vector taking values in <span class="math inline">\(\mathbb{R}^2\)</span> (or more specifically <span class="math inline">\(\{1,2,3\} \times \{1,2,3\}\)</span>).</p>
+<p>Since we chose door #1 at first, our assumptions imply that</p>
+<p><span class="math display">\[X \sim \text{Uniform}(\{1,2,3\})\]</span> <span class="math display">\[P(Y = 2 | X = 1) = P(Y = 3 | X= 1) = 1/2\]</span> <span class="math display">\[P(Y = 3 | X = 2) = 1\]</span> <span class="math display">\[P(Y = 2 | X = 3) = 1\]</span></p>
+<p>Recall that we wrote down the joint distribution in a table:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Monty Opens Door #1</th>
+<th>Open #2</th>
+<th>Open #3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Car is behind #1</td>
+<td>0</td>
+<td>1/6</td>
+<td>1/6</td>
+</tr>
+<tr class="even">
+<td>… behind #2</td>
+<td>0</td>
+<td>0</td>
+<td>1/3</td>
+</tr>
+<tr class="odd">
+<td>… behind #3</td>
+<td>0</td>
+<td>1/3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>This table is implied by the assumptions written down above.</p>
+<p>The probability of the event that <span class="math inline">\(X = x, Y = y\)</span> is denoted <span class="math inline">\(P(X = x, Y = y)\)</span>.</p>
+</section>
+<section id="joint-probability-mass-functions" class="level2">
+<h2 class="anchored" data-anchor-id="joint-probability-mass-functions">Joint Probability Mass Functions</h2>
+<p>A random vector is discrete if its range <span class="math inline">\(X(S) \subset \mathbb{R}^d\)</span> is countable.</p>
+<p>The joint pmf of a discrete random vector <span class="math inline">\(X = (X_1, ..., X_d)\)</span> is</p>
+<p><span class="math display">\[f_X(x) = f_X(x_1, ..., x_d) = P(X_1 = x_1, ..., X_d = x_d)\]</span></p>
+<p>for <span class="math inline">\(x = (x_1, ..., x_d) \in \mathbb{R}^d\)</span>.</p>
+<p>As before, it’s common to drop subscripts and or use <span class="math inline">\(p\)</span> instead of <span class="math inline">\(f\)</span>, as in:</p>
+<p><span class="math display">\[p(x,y) = p_{X,Y}(x,y) = f(x,y) = f_{X,Y}(x,y).\]</span></p>
+<p>If <span class="math inline">\(X \in \mathbb{R}^d\)</span> is a discrete random vector with range <span class="math inline">\(\mathcal X\)</span>, then</p>
+<p><span class="math display">\[P(X \in A) = \sum_{x \in \mathcal X \cap A} p(x)\]</span></p>
+<p><span class="math display">\[E h(X) = \sum_{x \in \mathcal X} h(x) p(x).\]</span></p>
+<p>Here, though, <span class="math inline">\(x = (x_1, ..., x_d)\)</span>, so writing out the formulas more explicitly, <span class="math display">\[P((X_1, ..., X_d) \in A) = \sum_{(x_1, ..., x_d) \in \mathcal X \cap A} p(x_1, ..., x_d),\]</span> <span class="math display">\[E h(X_1, ..., X_d) = \sum_{(x_1, ..., x_d) \in \mathcal X} h(x_1, ..., x_d)p(x_1, ..., x_d).\]</span></p>
+<section id="expected-winnings-in-the-monty-hall-problem" class="level3">
+<h3 class="anchored" data-anchor-id="expected-winnings-in-the-monty-hall-problem">Expected winnings in the Monty Hall problem</h3>
+<p>Say the car is worth $30,000 and a goat is worth $150.</p>
+<p>If you stick with door #1, then your winnings are</p>
+<p><span class="math display">\[h(x,y) = 30000 \times \mathbb 1(x = 1) + 150 \times \mathbb 1(x \neq 1),\]</span></p>
+<p>so your expected winnings are</p>
+<p><span class="math display">\[\mathbb{E}h(X,Y) = 30000 \times \frac{1}{3} + 150 \times \frac{2}{3} = 10100.\]</span></p>
+<p>If you always switch doors, then your winnings are</p>
+<p><span class="math display">\[h(x,y) = 30000 \times \mathbb 1 (x \neq 1) + 150 \times \mathbb 1(x=1),\]</span></p>
+<p>so your expected winnings are</p>
+<p><span class="math display">\[\mathbb{E}h(X,Y) = 30000 \times \frac{2}{3} + 150 \times \frac{1}{3} = 20050.\]</span></p>
+<p>It’s interesting to note that these expected values only depend on what door the car is behind (<span class="math inline">\(X\)</span>), not what Monty does (<span class="math inline">\(Y\)</span>).</p>
+<div class="hottip">
+<p>One might say we’ve “conditioned” on our strategy in these two calculations. One could introduce another random variable <span class="math inline">\(Z\)</span> to indicate our strategic choice, which we would be conditioning on.</p>
+</div>
+<p><br></p>
+<div class="cooltip">
+<p>The expected value of an indicator with respect to a random variable is always the probability of that event.</p>
+</div>
+</section>
+</section>
+<section id="marginal-probability-mass-functions" class="level2">
+<h2 class="anchored" data-anchor-id="marginal-probability-mass-functions">Marginal Probability Mass Functions</h2>
+<p>For a discrete random vector <span class="math inline">\((X_1, ..., X_d)\)</span>, the marginal pmf of <span class="math inline">\(X_i\)</span>, denoted <span class="math inline">\(f_{X_i}(x_i)\)</span> or <span class="math inline">\(p(x_i)\)</span>, is just the pmf of the random variable <span class="math inline">\(X_i\)</span>.</p>
+<p>That is <span class="math display">\[f_{X_i}(x_i) = p(x_i) = P(X_i = x_i).\]</span></p>
+<p>We call it a “marginal pmf” in the context of a joint distribution on multiple variables.</p>
+<p>The marginal pmfs can be represented in terms of the joint pmf:</p>
+<p><span class="math display">\[p(x) = \sum_{y \in \mathcal Y} p(x,y)\]</span></p>
+<p><span class="math display">\[p(y) = \sum_{x \in \mathcal X} p(x,y)\]</span></p>
+<p>where <span class="math inline">\(\mathcal X\)</span> and <span class="math inline">\(\mathcal Y\)</span> are the ranges of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, respectively.</p>
+<p>In general for a random vector, <span class="math inline">\((X_1, ..., X_d)\)</span>,</p>
+<p><span class="math display">\[p(x_i) = \sum_{x_{-i}} p(x_1, ..., x_d)\]</span></p>
+<p>where the sum is over all values of</p>
+<p><span class="math display">\[x_{-i} = (x_1, ..., x_{i-1}, x_{i+1}, ..., x_d).\]</span></p>
+<p>Returning to the Monty Hall probability table:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Monty Opens Door #1</th>
+<th>Open #2</th>
+<th>Open #3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Car is behind #1</td>
+<td>0</td>
+<td>1/6</td>
+<td>1/6</td>
+</tr>
+<tr class="even">
+<td>… behind #2</td>
+<td>0</td>
+<td>0</td>
+<td>1/3</td>
+</tr>
+<tr class="odd">
+<td>… behind #3</td>
+<td>0</td>
+<td>1/3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>We can read off the marginal pmfs from the table by summing across rows or columns. This is why they’re called <em>marginal</em> pmfs. And the joint probability for specific combinations of <span class="math inline">\((X=x, Y=y)\)</span> are the individual cell entries.</p>
+</section>
+<section id="conditional-probability-mass-functions" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-probability-mass-functions">Conditional Probability Mass Functions</h2>
+<p>Consider a discrete random vector <span class="math inline">\((X,Y)\)</span>. For any <span class="math inline">\(y\)</span> such that <span class="math inline">\(p(y) &gt; 0\)</span>, the conditional pmf of <span class="math inline">\(X\)</span> given <span class="math inline">\(Y\)</span> is <span class="math display">\[f_{X|Y}(x \mid y) = p(x \mid y) = P(X = x \mid Y = y) = \frac{p(x,y)}{p(y)}.\]</span></p>
+<p>Likewise for any <span class="math inline">\(x\)</span> such that <span class="math inline">\(p(x) &gt; 0\)</span>,</p>
+<p><span class="math display">\[f_{Y|X}(y \mid x) = P(Y = y \mid X = x) = \frac{p(x,y)}{p(x)}.\]</span></p>
+<p>For a discrete random vector <span class="math inline">\((X_1, ..., X_d),\)</span></p>
+<p><span class="math display">\[p(x_i | x_{-i}) = \frac{p(x_1, ..., x_d)}{p(x_{-i})}.\]</span></p>
+<p>The conditional pmf can be seen in a tabular fashion if we take the table and (un-) normalize it so that each row sums to 1 if we’re interested in conditioning on the row-variables, and vice-versa for the columns.</p>
+<p>In other words, the conditional pmf <span class="math inline">\(p(y|x) = p(x,y) / p(x)\)</span> can be seen as</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Monty Opens Door #1 <br>(<span class="math inline">\(Y = 1 | X=x\)</span>)</th>
+<th>Open #2 <br>(<span class="math inline">\(Y = 2 | X = x\)</span>)</th>
+<th>Open #3 <br>(<span class="math inline">\(Y = 3 | X = x\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Car is behind #1 <br>(<span class="math inline">\(X = 1\)</span>)</td>
+<td>0</td>
+<td>1/2</td>
+<td>1/2</td>
+</tr>
+<tr class="even">
+<td>… behind #2 <br>(<span class="math inline">\(X = 2\)</span>)</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>… behind #3 <br>(<span class="math inline">\(X = 3\)</span>)</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Monty Opens Door #1 <br>(<span class="math inline">\(Y = 1\)</span>)</th>
+<th>Open #2 <br>(<span class="math inline">\(Y = 2\)</span>)</th>
+<th>Open #3 <br>(<span class="math inline">\(Y = 3\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Car is behind #1 <br>(<span class="math inline">\(X = 1 | Y = y\)</span>)</td>
+<td>undefined</td>
+<td>1/3</td>
+<td>1/3</td>
+</tr>
+<tr class="even">
+<td>… behind #2 <br>(<span class="math inline">\(X = 2 | Y = y\)</span>)</td>
+<td>undefined</td>
+<td>0</td>
+<td>2/3</td>
+</tr>
+<tr class="odd">
+<td>… behind #3 <br>(<span class="math inline">\(X = 3 | Y = y\)</span>)</td>
+<td>undefined</td>
+<td>2/3</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="joint-marginal-and-conditional-probability-density-functions" class="level2">
+<h2 class="anchored" data-anchor-id="joint-marginal-and-conditional-probability-density-functions">Joint, marginal, and conditional probability density functions</h2>
+<p>Basically all the math translates over directly, as long as one isn’t worried about measure-theoretic questions.</p>
+<p>Suppose <span class="math inline">\((X,Y)\)</span> is a bivariate random vector and <span class="math inline">\(f(x,y) \geq 0\)</span> is a function such that for all measurable <span class="math inline">\(A \subset \mathbb{R}^2\)</span>,</p>
+<p><span class="math display">\[P((X,Y) \in A) = \int_{-\infty}^\infty \int_{-\infty}^\infty
+f(x,y) \mathbb 1((x,y) \in A) \text{d}x \text{d}y.\]</span></p>
+<p>Then <span class="math inline">\(f(x,y)\)</span> is the <em>joint pdf</em> of <span class="math inline">\((X,Y)\)</span>.</p>
+<p>More generally, <span class="math inline">\((X_1, ..., X_d)\)</span> has joint pdf <span class="math inline">\(f(x_1, ..., x_d)\)</span> if <span class="math display">\[P((X_1, ..., X_d) \in A) = \int_A f(x_1, ..., x_d) \text{d}x_1 \cdots \text{d}x_d\]</span></p>
+<p>for all measurable <span class="math inline">\(A \subset \mathbb{R}^d\)</span>. Here <span class="math inline">\(\int_A\)</span> denotes integration over the set <span class="math inline">\(A\)</span>.</p>
+<p>If such a function <span class="math inline">\(f\)</span> exists, then the random vector is continuous.</p>
+<p>For a random vector <span class="math inline">\((X_1, ..., X_d)\)</span> with pdf <span class="math inline">\(p(x_1, ..., x_d)\)</span>,</p>
+<p><span class="math display">\[\mathbb{E}h(X_1, ..., X_d) = \int h(x_1, ..., x_d) p(x_1, ..., x_d) \text{d}x_1 \cdots \text{d}x_d.\]</span></p>
+<p>Usually we write this more compactly as</p>
+<p><span class="math display">\[\mathbb{E}h(X) = \int h(x) p(x) \text{d}x,\]</span></p>
+<p>where <span class="math inline">\(X = (X_1, ..., X_d)\)</span> and <span class="math inline">\(x = (x_1, ... x_d)\)</span>.</p>
+<p>If <span class="math inline">\((X,Y)\)</span> is continuous, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are continuous random variables and their marginal pdfs are just their pdfs as random variables.</p>
+<p>Marginal pdfs can be expressed in terms of the joint pdf:</p>
+<p><span class="math display">\[f_X(x) = p(x) = \int p(x,y) \text{d}y\]</span> <span class="math display">\[f_Y(y) = p(y) = \int p(x,y) \text{d}x\]</span></p>
+<p>For <span class="math inline">\(y\)</span> such that <span class="math inline">\(p(y) &gt; 0\)</span>, the conditional pdf of <span class="math inline">\(X\)</span> given <span class="math inline">\(Y\)</span> is defined as</p>
+<p><span class="math display">\[f_{X|Y}(x|y) = p(x|y) = \frac{p(x,y)}{p(y)}.\]</span></p>
+<p>Likewise, for <span class="math inline">\(x\)</span> such that <span class="math inline">\(p(x) &gt; 0\)</span>,</p>
+<p><span class="math display">\[f_{Y|X}(y|x) = p(y|x) = \frac{p(x,y)}{p(x)}.\]</span></p>
+<div class="cooltip">
+<p>There is something really subtle going on here: we’re not quite “conditioning” on the probability of the conditioned-variable taking on a particular value, since we’re using the <em>density</em> of the random variable in the denominator.</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../week4/week4.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Week 4</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

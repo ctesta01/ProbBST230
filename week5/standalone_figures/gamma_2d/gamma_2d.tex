@@ -1,0 +1,15 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    domain=0:15,
+    samples=100,
+    xlabel={$x$},
+    ylabel={$f(x)$},
+    title={Gamma PDF}
+]
+\addplot[blue, thick] {x^2*exp(-x)/2}; % for k=3, theta=1
+\end{axis}
+\end{tikzpicture}
+\end{document}
