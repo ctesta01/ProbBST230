@@ -3,28 +3,6 @@ title: Week 6
 ---
 
 ::: content-hidden
-\$\$
-
-```{=tex}
-\newcommand{\E}[0]{\mathbb{E}}
-\newcommand{\R}[0]{\mathbb{R}}
-\newcommand{\t}[1]{\text{#1}}
-```
-\% 1 create conditionally independent symbol:
-
-```{=tex}
-\newcommand\independent{\perp\!\!\!\perp}
-\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
-```
-```{=tex}
-\newcommand{\Var}[0]{\text{Var}}
-\newcommand{\Cov}[0]{\text{Cov}}
-\newcommand{\e}[0]{\epsilon}
-```
-\newcommand{\argmax}[0]{\text{argmax}}
-
-\$\$
-
 $$
 \newcommand{\E}[0]{\mathbb{E}}
 \newcommand{\R}[0]{\mathbb{R}}
@@ -337,7 +315,7 @@ In particular,
 
   1. $\E cg(X) | y) = c \E(g(X) | y)$ for any $c \in \R$. 
   2. $\E(g(X) + h(X) | y) = \E(g(X) | y) + \E(h(X)|y)$
-  3. $g(x) \leq h(x) \to $\E(g(X) | y) \leq \E(h(X)|y)$. 
+  3. $g(x) \leq h(x) \to \E(g(X) | y) \leq \E(h(X)|y)$. 
 
 ### Conditional expectations as random variables
 
@@ -352,4 +330,216 @@ $$
 \E(g(Y) X | Y) = g(Y) \E(X|Y)
 $$
 
+The basic idea here is that if we were to condition on a particular 
+value of $Y$, then $g(Y)$ would just be constant on the left-hand-side of the 
+expectation. 
 
+### Law of Total Expectation & Law of Total Variance
+
+Conditional expectations follow two very useful properties: 
+
+The <span class='vocab'>law of total expectation</span>
+
+$$
+\E X = \E(\E(X \mid Y))$$
+
+And the <span class='vocab'>law of total variance</span>:
+
+$$
+\Var X = \E ( \Var X \mid Y ) + \Var( \E (X \mid Y ))$$
+
+:::{.cooltip}
+Exercise: Derive these two properties. 
+
+Note that 
+$$ \E (\E(X \mid Y)) = \E \left(\sum x f_{X|Y} (x|y)\right)
+$$
+
+$$ \E (\E(X \mid Y)) = \sum_{y \in \mathcal Y} \left(\sum_{x \in \mathcal X} x f_{X|Y} (x|y)\right) \cdot P(Y = y)
+$$
+
+If I recall correctly, $P(X|Y) = P(X,Y)/P(Y)$.
+
+$$ \E (\E(X \mid Y)) = \sum_{y \in \mathcal Y} \left(\sum_{x \in \mathcal X} x P(X = x, Y = y)\right) 
+$$
+
+Interchange ordering of summation:
+
+$$ \E (\E(X \mid Y)) = \sum_{x \in \mathcal X} \left(\sum_{y \in \mathcal Y} x P(X = x, Y = y)\right) 
+$$
+
+Pull out the $x$ from the inner sum: 
+
+$$ \E (\E(X \mid Y)) = \sum_{x \in \mathcal X} x \left(\sum_{y \in \mathcal Y} P(X = x, Y = y)\right) 
+$$
+
+$$ \E (\E(X \mid Y)) = \sum_{x \in \mathcal X} \left( x P(X = x) \right) 
+$$
+
+$$ \E (\E(X \mid Y)) = \E X 
+$$
+
+
+<hr />
+
+Is there a way to apply 
+
+$$
+\Var X = \E X^2 - (\E X)^2 \quad ?
+$$
+
+$$
+\Var X = \E X^2 - (\E (\E (X \mid Y)))^2
+$$
+
+:::
+
+<br>
+
+:::{.chilltip}
+Answers. Recall our definition:
+
+$$ 
+\E (X \mid Y) = h(Y) \quad \text{where} \quad h(y) = \E(X | Y = y).
+$$ 
+
+Insert them into the problem stem:
+
+$$
+\begin{aligned} 
+\E ( \E (X \mid Y)) & = \E h(Y) = \sum_{y} h(y) p(y)  \\ 
+& = \sum_y \E (X \mid Y = y) p(y) = \sum_y \sum_x x p(x \mid y) p(y) \\ 
+& = \sum_y \sum_x x p(x,y) = \sum_x x \sum_y p(x,y) \\ 
+& = \sum_x x p(x) = \E X.
+\end{aligned}
+$$
+
+Aside: How would one know what the expectation is with respect to in the outer expectations? The expectation is always with respect to whatever is random in the argument. 
+
+Aside \#2: Isn't the $h(Y)$ notation a little bit confusing? What's the intuition? Well, one can call $h(Y)$ the "average value of $X$ at a given level of $Y$". 
+
+Maybe a more intuitive way to look at it is to think about the usual setting where we're regressing $Y$ on $X$.
+
+![](standalone_figures/conditional_expectation/conditional_expectation.svg){fig-alt="conditional expectations given levels of X" fig-align="center"}
+
+:::
+
+# Review for the Midterm
+
+### Sigma Algebras
+
+$\mathcal B$ is a sigma algebra if: 
+
+  1. $\varnothing \in \mathcal B$ (inclusion of the empty set)
+  2. if $A \in \mathcal B \longrightarrow A^c \in \mathcal B$ (closure under complements)
+  3. if $A_1, A_2, ... \in \mathcal B \longrightarrow \cup_{i=1}^\infty A_i \in \mathcal B$. 
+
+Consider the Borel sigma algebra: 
+
+If $(a,b) \in \mathcal B$, then $(a,b)^c = (-\infty, a] \cup [b, \infty) \in \mathcal B$. 
+
+Similarly, we could write $\cup_{n=1}^\infty (a, n) = (a, \infty) \in \mathcal B$. Similarly, we could define the union on all of the complements of these sets to see that $(-\infty, a] \in \mathcal B$. 
+
+Every one of these sets is mapped to some value in $\R$. 
+
+### Inverse Probability Transform 
+
+Let $F$ be any cdf. If $U \sim \text{Uniform}(0,1)$, then $F^{-1}(U)$ is a random variable with cdf $F$. 
+
+The two transforms can be summarized as follows. Suppose $U \sim \text{Uniform}(0,1)$ and $X$ is a random variable with cdf $F$. Then
+
+  1. $F^{-1}(U) \stackrel{d} = X$
+  2. $F(X) \stackrel{d} = U$ if $F$ is continuous, but not otherwise. 
+
+Consider Homework \#3 question 1. 
+
+Suppose $X$ is a random variable with pdf $f(x) = bx^a \mathbb 1(0 < x < c)$ where $a > 0, b > 0$ and $c > 0$. 
+
+Thus 
+
+$$
+\begin{aligned}
+u = F(x) & = \int_{-\infty}^x f(t) dt = \int_0^x b t^a \mathbb 1 (t < c) dt \\ 
+& = b \frac{t^{a-1}}{a-1} \biggr \lvert_0^x = \frac{b x^{a-1}}{a-1}.
+\end{aligned}
+$$
+
+So $F^{-1}(u) = \left( \frac{u(a-1)}{b} \right)^{\frac{1}{a-1}}$. 
+
+And $F^{-1}(U) \stackrel d = X$ where $X$ has pdf $f(x)$. 
+
+Do note that we can use the inverse probability transform to map to discrete random variables from the uniform distribution, but the probability integral transform (direction 2) doesn't work because $F$ won't be continuous. 
+
+:::{.chilltip}
+Consider
+$$X \sim \t{Bernoulli}(1/2)$$
+
+![](standalone_figures/bernoulli_cdf/bernoulli_cdf.svg)
+
+The generalized inverse is given as 
+$$F^{-1}(u) = \mathbb 1(u > 1/2)$$
+
+$$
+F^{-1}(U) \sim \t{Bernoulli}(1/2)
+$$
+
+:::
+
+### Location Scale Families 
+
+Generally the idea is that we start out with a standard pdf $f(x)$ and we look at all the things we can get by scaling and shifting. 
+
+<!--
+Let's look at the Laplace pdf. 
+
+$$
+p(x \mid \mu, s) = \frac{1}{2s} \exp \left( - \frac{1}{s} \lvert x - \mu \rvert \right)
+$$
+
+for all $x \in \R$. 
+--> 
+
+Recall and apply the probability transform formula: 
+
+$$Y = sX + m \quad m \in \R, s > 0
+$$ 
+
+$$f_Y(y) = f_X(g^{-1}(y)) \lvert \frac{d}{dy} g^{-1}(y) \rvert$$
+
+$$
+y = g(x) = sx + m
+$$
+
+$$g^{-1}(y) = \frac{y-m}{s}
+$$
+
+$$
+\frac{d}{dy} g^{-1}(y) = 1/s
+$$
+
+So 
+$$
+f_Y(y) = \frac{1}{s} f(\frac{y-m}{s}).$$
+
+Let's do an example with the normal distribution. 
+
+The standard normal distribution is given as 
+$$
+f(x) = \mathcal N(x \mid 0, 1) = \frac{1}{\sqrt{2\pi}} \exp \left( - \frac{1}{2} x^2 \right) 
+$$
+
+$$
+Y = sX + m \sim \mathcal N(m, s^2)
+$$
+
+What's an example of something that is that is not a location-scale family? One could say the exponential distributions are not location-scale family because they do not allow for variation in the $m$ parameter. 
+
+Recall they're defined 
+$$ 
+\lambda e^{-\lambda x} \mathbb 1(x > 0)
+$$
+
+### Positive and Negative Part of Expectation 
+
+Remember that $\E X$ is well defined if 
+$$ \E X^+ < \infty$ or $\E X^- < \infty$. 

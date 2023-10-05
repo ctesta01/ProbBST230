@@ -151,7 +151,15 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#basic-properties" id="toc-basic-properties" class="nav-link" data-scroll-target="#basic-properties">Basic Properties</a></li>
   <li><a href="#conditional-expectations-as-random-variables" id="toc-conditional-expectations-as-random-variables" class="nav-link" data-scroll-target="#conditional-expectations-as-random-variables">Conditional expectations as random variables</a></li>
+  <li><a href="#law-of-total-expectation-law-of-total-variance" id="toc-law-of-total-expectation-law-of-total-variance" class="nav-link" data-scroll-target="#law-of-total-expectation-law-of-total-variance">Law of Total Expectation &amp; Law of Total Variance</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#review-for-the-midterm" id="toc-review-for-the-midterm" class="nav-link" data-scroll-target="#review-for-the-midterm">Review for the Midterm</a>
+  <ul class="collapse">
+  <li><a href="#sigma-algebras" id="toc-sigma-algebras" class="nav-link" data-scroll-target="#sigma-algebras">Sigma Algebras</a></li>
+  <li><a href="#inverse-probability-transform" id="toc-inverse-probability-transform" class="nav-link" data-scroll-target="#inverse-probability-transform">Inverse Probability Transform</a></li>
+  <li><a href="#location-scale-families" id="toc-location-scale-families" class="nav-link" data-scroll-target="#location-scale-families">Location Scale Families</a></li>
+  <li><a href="#positive-and-negative-part-of-expectation" id="toc-positive-and-negative-part-of-expectation" class="nav-link" data-scroll-target="#positive-and-negative-part-of-expectation">Positive and Negative Part of Expectation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -405,7 +413,7 @@ Q(A) = \mathbb{E}\left( \mathbb 1 (X \in A) \mid Y = y \right)
 <ol type="1">
 <li><span class="math inline">\(\mathbb{E}cg(X) | y) = c \mathbb{E}(g(X) | y)\)</span> for any <span class="math inline">\(c \in \mathbb{R}\)</span>.</li>
 <li><span class="math inline">\(\mathbb{E}(g(X) + h(X) | y) = \mathbb{E}(g(X) | y) + \mathbb{E}(h(X)|y)\)</span></li>
-<li>$g(x) h(x) <span class="math inline">\(\mathbb{E}(g(X) | y) \leq \mathbb{E}(h(X)|y)\)</span>.</li>
+<li><span class="math inline">\(g(x) \leq h(x) \to \mathbb{E}(g(X) | y) \leq \mathbb{E}(h(X)|y)\)</span>.</li>
 </ol>
 </section>
 <section id="conditional-expectations-as-random-variables" class="level3">
@@ -416,9 +424,159 @@ Q(A) = \mathbb{E}\left( \mathbb 1 (X \in A) \mid Y = y \right)
 <p><span class="math display">\[
 \mathbb{E}(g(Y) X | Y) = g(Y) \mathbb{E}(X|Y)
 \]</span></p>
-
-
+<p>The basic idea here is that if we were to condition on a particular value of <span class="math inline">\(Y\)</span>, then <span class="math inline">\(g(Y)\)</span> would just be constant on the left-hand-side of the expectation.</p>
 </section>
+<section id="law-of-total-expectation-law-of-total-variance" class="level3">
+<h3 class="anchored" data-anchor-id="law-of-total-expectation-law-of-total-variance">Law of Total Expectation &amp; Law of Total Variance</h3>
+<p>Conditional expectations follow two very useful properties:</p>
+<p>The <span class="vocab">law of total expectation</span></p>
+<p><span class="math display">\[
+\mathbb{E}X = \mathbb{E}(\mathbb{E}(X \mid Y))\]</span></p>
+<p>And the <span class="vocab">law of total variance</span>:</p>
+<p><span class="math display">\[
+\text{Var}X = \mathbb{E}( \text{Var}X \mid Y ) + \text{Var}( \mathbb{E}(X \mid Y ))\]</span></p>
+<div class="cooltip">
+<p>Exercise: Derive these two properties.</p>
+<p>Note that <span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \mathbb{E}\left(\sum x f_{X|Y} (x|y)\right)
+\]</span></p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \sum_{y \in \mathcal Y} \left(\sum_{x \in \mathcal X} x f_{X|Y} (x|y)\right) \cdot P(Y = y)
+\]</span></p>
+<p>If I recall correctly, <span class="math inline">\(P(X|Y) = P(X,Y)/P(Y)\)</span>.</p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \sum_{y \in \mathcal Y} \left(\sum_{x \in \mathcal X} x P(X = x, Y = y)\right)
+\]</span></p>
+<p>Interchange ordering of summation:</p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \sum_{x \in \mathcal X} \left(\sum_{y \in \mathcal Y} x P(X = x, Y = y)\right)
+\]</span></p>
+<p>Pull out the <span class="math inline">\(x\)</span> from the inner sum:</p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \sum_{x \in \mathcal X} x \left(\sum_{y \in \mathcal Y} P(X = x, Y = y)\right)
+\]</span></p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \sum_{x \in \mathcal X} \left( x P(X = x) \right)
+\]</span></p>
+<p><span class="math display">\[ \mathbb{E}(\mathbb{E}(X \mid Y)) = \mathbb{E}X
+\]</span></p>
+<hr>
+<p>Is there a way to apply</p>
+<p><span class="math display">\[
+\text{Var}X = \mathbb{E}X^2 - (\mathbb{E}X)^2 \quad ?
+\]</span></p>
+<p><span class="math display">\[
+\text{Var}X = \mathbb{E}X^2 - (\mathbb{E}(\mathbb{E}(X \mid Y)))^2
+\]</span></p>
+</div>
+<p><br></p>
+<div class="chilltip">
+<p>Answers. Recall our definition:</p>
+<p><span class="math display">\[
+\mathbb{E}(X \mid Y) = h(Y) \quad \text{where} \quad h(y) = \mathbb{E}(X | Y = y).
+\]</span></p>
+<p>Insert them into the problem stem:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}( \mathbb{E}(X \mid Y)) &amp; = \mathbb{E}h(Y) = \sum_{y} h(y) p(y)  \\
+&amp; = \sum_y \mathbb{E}(X \mid Y = y) p(y) = \sum_y \sum_x x p(x \mid y) p(y) \\
+&amp; = \sum_y \sum_x x p(x,y) = \sum_x x \sum_y p(x,y) \\
+&amp; = \sum_x x p(x) = \mathbb{E}X.
+\end{aligned}
+\]</span></p>
+<p>Aside: How would one know what the expectation is with respect to in the outer expectations? The expectation is always with respect to whatever is random in the argument.</p>
+<p>Aside #2: Isn’t the <span class="math inline">\(h(Y)\)</span> notation a little bit confusing? What’s the intuition? Well, one can call <span class="math inline">\(h(Y)\)</span> the “average value of <span class="math inline">\(X\)</span> at a given level of <span class="math inline">\(Y\)</span>”.</p>
+<p>Maybe a more intuitive way to look at it is to think about the usual setting where we’re regressing <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="standalone_figures/conditional_expectation/conditional_expectation.svg" class="img-fluid figure-img" alt="conditional expectations given levels of X"></p>
+</figure>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="review-for-the-midterm" class="level1">
+<h1>Review for the Midterm</h1>
+<section id="sigma-algebras" class="level3">
+<h3 class="anchored" data-anchor-id="sigma-algebras">Sigma Algebras</h3>
+<p><span class="math inline">\(\mathcal B\)</span> is a sigma algebra if:</p>
+<ol type="1">
+<li><span class="math inline">\(\varnothing \in \mathcal B\)</span> (inclusion of the empty set)</li>
+<li>if <span class="math inline">\(A \in \mathcal B \longrightarrow A^c \in \mathcal B\)</span> (closure under complements)</li>
+<li>if <span class="math inline">\(A_1, A_2, ... \in \mathcal B \longrightarrow \cup_{i=1}^\infty A_i \in \mathcal B\)</span>.</li>
+</ol>
+<p>Consider the Borel sigma algebra:</p>
+<p>If <span class="math inline">\((a,b) \in \mathcal B\)</span>, then <span class="math inline">\((a,b)^c = (-\infty, a] \cup [b, \infty) \in \mathcal B\)</span>.</p>
+<p>Similarly, we could write <span class="math inline">\(\cup_{n=1}^\infty (a, n) = (a, \infty) \in \mathcal B\)</span>. Similarly, we could define the union on all of the complements of these sets to see that <span class="math inline">\((-\infty, a] \in \mathcal B\)</span>.</p>
+<p>Every one of these sets is mapped to some value in <span class="math inline">\(\mathbb{R}\)</span>.</p>
+</section>
+<section id="inverse-probability-transform" class="level3">
+<h3 class="anchored" data-anchor-id="inverse-probability-transform">Inverse Probability Transform</h3>
+<p>Let <span class="math inline">\(F\)</span> be any cdf. If <span class="math inline">\(U \sim \text{Uniform}(0,1)\)</span>, then <span class="math inline">\(F^{-1}(U)\)</span> is a random variable with cdf <span class="math inline">\(F\)</span>.</p>
+<p>The two transforms can be summarized as follows. Suppose <span class="math inline">\(U \sim \text{Uniform}(0,1)\)</span> and <span class="math inline">\(X\)</span> is a random variable with cdf <span class="math inline">\(F\)</span>. Then</p>
+<ol type="1">
+<li><span class="math inline">\(F^{-1}(U) \stackrel{d} = X\)</span></li>
+<li><span class="math inline">\(F(X) \stackrel{d} = U\)</span> if <span class="math inline">\(F\)</span> is continuous, but not otherwise.</li>
+</ol>
+<p>Consider Homework #3 question 1.</p>
+<p>Suppose <span class="math inline">\(X\)</span> is a random variable with pdf <span class="math inline">\(f(x) = bx^a \mathbb 1(0 &lt; x &lt; c)\)</span> where <span class="math inline">\(a &gt; 0, b &gt; 0\)</span> and <span class="math inline">\(c &gt; 0\)</span>.</p>
+<p>Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+u = F(x) &amp; = \int_{-\infty}^x f(t) dt = \int_0^x b t^a \mathbb 1 (t &lt; c) dt \\
+&amp; = b \frac{t^{a-1}}{a-1} \biggr \lvert_0^x = \frac{b x^{a-1}}{a-1}.
+\end{aligned}
+\]</span></p>
+<p>So <span class="math inline">\(F^{-1}(u) = \left( \frac{u(a-1)}{b} \right)^{\frac{1}{a-1}}\)</span>.</p>
+<p>And <span class="math inline">\(F^{-1}(U) \stackrel d = X\)</span> where <span class="math inline">\(X\)</span> has pdf <span class="math inline">\(f(x)\)</span>.</p>
+<p>Do note that we can use the inverse probability transform to map to discrete random variables from the uniform distribution, but the probability integral transform (direction 2) doesn’t work because <span class="math inline">\(F\)</span> won’t be continuous.</p>
+<div class="chilltip">
+<p>Consider <span class="math display">\[X \sim \text{Bernoulli}(1/2)\]</span></p>
+<p><img src="standalone_figures/bernoulli_cdf/bernoulli_cdf.svg" class="img-fluid"></p>
+<p>The generalized inverse is given as <span class="math display">\[F^{-1}(u) = \mathbb 1(u &gt; 1/2)\]</span></p>
+<p><span class="math display">\[
+F^{-1}(U) \sim \text{Bernoulli}(1/2)
+\]</span></p>
+</div>
+</section>
+<section id="location-scale-families" class="level3">
+<h3 class="anchored" data-anchor-id="location-scale-families">Location Scale Families</h3>
+<p>Generally the idea is that we start out with a standard pdf <span class="math inline">\(f(x)\)</span> and we look at all the things we can get by scaling and shifting.</p>
+<!--
+Let's look at the Laplace pdf. 
+
+$$
+p(x \mid \mu, s) = \frac{1}{2s} \exp \left( - \frac{1}{s} \lvert x - \mu \rvert \right)
+$$
+
+for all $x \in \R$. 
+-->
+<p>Recall and apply the probability transform formula:</p>
+<p><span class="math display">\[Y = sX + m \quad m \in \mathbb{R}, s &gt; 0
+\]</span></p>
+<p><span class="math display">\[f_Y(y) = f_X(g^{-1}(y)) \lvert \frac{d}{dy} g^{-1}(y) \rvert\]</span></p>
+<p><span class="math display">\[
+y = g(x) = sx + m
+\]</span></p>
+<p><span class="math display">\[g^{-1}(y) = \frac{y-m}{s}
+\]</span></p>
+<p><span class="math display">\[
+\frac{d}{dy} g^{-1}(y) = 1/s
+\]</span></p>
+<p>So <span class="math display">\[
+f_Y(y) = \frac{1}{s} f(\frac{y-m}{s}).\]</span></p>
+<p>Let’s do an example with the normal distribution.</p>
+<p>The standard normal distribution is given as <span class="math display">\[
+f(x) = \mathcal N(x \mid 0, 1) = \frac{1}{\sqrt{2\pi}} \exp \left( - \frac{1}{2} x^2 \right)
+\]</span></p>
+<p><span class="math display">\[
+Y = sX + m \sim \mathcal N(m, s^2)
+\]</span></p>
+<p>What’s an example of something that is that is not a location-scale family? One could say the exponential distributions are not location-scale family because they do not allow for variation in the <span class="math inline">\(m\)</span> parameter.</p>
+<p>Recall they’re defined <span class="math display">\[
+\lambda e^{-\lambda x} \mathbb 1(x &gt; 0)
+\]</span></p>
+</section>
+<section id="positive-and-negative-part-of-expectation" class="level3">
+<h3 class="anchored" data-anchor-id="positive-and-negative-part-of-expectation">Positive and Negative Part of Expectation</h3>
+<p>Remember that <span class="math inline">\(\mathbb{E}X\)</span> is well defined if $$ X^+ &lt; $ or <span class="math inline">\(\mathbb{E}X^- &lt; \infty\)</span>.</p>
+
+
 </section>
 </section>
 
