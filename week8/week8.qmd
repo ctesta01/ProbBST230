@@ -1,0 +1,628 @@
+---
+title: Week 8
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+$$
+:::
+
+# Recap
+
+## Correlation and Covariance
+
+When random variables $X$ and $Y$ are not independent, they are dependent. 
+However, the dependence may be weak, or it may be strong. Correlation is an
+important way of quantifying the dependence between random variables. Covariance
+is a related concept that also depends on the scales of $X$ and $Y$. 
+
+To declutter the notation, let's denote 
+
+$$ 
+\begin{aligned}
+\mu_X = \E X \quad & \quad \sigma_x = \sqrt{\Var X } \\ 
+\mu_Y = \E Y \quad & \quad \sigma_y = \sqrt{\Var Y } 
+\end{aligned}
+$$
+
+The covariance of $X$ and $Y$ is 
+
+$$ 
+\Cov(X,Y) = \E \bigg( (X - \mu_X) ( Y - \mu_Y )\bigg).
+$$
+
+The correlation of $X$ and $Y$ is 
+
+$$
+\begin{aligned}
+\rho_{X,Y} = \Cor(X,Y) & = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y} \\ 
+& = \E \left( \left(\frac{X - \mu_X }{\sigma_X}\right) \left(\frac{Y - \mu_Y}{\sigma_Y}\right) \right).
+\end{aligned}
+$$
+
+This is sometimes called the <span class='vocab'>correlation coefficient</span>, or <span class='vocab'>Pearson's correlation coefficient</span>. 
+
+<br>
+
+![Example of correlations from Wikimedia](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/2880px-Correlation_examples2.svg.png)
+
+Note that in the center figure, division by zero (with $\sigma_Y = 0$) implies that the correlation is undefined. Notably, that scenario would have covariance. 
+
+It's important to acknowledge that correlation is not going to relate necessarily to the slope of a
+regression line because we are standardizing by $\sigma_Y$. 
+
+Properties of $-1 \leq \rho_{X,Y} \leq 1$. 
+
+$\rho_{X,Y} > 0$ implies a positive association (direct relationship); 
+$\rho_{X,Y} < 0$ implies a negative association. 
+
+If $\sigma_X = 0$ or $\sigma_Y = 0$, then $\rho$ is undefiend. 
+
+$|\rho_{X,Y}| = 1$ if and only if there exists $a \neq 0$ and $b \in \mathbb R$ such that 
+$P(Y = aX+b) = 1$. The sign of $\rho$ equals the sign of $a$. 
+
+Correlation captures the strength of the association in terms of how close to linear 
+the relationship is, but not the magnitude of the slope. 
+
+If $X$ and $Y$ are independent, then $\rho_{X,Y} = 0$. However, if $\rho_{X,Y} = 0$ then $X$
+and $Y$ are not necessarily independent. 
+
+:::{.chilltip}
+If we want to show that independence $\to \rho = 0$, we can see that by writing that 
+we want to show: 
+
+$$\Cov(X,Y) = \E \biggr( (X - \mu_X) (Y - \mu_Y) \biggr) = 0.
+$$
+
+Because $X$ and $Y$ are independent, and the expectation is over a product of a 
+piece that's just a function of $X$ and another piece that's just a function of $Y$, we can 
+write that 
+
+$$
+\Cov(X,Y) = \E\biggr( X - \mu_X \biggr)\E\biggr( Y - \mu_Y \biggr) = 0 \times 0 = 0. 
+$$
+
+$$
+\Longrightarrow \Cor(X,Y) = \rho_{X,Y} = 0
+$$
+:::
+
+Properties of covariance 
+
+  1. $\Cov(X,Y) = \rho_{X,Y} \sigma_X \sigma_Y$ 
+  2. $\Cov(X,Y) = \E XY - (EX)(EY)$ 
+  3. $\Cov(X,X) = \Var X$ 
+  4. $\Cov(aX + b, cY+d) = ac \Cov(X,Y)$ 
+  5. $\Var(X + Y) = \Var(X) + \Var(Y) + 2 \Cov(X,Y)$
+
+:::{.bluetip}
+Showing 1: 
+
+Observe that $\rho_{X,Y} = \Cov(X,Y) / (\sigma_X \sigma_Y)$ implies this. 
+
+Showing 2: We can write that 
+
+$$
+\begin{aligned}
+\Cov(X,Y) & = \E(XY - \mu_X Y - \mu_Y X + \mu_X \mu_Y) \\ 
+& = \E(XY) - \E(X) \E(Y) - \E(Y) \E(X) + \E(X)\E(Y) \\ 
+& = \E(XY) - \E(X) \E(Y).
+\end{aligned}
+$$
+
+Showing 3:
+
+$$\Cov(X,X) = \E((X - \mu_X)(X-\mu_X)) = \E((X-\mu_X)^2) = \Var(X).
+$$
+
+Showing 5:
+
+<!-- 
+$$
+\begin{aligned}
+\Var(X + Y) & = \E((X + Y - \E(X + Y))^2) \\ 
+& = \E((X+Y)^2 - 2(X + Y)\E(X + Y) - \E(X+Y)^2) \\ 
+& = \E(X^2 + 2XY + Y^2 - 2(X+Y)(\EX + \EY) - (\E(X)^2 + 2\EX \EY + \EY^2)) \\ 
+& = \E(X^2 + 2XY + Y^2 - 2(X+Y)\EX + 2(X+Y)\EY - (\E(X)^2 + 2\EX \EY + \EY^2)) \\ 
+\end{aligned}
+$$
+--> 
+
+$$ 
+\begin{aligned}
+\Var(X+Y) & = \E((X+Y)^2) - \E(X+Y)^2 \\ 
+& = \E(X^2 + 2XY + Y^2) - (\EX^2 + 2\EX\EY + \EY^2) \\ 
+& = \E(X^2) + 2\E(XY) + \E(Y^2) - \EX^2 - 2\EX \EY - \EY^2 \\ 
+& = \underbrace{\E(X^2) - \EX^2}_{\Var(X)} + \underbrace{\E(Y^2) - \EY^2}_{\Var(Y)} + \underbrace{2\E(XY) - 2\EX \EY}_{=\Cov(X,Y) \text{, by property 2}}
+\end{aligned}
+$$
+
+:::
+
+<br>
+
+:::{.chilltip}
+The simpler way to derive 5 is to first consider a simpler case where $\mu_X = 0$ and $\mu_Y = 0$. 
+
+$$
+\begin{aligned}
+\Var(X + Y) & = \E((X+Y)^2) \\ 
+& = \EX^2 + 2\EX \EY + \EY^2 \\ 
+& = \Var(X) + \Var(Y) + 2 \Cov(X,Y)
+\end{aligned}
+$$
+
+And if the means are not zero, we can apply that 
+$\Var(X + b) = \Var(X)$ and $\Var(Y + d) = \Var(d)$, 
+and by property 4, $\Cov(X + b, Y + d) = \Cov(X,Y)$. 
+:::
+
+<br>
+
+:::{.cooltip}
+As a side-note, if one wants to speak the 
+formula 
+
+$$\Var(X) = \E(X^2) - \E(X)^2
+$$ 
+
+aloud, then the best way to say it seems to be 
+
+"the variance of $X$ is the second moment of $X$ minus the mean of $X$ squared."
+:::
+
+If we're doing linear regression with a single covariate, then the formula is $Y = \alpha + \beta x + \varepsilon$. If we assume that $x \independent \varepsilon$, then 
+
+$$
+\Cor(X,Y) = \rho_{X,Y} = \beta \frac{\sigma_X}{\sigma_Y}
+$$
+
+# Bivariate Transformations
+
+Suppose $(X,Y)$ is a random vector, and $(U,V) = g(X,Y)$ for some function $g$. 
+
+That is $U = g_1(X,Y)$ and $V = g_2(X,Y)$. 
+
+How can we derive the joint pdf/pmf of $(U,V)$ from the joint pdf/pmf of $(X,Y)$? 
+
+The discrete case is pretty straightforward, but in the continuous case we need to get comfortable with the Jacobian matrix. 
+
+Suppose $(X,Y)$ is a continuous random vector and $(U,V) = g(X,Y)$ for some function $g$ such that 
+
+  1. $g$ is one-to one with inverse $h(u,v) = (x,y)$ on its range,
+  2. the partial derivatives of $g(x,y)$ exist and are oncintuous, 
+  3. the Jacobian matrix $Dh$ is nonsingular, where 
+
+  $$Dh = \begin{bmatrix} 
+  \frac{\partial x}{\parital u} & \frac{ \partial x}{\partial v} \\ 
+  \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} 
+  \end{bmatrix} = 
+  \begin{bmatrix} 
+  \frac{\partial h_1}{\parital u} & \frac{ \partial h_1}{\partial v} \\ 
+  \frac{\partial h_2}{\partial u} & \frac{\partial h_2}{\partial v} 
+  \end{bmatrix} 
+  $$
+
+The determinant factor is 
+$$|\det Dh| = \lvert \frac{\partial h_1 }{\partial u} \frac{\partial h_2}{\partial v} - \frac{\partial h_1}{\partial v} \frac{\partial h_2}{\partial u } \rvert.
+$$
+
+Suppose $X,Y \sim \mathcal N(0,1)$ independently and 
+$\rho \in (-1, 1)$. 
+
+Define $U = X$ and $V = \rho X + \sqrt{1 - \rho^2}Y$. That is 
+
+$$u = g_1(x,y) = x
+$$
+
+$$v = g_2(x,y) = \rho x + \sqrt{1 - \rho^2} y.
+$$
+
+The inverse is defined by 
+
+$$x = h_1(u,v) = u
+$$
+$$y = h_2(u,v) = \frac{v - \rho u }{\sqrt{1-\rho^2}}.
+$$
+
+Thus the Jacobian matrix is 
+
+$$
+Dh = 
+  \begin{bmatrix} 
+  \frac{\partial h_1}{\partial u} & \frac{ \partial h_1}{\partial v} \\ 
+  \frac{\partial h_2}{\partial u} & \frac{\partial h_2}{\partial v} 
+  \end{bmatrix} = 
+  \begin{bmatrix}
+  1 & 0 \\ 
+  -\frac{\rho}{\sqrt{1 - \rho^2}} & \frac{1}{\sqrt{1 - \rho^2}}
+  \end{bmatrix}. 
+$$ 
+
+$$\det Dh = \frac{1}{\sqrt{1 - \rho^2}}.
+$$
+
+$$
+\begin{aligned}
+f_{X,Y}(x,y) & = \frac{1}{\sqrt{2\pi}}\exp \biggr ( -\frac{1}{2} y^2\biggr ) \\ 
+& = \frac{1}{\sqrt{2\pi}}\exp \biggr ( -\frac{1}{2} u^2\biggr ) \exp \biggr ( - \frac{1}{2} \left( \frac{v - \rho u}{\sqrt{1-\rho^2}} \right)^2 \biggr )
+\biggr \lvert \det Dh \biggr \rvert \\ 
+& = \frac{1}{2\pi \sqrt{1-\rho^2}}\exp \biggr ( -\frac{1}{2} u^2 - \frac{1}{2} \left( \frac{v^2 - 2v \rho u + \rho^2 u^2}{1-\rho^2} \right) \biggr ) \\ 
+& = \frac{1}{2\pi \sqrt{1-\rho^2}} \exp \biggr ( -\frac{1}{2 (1 - \rho^2)} \left( u^2 - 2\rho uv + v^2 \right) \biggr ). 
+\end{aligned} 
+$$
+
+
+## Transforming two variables into one variable 
+
+Often we want to know the distribution of a single random variable $U = g_1(X,Y)$ that is a function of $(X,Y)$. However, this is hardly ever an invertible transformation. Fortunately, it turns out that we can still use the bivariate transformation technique as follows. 
+
+Introduce a new "auxiliary" variable $V = g_2(X,Y)$, chosen to make calculations as easy as possible. 
+
+Compute $f_{U,V}(u,v)$ from $f_{X,Y}(x,y)$ using the bivariate transformation formula. 
+
+Then, integrate to get the marginal density of $U$: 
+
+$$f_U(u) = \int f_{U,V} (u,v) \mathrm d v.
+$$
+
+### Example: Transformation of Uniforms 
+
+Let $X,Y \sim \text{Uniform}(-1,1)$ independently 
+and suppose $U = (X+Y)/2$ and $V = X-Y$. 
+
+What is the joint pdf of $(U,V)$? Also draw a
+picture of the joint pdf. 
+
+:::{.bluetip}
+
+Since we'll need this down the line, 
+why don't we go ahead and evaluate the 
+elements of the Jacobian matrix: 
+
+We first need to invert these functions: 
+
+$2X = 2U + V \Longrightarrow X = U + V/2,$
+
+and $2Y = 2U - V \Longrightarrow Y = U - V/2$. 
+
+$$
+Dh = \begin{bmatrix}
+\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ 
+\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \\ 
+\end{bmatrix} = 
+\begin{bmatrix}
+1 & 1/2 \\ 
+1 & -1/2 \\ 
+\end{bmatrix}.
+$$
+
+So therefore we have that $| \det Dh | = |-1/2 - 1/2| = |-1| = 1.$
+
+So the pdf will be 
+
+$$f_{U,V}(u,v) = f_{X,Y}(x(u,v), y(u,v)) | \det Dh |
+$$
+
+Therefore 
+
+$$f_{U,V}(u,v) = \frac{1}{4} \mathbb 1 (x(u,v) \in (-1,1)) \mathbb 1(y(u,v) \in (-1,1)) 
+$$
+
+$$f_{U,V}(u,v) = \frac{1}{4} \mathbb 1 (-1 < u + v/2 < 1) \mathbb 1(-1 < u - v/2 < 1)
+$$
+
+$$f_{U,V}(u,v) = \frac{1}{4} \mathbb 1 (-2 < 2u + v < 2) \mathbb 1(-2 < 2u - v < 2)
+$$
+
+One way to think through what these boundary conditions are 
+is to treat these inequalities as four linear constraints. 
+
+Replacing $u$ with $x$ and $v$ with $y$, we would 
+get linear constraints like $x + y/2 = 1 \Longrightarrow y = 2 - 2x$. 
+:::
+
+```{r}
+u <- seq(-1,1,length.out=100)
+v <- seq(-2,2, length.out=100)
+
+uv_mat <- expand.grid(u,v)
+colnames(uv_mat) <- c('u', 'v')
+
+uv_mat$density <- with(uv_mat, 1/4 * (u + v/2 < 1 & u + v/2 > -1 & u-v/2 < 1 & u-v/2 > -1))
+
+suppressMessages(library(tidyverse))
+
+uv_mat |> 
+  ggplot(aes(x = u, y = v, fill = as.factor(density),
+  alpha = as.factor(density))) + 
+  geom_tile() + 
+  scale_fill_manual(values = c('0' = 'white', '0.25' = 'cornflowerblue')) + 
+  scale_alpha_manual(values = c('0' = 0, '0.25' = 1)) + 
+  labs(fill = "Density") + 
+  theme_bw() + 
+  guides(alpha = guide_none()) + 
+  xlim(c(-2,2)) + 
+  ggtitle(expression(paste("Probability density function of f"["U,V"], "(u,v)")))
+```
+
+### Example: Ratio of Standard Normals 
+
+To illustrate this technique, suppose $X,Y \sim \mathcal N(0,1)$ independently. What is the distribution of $X/Y$? 
+
+Define $U = X / Y$ and $V = Y$. That is 
+
+$$u = g_1(x,y) = x/y
+$$
+
+$$v = g_2(x,y) = y.
+$$
+
+Introducing $V = Y$ makes $g$ invertible, so we can use the bivariate transformation formula. 
+
+The inverse is $x = h_1(u,v) = uv$ and $y = h_2(u,v) = v.$
+
+Thus the Jacobian matrix is 
+
+$$Dh = \begin{bmatrix} 
+\frac{\partial h_1}{\partial u} & \frac{ \partial h_1}{\partial v} \\ 
+  \frac{\partial h_2}{\partial u} & \frac{\partial h_2}{\partial v} 
+\end{bmatrix} = \begin{bmatrix}
+v & u \\ 0 & 1 
+\end{bmatrix}.
+$$
+
+The punchline (which we'll see soon) is Cauchy.
+
+Therefore the joint pdf of $(U,V)$ is 
+
+$$
+\begin{aligned}
+f_{U,V}(u,v) & = f_{X,Y}(h_1(u,v), h_2(u,v)) \lvert \det Dh \rvert \\ 
+& = \frac{1}{\sqrt{2\pi}} \exp \left( - \frac{1}{2} (uv)^2 \right) \frac{1}{\sqrt{2\pi}} \exp \left( -\frac{1}{2} v^2 \right) \lvert v \rvert \\ 
+\frac{1}{2\pi} |v| \exp \left( - \frac{1}{2} v^2 (1 + u^2 )\right).
+\end{aligned}
+$$
+
+To find the marginal of $U$, we need to integrate out $V$. 
+Making the change of variable $t = v^2, \, \, \mathrm dt = 2v\mathrm dv$, 
+
+$$ 
+\begin{aligned}
+\int_0^\infty v \exp \left( -\frac{1}{2} v^2(1+u^2) \right) \mathrm dv & = \frac{1}{2} \int_0^\infty \exp \left( -\frac{1}{2} t (1+u^2) \right) \mathrm d t \\ 
+& = \frac{1}{1 + u^2}. 
+\end{aligned}
+$$ 
+
+Therefore since $f_{U,V}(u,v) = f_{U,V}(u,-v),$
+
+$$f_U(u) = \int_{-\infty}^\infty f_{U,V}(u,v) \mathrm dv = 2 \int_0^\infty f_{U,V}(u,v) \mathrm dv = \frac{1}{\pi} \frac{1}{1+u^2}. 
+$$
+
+We can recognize this as a Cauchy distribution.
+
+# Bivariate Normal Distributions
+
+The bivariate normal distribution with means $\mu_X$ and $\mu_Y \in \mathbb R$, variances $\sigma_X^2, \sigma_Y^2 > 0$, and correlation $\rho \in (-1,1)$ has pdf 
+
+$$f(x,y) = \frac{1}{2 \pi \sigma_X \sigma_Y \sqrt{1-\rho^2}} \exp \left( 
+-\frac{1}{2 (1-\rho^2)} ( \tilde x^2 - 2 \rho \tilde x\tilde y + \tilde y ^2)
+  \right),
+$$
+
+where 
+
+$$\tilde x = \frac{x - \mu_X}{\sigma_X} \quad \quad \text{ and } \quad \quad \tilde y = \frac{y - \mu_Y}{\sigma_Y}
+$$
+
+If $(X,Y)$ have this bivariate normal distribution, then 
+
+1. $X \sim \mathcal N(\mu_X, \sigma_X^2)$
+2. $Y \sim \mathcal N(\mu_Y, \sigma_Y^2)$
+3. $\Cor(X,Y) = \rho$ 
+4. $aX + bY$ is normally distributed for any $a,b \neq 0$.
+   * For the $a = b = 0$ case, we need to expand our definition
+   to allow $\sigma^2 = 0$ by considering $\mathcal N(\mu, 0)$ to be the point mass at $\mu$. 
+5. $Y \mid X = x$ is normally distributed with 
+
+$$
+\begin{aligned}
+\E (Y | X = x) & = \mu_Y + \rho \sigma_Y \frac{x - \mu_X}{\sigma X} \\ 
+\Var(Y | X = x ) & = (1 - \rho^2) \sigma_Y^2.
+\end{aligned}
+$$
+
+In other words, the conditional pdf of $Y$ given $X =x$ is 
+
+$$p(y\mid x) = \mathcal N \left( y \mid \mu_y + \rho \sigma_Y \frac{x - \mu_X}{\sigma_X}, (1-\rho^2) \sigma_Y^2 \right).
+$$
+
+:::{.chilltip}
+If we allow for correlations of 1 or -1, then we could 
+construct $aX + bY$ such that they cancel exactly, requiring 
+special care. 
+:::
+<br>
+
+If $X$ and $Y$ are each normally distributed, then $(X,Y)$ is *not* necessarily bivariate normal. 
+
+One example is where $\rho = 1$ or $\rho = -1$ since this violates the constraint that $\rho \in (-1,1)$. 
+
+But what about a more satisfying counterexample? 
+
+Let's say $X \sim \mathcal N(0,1)$ and 
+
+$$Y = \left\{ \begin{array}{ll} 
+X \quad & \text{ if } |X| \leq 1 \\ 
+-X \quad & \text{ if } |X| > 1
+\end{array} \right. .
+$$
+
+```{r}
+x <- rnorm(n = 10000)
+y <- ifelse(abs(x) > 1, -x, x)
+plot1 <- ggplot(data.frame(x=x,y=y), aes(x,y)) + 
+  geom_point(alpha = .15, shape = 21) + 
+  theme_bw() 
+
+ggExtra::ggMarginal(plot1)
+ggExtra::ggMarginal(plot1, type = 'histogram', fill = '#e67e22', alpha = 0.6)
+```
+
+We defined the bivariate normal distribution in term of its 
+pdf, but there is a more general definition that we will use.
+
+*Definition:* We will say that $(X,Y)$ is bivariate normal if $aX + bY$ is normally distributed for $a,b \in \mathbb R$. 
+
+This definition applies in the degenerate scenario where $\rho = 1$ or -1. 
+
+## Mean and Covariance of a Random Vector
+
+The covariance matrix of a random vector $(X,Y)^T = \begin{bmatrix} X \\ Y \end{bmatrix}$ is 
+
+$$
+\begin{aligned}
+\Cov \left( \begin{bmatrix} X \\ Y \end{bmatrix} \right) & = 
+\begin{bmatrix}
+\Cov(X,X) & \Cov(X,Y) \\ 
+\Cov(Y,X) & \Cov(Y,Y) 
+\end{bmatrix} \\ 
+& = 
+\begin{bmatrix}
+\sigma_X^2 & \rho_{X,Y} \sigma_X \sigma_Y \\ 
+\rho_{X,Y} \sigma_X \sigma_Y & \sigma_Y^2
+\end{bmatrix}.
+\end{aligned}
+$$
+
+The mean of a random vector $(X,Y)^T$ is defined to be the vector of the means of its entries: 
+
+$$\E\left( \begin{bmatrix} X \\ Y \end{bmatrix} \right) = \begin{bmatrix} \E X \\ \E Y \end{bmatrix} .
+$$ 
+
+For any random vector $X = \begin{bmatrix} X_1 \\ X_2 \end{bmatrix}$ and any $2 \times 2$ matrix $A$,
+
+$$\Cov(AX) = A \Cov(X) A^T. 
+$$ 
+
+(Actually this works for any dimensional $A$ as long as the 
+number of rows of $A$ is the same as $\text{length}(X)$.)
+
+It is common to parameterize bivariate (and more generally, multivariate) normal distributions in terms of the mean vector
+and covariance matrix. We write 
+
+$$ 
+\begin{bmatrix}
+X \\ Y
+\end{bmatrix} \sim \mathcal N(\mu, \Sigma)
+$$
+
+to denote that $(X,Y)^T$ is bivariate normal such that 
+
+$$\mu = \E \left( \begin{bmatrix} X \\ Y \end{bmatrix} \right) \quad \quad \text{ and } \quad \quad \Sigma = \Cov \left( \begin{bmatrix} X \\ Y \end{bmatrix} \right). 
+$$
+
+However, not just any $2 \times 2$ matrix $\Sigma$ can be used. $\Sigma$ must be a symmetric positive semi-definite matrix, that is 
+
+  1. $\Sigma = \Sigma^T$ (symmetric) and 
+  2. $t^T \Sigma t \geq 0$ for all $t \in \mathbb R^2$ (positive semi-definiteness)o
+
+We can write $t^T \Sigma t = t_1^2 \Sigma_{11} + t_1 t_2 \Sigma_{12} + t_2 t_1 \Sigma_{21} + t_2^2 \Sigma{22}.$
+
+If $\rho = 1$, then 
+$$
+\begin{aligned}
+t^T \Sigma t & = t_1^2 \sigma_1^2 + 2t_1t_2 \sigma_1 \sigma_2 + t_2^2 \sigma_2^2 \\ 
+& = (t_1 \sigma_1 + t_2 \sigma_2)^2
+\end{aligned}.
+$$
+
+This leads to a useful way of constructing bivariate 
+normal distributions. 
+Let $s_1 \geq s_2 \geq 0$ and $\theta \in [0, 2\pi )$. 
+Let $Z_1, Z_2 \sim \mathcal N(0,1)$ independently and define 
+
+$$
+\begin{bmatrix}
+X_1 \\ X_2 
+\end{bmatrix} = 
+\underbrace{\begin{bmatrix}
+\cos \theta & - \sin \theta \\ 
+\sin \theta & \cos \theta
+\end{bmatrix}}_{\text{rotation}}
+\underbrace{\begin{bmatrix}
+s_1 & 0 \\ 
+0 & s_2 
+\end{bmatrix}}_{\text{scaling}}
+\begin{bmatrix}
+Z_1 \\ Z_2
+\end{bmatrix}.
+$$
+
+Then $(X_1,X_2)^T$ is bivariate normal such that the line along which $X_1$ and $X_2$ are correlated at angle $\theta$, the scale along this line is $s_1$ and the scale orthogonal to the line is $s_2$. 
+
+Conversely, given $\Sigma$ we can recover the scaling and rotation. 
+
+Compute the eigendecomposition $\Sigma = U \Lambda U^T$ where $U$ is an orthogonal matrix and $\Lambda = \text{diag}(\lambda_1, \lambda_2)$, with $\lambda_1 \geq \lambda_2 \geq 0$.
+
+Recall that a matrix is orthogonal if $U^TU = I$ and $UU^T = I$. 
+
+Then $\lambda_1 = s_1^2$, $\lambda_2 = s_2^2$, and $U$ is the rotation matrix. 
+
+Then we can represent $\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim \mathcal N(0,\Sigma)$ as 
+
+$$
+\begin{bmatrix}
+X_1 \\ X_2
+\end{bmatrix} = 
+\underbrace{\begin{bmatrix}
+u_{11} & u_{12} \\ 
+u_{21} & u_{22} \\ 
+\end{bmatrix}}_{U \,\text{ (rotation)}}
+\underbrace{\begin{bmatrix}
+\sqrt{\lambda_1} & 0 \\
+0 & \sqrt{\lambda_2}
+\end{bmatrix}}_{\Lambda^{1/2} \,\text{ (scaling)}}
+\begin{bmatrix}
+Z_1 \\ Z_2
+\end{bmatrix},
+$$
+
+where $Z_1, Z_2 \sim \mathcal N(0,1)$ independently. 
+
+Or, more succinctly, $X = U \Lambda^{1/2} Z$. 
+
+:::{.chilltip}
+Instead of a location-scale family, this is like a *rotation*-scale+location family!
+:::
+
+<br>
+
+So the above show two methods: 
+
+  * Starting from angles and scales to produce a bivariate matrix; 
+  * Or starting from a covariance matrix using eigendecomposition to determine the rotation and scales 
+  necessary to yield that covariance matrix.
+
+:::{.hottip}
+If this looks scary, brush up on your linear algebra: 
+
+Diagonalization of symmetric matrices; eigendecomposition. 
+:::
+

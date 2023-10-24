@@ -1,0 +1,399 @@
+---
+title: Week 7
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\e}[0]{\epsilon}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+$$
+:::
+
+# Recap
+
+## Independence and Dependence 
+
+$X$ and $Y$ are independent if and only if for all (measurable) functions $g(x)$ and $h(y)$, 
+
+$$
+\E(g(X)h(Y)) = \E(g(X))\E(h(Y))
+$$
+
+## Sums of Gaussians 
+
+This property of mgfs can simplify derivations of the distribution of a sum of independent random variables.
+
+The mgf of $X \sim \mathcal N(\mu, \sigma^2)$ is
+
+$$
+M_X(t) = \exp(\mu t + \frac{1}{s} \sigma^2 t^2).
+$$
+
+Suppose $X_1 \sim \mathcal N(\mu_1, \sigma^2_1)$ and $X_2 \sim \mathcal N(\mu_2, \sigma^2_2)$ independently. Then
+
+$$
+M_{X_1 + X_2}(t) = M_{X_1}(t)M_{X_2}(t)
+$$
+
+$$
+=\exp\left( (\mu_1 + \mu_2) t + \frac{1}{2}(\sigma_1^2 + \sigma^2_2) t^2\right),
+$$
+
+which is the mgf of $\mathcal N(\mu_1 + \mu_2, \sigma^2_1 + \sigma^2_2)$ for all $t$.
+
+Recall that if two variables have the mgfs that are equal and finite around some interval of the origin, then they are the variables are equal in distribution. (It turns out that if two mgfs are finite and equal on a neighborhood around zero, they must be equal everywhere).
+
+Therefore we're allowed to make the jump that
+$$
+Y \sim \mathcal N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2) \Rightarrow X_1 + X_2 \stackrel{d}{=} Y.
+$$
+
+# Conditional Expectations
+
+Recall that if $(X,Y)$ is a random vector and $g(x)$ is a measurable 
+function. The conditional expectation of $g(X)$ given that $Y=y$ is
+
+$$
+\mathbb E(g(X) | Y=y) = \int_{x \in \mathcal X} g(x) f_{X|Y}(x|y) dx 
+$$
+
+We have to be a bit careful with the notation $\mathbb E[X|Y=y]$ which 
+might lead you to believe we're conditioning on the probability that 
+$Y=y$, but the probability $Y=y$ is vanishingly small (0), though there is 
+a _density_ for the probability distribution of $Y$ at $y$. 
+
+## Law of Total Expectation & Law of Total Variance 
+
+  1. $\E X = \E(\E(X \mid Y))$
+  2. $\Var X = \E(\Var(X \mid Y)) = \Var(\E(X\mid Y))$
+
+:::{.chilltip}
+Looking at claim 2, let's expand the two terms on the right:
+
+$$
+\begin{aligned}
+\E(\Var(X \mid Y)) & = \E(\E(X^2 \mid Y ) - \E(X \mid Y)^2) \\ 
+& = \E(\E(X^2 \mid Y)) - \E(\E(X \mid Y)^2) \\ 
+& = \E(X^2) - \E(\E(X \mid Y)^2) \quad \text{ by Law of Total Expectation}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\Var(\E(X \mid Y)) & = \E(\E(X \mid Y)^2) - \E(\E(X \mid Y))^2 \\ 
+& = \E(\E(X \mid Y)^2) - (\E X)^2 \quad \text{ by Law of Total Expectation} 
+\end{aligned}
+$$
+
+Therefore,
+
+$$
+\begin{aligned}
+\E(\Var(X \mid Y)) + \Var(\E(X \mid Y)) & = \E X^2 - (\E X)^2 \\ 
+& = \Var X.
+\end{aligned}
+$$
+:::
+
+<br>
+
+:::{.hottip}
+We define conditional expectation before we define conditional probability. Why? It seems almost backwards? 
+
+There is measure-theoretic difficulty with continuous distributions. 
+There are paradoxes that can come up if this is done too naively. 
+This is called the **Borel paradox**. 
+
+  * [Wikipedia article](https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox)
+  * [Philosophical ramifications](https://philosophy.ucla.edu/wp-content/uploads/2016/08/Borel-Kolmogorov-Paradox.pdf)
+  * [Slides](http://www.cs.ox.ac.uk/people/yarin.gal/website/PDFs/Short-talk-03-2014.pdf)
+  * [Writeup](http://philsci-archive.pitt.edu/18434/1/borel-kolmogorov-PSA.pdf)
+  * [Preprint](http://hps.elte.hu/~gszabo/Preprints/Borel-Kolmogorov_presentation_short.pdf)
+
+There was one study in the 1990s on tracking populations of fish, but it was
+based on a faulty construction of a conditional distribution due to the 
+Borel paradox. 
+:::
+
+### Example: Compound Distributions 
+
+Say you roll a die and it comes up $Y$. Then you roll the die $Y$
+times, getting outcomes $X_1,...,X_Y$. What is 
+$\E(\sum_{i=1}^Y X_i)?$. 
+
+This is two-stage procedure leads to something we call a <span class='vocab'>compound distribution</span>, which are also 
+called <span class='vocab'>mixture models</span> or <span class='vocab'>hierarchical model</span>.
+
+$$
+\begin{aligned}
+\E\left( \sum_{i=1}^Y X_i \right) & = \E \left( \E \left( \sum_{i=1}^Y X_i \mid Y \right) \right) \\ 
+& = \E \left( \sum_{i=1}^Y \E(X_i \mid Y ) \right)  \\ 
+& = \E (3.5 Y) = 3.5^2. 
+\end{aligned}
+$$
+
+$Y$ itself is a discrete uniform on $\{1,...,6\}$ and each 
+$X_i$ is also a discrete uniform on $\{1,...,6\}$, but the
+composition of the two is not. 
+
+The sum of a random number of random variables is said to 
+follow a *compound distribution*. 
+
+### Example 2
+
+Suppose $N \sim \t{Poisson}(\lambda)$ and $X_1,...,X_N \sim \t{Geometric}(q)$
+independently given $N$. Let $S = \sum_{i=1}^N X_i$. 
+
+By the law of total expectation 
+
+$$\E S = \E(\E(S \mid N)) = \E( N / q) = \lambda / q. 
+$$
+
+Remember that if two variables are independent, then 
+$\Var(X + Y) = \Var(X) + \Var(Y)$, which is also true of 
+conditional variances. 
+
+So we can say that 
+
+$$
+\Var(S \mid N) = \sum_{i=1}^N \Var(X_i \mid N) = N \frac{1-q}{q^2}.
+$$
+
+Therefore, by the law of total variance, 
+
+$$
+\begin{aligned}
+\Var S & = \E(\Var(S \mid N)) + \Var(\E(S \mid N)) \\ 
+& = \E(N(1-q)/q^2) + \Var(N/q) \\ 
+& = \lambda(1-q)/q^2 + \lambda/q^2 \\ 
+& = \lambda(2-q)/q^2.
+\end{aligned}
+$$
+
+## The Exchange Paradox
+
+At a carnival, there is a mysterious man with two envelopes on the table 
+in front of him.  He tells you that one of the envelopes has twice as much money as the other, and you can pick one. You randomly pick one envelope and find $x$ dollars inside. Now, he says, you can keep that money or take the money in the other envelope. 
+
+Your friend says you should switch, because you will either get $x/2$ or $2x$ dollars, each with probability 1/2, so the expected value of switching is 
+
+$$
+(1/2)(x/2) + (1/2)(2x) = 5x/4
+$$
+
+What would you do?
+
+:::{.cooltip}
+The problem is that what's in the envelope is not a random quantity. 
+
+We want to evaluate 
+
+$$
+\E(\t{How Much Money You'd Get} \mid \t{You Switch})
+$$
+
+And we want to see if this is the same, larger, or smaller than: 
+
+$$
+\E(\t{How Much Money You'd Get} \mid \t{You Don't Switch})
+$$
+
+
+Let $M$ be the amount of money in the lower value envelope.
+
+If you first pick the envelope with the higher amount, and you switch you'd get $M$ money, 
+and if you pick the envelope with the lower amount and switch, you'd get $2M$ money. 
+
+$$
+\E(\t{How Much Money You'd Get} \mid \t{You Switch}) = (1/2)M + (1/2)2M
+$$
+
+If you pick the envelope with the higher amount and you don't switch, then you get $2M$ and you don't  ... 
+
+$$
+\E(\t{How Much Money You'd Get} \mid \t{You Don't Switch}) = (1/2)M + (1/2)2M
+$$
+
+:::
+
+<br> 
+
+:::{.chilltip}
+Let $X =$ the amount in the envelope selected and $Y =$ amount in the other 
+envelope. 
+
+Let $m$ and $2m$ denote the (unknown) amount of money in the two envelopes. 
+
+Then 
+$$P(Y = 2m \mid X = m) = 1
+$$
+$$P(Y = m \mid X = 2m) = 1
+$$
+
+$$P(X = m) = P(X = 2m) = 1/2.$$
+
+Thus by law of total expectation 
+
+$$
+\begin{aligned}
+\E Y & = \E(\E(Y \mid X))  \\ 
+& = \E(Y \mid X=m)P(X=m) + \E(Y \mid X = 2m) P(X = 2m) \\ 
+& = (2m)(1/2) + m(1/2) = 3m/2.
+\end{aligned}
+$$
+
+Meanwhile, 
+
+$$\E X = mP(X = m) + 2m P(X = 2m) = 3m/2.
+$$
+
+There is no advantage to switching.
+
+Morals: 
+Write down your assumptions carefully, and realize that your intuition can lead you astray. 
+:::
+
+# Mixture Distributions 
+
+Suppose the heights of adult women and men are $\mathcal N(\mu_1, \sigma_1^2)$ 
+and $\mathcal N(\mu_2, \sigma_2^2)$, respectively. 
+
+Then the pdf of heights for women and men combined is 
+
+$$\pi \mathcal N(\mu_1, \sigma_1^2) + (1-\pi) \mathcal N(\mu_2, \sigma_2^2)
+$$
+
+where $\pi$ is the proportion of women in the population. 
+
+This is called a mixture of Gaussians. 
+
+More generally, mixture distributions are obtained by taking a weighted sum or integral of pdfs/pmfs. 
+
+Mixtures are a useful way of enrichiing a simple family of distributions.
+
+### Gamma-Poisson Mixtures (aka Negative Binomial)
+
+Suppose a $\t{Poisson}(\lambda)$ model makes sense for $X$, but we don't know $\lambda$. A natural approach is to place a distribution on $\lambda$ and integrate it out. 
+
+For instance, define a joint distribution $p(x, \lambda)$ by setting 
+
+$$
+\begin{aligned}
+p(x \mid \lambda) & = \t{Poisson}(x \mid \lambda) \\ 
+p(\lambda) & = \t{Gamma}(\lambda \mid r, q/(1-q)).
+\end{aligned}
+$$
+
+Then 
+$$
+p(x) = \int p(x \mid \lambda) p(\lambda) \mathrm d \lambda = \t{NegativeBinomial} (x \mid r, q).
+$$
+
+This model is much more robust to outliers than the Poisson. 
+
+Integrating out a parameter in this way is often referred to 
+as <span class='vocab'>overdispersion.</span> So this example is an 
+*overdispersed Poisson*. 
+
+### Beta-Binomial Mixture 
+
+As another example, suppose a $\t{Binomial}(N,q)$ model makes sense
+for $X$ but we don't know $q$. 
+
+Placing a $\t{Beta}$ distribution on $q$ yields 
+
+$$
+\begin{aligned}
+p(x \mid q) & = \t{Binomial}(x \mid N, q) \\ 
+p(q) & = \t{Beta}(q \mid a,b).
+\end{aligned}
+$$
+
+The resulting marginal pmf of $X$ is 
+
+$$
+\begin{aligned}
+p(x) & = \int p(x \mid q) p(q) \mathrm dq \\
+& = \int_0^1 {N \choose x} q^x (1-q)^{N-x} \frac{1}{B(a,b)} q^{a-1} (1-q)^{b-1} \mathrm d q \\ 
+& = { N \choose x } \frac{B(a + x, b + N - x)}{B(a,b)}.
+\end{aligned}
+$$
+
+Let's actually work that one out more carefully since it's enlightening:
+
+:::{.chilltip}
+
+Jeff really likes probability because you can evaluate incredibly 
+complicated looking integrals just by knowing the forms of different 
+probability distributions.
+$$
+\begin{aligned}
+p(x) & = \int p(x \mid q) p(q) \mathrm dq \\ 
+& = \int  {N \choose x} q^x (1-q)^{N-x} \frac{1}{B(a,b)} q^{a-1} (1-q)^{b-1} \mathrm d q \\ 
+& = {N \choose x } \frac{1}{B(a,b)} \int \underbrace{q^{a+x-1} (1-q)^{b+N-x-1}}_{\text{proportional to a Beta distribution}} \mathrm dq  \\ 
+& = {N \choose x} \frac{B(a+x,b+N-x)}{B(a,b)} \underbrace{\int \frac{1}{B(a+x,b+N-x)} q^{a+x-1} (1-q)^{b+N-x-1} \mathrm dq}_{= \int \t{Beta}(q \mid a+x, b+N-x) \mathrm dq} \\ 
+& = {N \choose x} \frac{B(a+x, b+N-x)}{B(a,b)}.
+\end{aligned} 
+$$
+:::
+
+# Bivariate Transformations
+## Discrete Case
+
+Suppose $(U,V) = g(X,Y)$ for some function $g$. 
+
+If $(X,Y)$ is discrete, then the joint pmf of $(U,V)$ is 
+
+$$f_{U,V}(u,v) = sum_{x,y} f_{X,Y} (x,y) \mathbb 1(g(x,y) = (u,v)).
+$$
+
+This is really just the same as the univariate case, except that we are considering bivariate rather than univariate elements. 
+
+## Continuous Case
+
+It is less obvious how to handle the case where $(X,Y)$ is continuous. Fortunately, however, there is still a nice formula. 
+
+Suppose $(X,Y)$ is a continuous random vector, and $(U,V) = g(X,Y)$ for some function $g$ such that 
+
+  1. $g$ is one-to-one, with inverse $h(u,v) = (x,y)$ on its range,
+  2. the partial derivatives of $g(x,y)$ exist and are continuous 
+  3. the Jacobian matrix $Dh$ is nonsingular, where 
+
+  $$Dh = \begin{bmatrix}
+  \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ 
+  \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+  \end{bmatrix} = 
+  \begin{bmatrix}
+  \frac{\partial h_1}{\partial u} & \frac{\partial h_1}{\partial v} \\ 
+  \frac{\partial h_2}{\partial u} & \frac{\partial h_2}{\partial v}
+  \end{bmatrix}.
+$$
+
+The joint pdf of $(U,V)$ is 
+
+$$f_{U,V}(u,v) = f_{X,Y}(h_1(u,v), h_2(u,v)) \lvert \det (Dh) \rvert
+$$
+
+for $(u,v)$ in the range of $g(X,Y)$ and is zero elsewhere. 
+
+$g(x,y)$ being one-to-one means that if $(x,y) \neq (x',y')$ then $g(x,y) \neq g(x',y')$. A one-to-one function has a 
+inverse from its range back to its domain. 
+
+The determinant factor is 
+
+$$\lvert \det (Dh) \rvert = \lvert \frac{\partial h_1}{\partial u} \frac{\partial h_2}{\partial v} - \frac{\partial h_1}{\partial v} \frac{\partial h_2}{\partial u} \rvert.
+$$
+
+Sometimes $\det (Dh)$ is referred to as the Jacobian of $h$, often denoted $J_h$ or simply $J$. The notation is not totally standard though, and sometimes $J_h$ denotes the matrix $Dh$. 
+

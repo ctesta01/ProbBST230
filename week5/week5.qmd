@@ -469,7 +469,7 @@ The $\t{Poisson}(\theta)$ distributions form an exponential family since the pmf
 
 $$p(x \mid \theta) = \frac{\theta^x e^{-\theta}}{x!} \mathbb 1 \left(x \in \mathcal X\right) = \exp (x \log (\theta) - \theta) \frac{1}{x!} \mathbb 1\left(x \in \mathcal X\right) = \exp (\phi(\theta) t(x) - \kappa(\theta)) h(x)$$
 
-for $\theta \in \Theta = $, where $\mathcal X = \{0,1,2,...\}$, $t(x) = x$,
+for $\theta \in \Theta = (0,\infty)$, where $\mathcal X = \{0,1,2,...\}$, $t(x) = x$,
 $\phi(\theta) = \log(\theta)$, $\kappa(\theta) = \theta$, and 
 $h(x) = \frac{1}{x!} \mathbb 1(x \in \mathcal X)$.
 
@@ -478,7 +478,8 @@ $h(x) = \frac{1}{x!} \mathbb 1(x \in \mathcal X)$.
 
 An exponential family is a collection of distributions indexed by $\theta \in \Theta$ with pdfs/pmfs of the form 
 
-$p(x \mid \theta) = \exp( $ 
+$$p(x \mid \theta) = \exp( \phi(\theta) t(x) - \kappa(\theta)) h(x)
+$$ 
 
 
 ### Gamma Example 

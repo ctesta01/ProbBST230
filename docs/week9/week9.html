@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability (BST 230) Notes - 10&nbsp; Week 9</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../week8/week8.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Week 9</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Probability (BST 230) Notes</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methods (BST 232) Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week1/week1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week2/week2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week4/week4.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week5/week5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week6/week6.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week7/week7.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week8/week8.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week9/week9.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 9</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#recap" id="toc-recap" class="nav-link active" data-scroll-target="#recap">Recap</a></li>
+  <li><a href="#principal-components-analysis" id="toc-principal-components-analysis" class="nav-link" data-scroll-target="#principal-components-analysis">Principal Components Analysis</a></li>
+  <li><a href="#moment-generating-functions" id="toc-moment-generating-functions" class="nav-link" data-scroll-target="#moment-generating-functions">Moment Generating Functions</a></li>
+  <li><a href="#inequalities" id="toc-inequalities" class="nav-link" data-scroll-target="#inequalities">Inequalities</a></li>
+  <li><a href="#markovs-inequality" id="toc-markovs-inequality" class="nav-link" data-scroll-target="#markovs-inequality">Markov’s Inequality</a>
+  <ul class="collapse">
+  <li><a href="#investing-returns-example" id="toc-investing-returns-example" class="nav-link" data-scroll-target="#investing-returns-example">Investing Returns Example</a></li>
+  <li><a href="#corollaries-of-markovs-inequality" id="toc-corollaries-of-markovs-inequality" class="nav-link" data-scroll-target="#corollaries-of-markovs-inequality">Corollaries of Markov’s Inequality</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Week 9</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="recap" class="level1">
+<h1>Recap</h1>
+<p>We left off talking about bivariate normal distributions. We characterized them using their covariances, and showed that we could use matrix decomposition on the covariance matrix to give it an interpretation in terms of rotation and scaling matrices.</p>
+<p>Some handy definitions:</p>
+<p>The eigendecomposition of <span class="math inline">\(\Sigma\)</span> is <span class="math inline">\(\Sigma = U \Lambda U^T\)</span>.</p>
+<p>A matrix is orthogonal if <span class="math inline">\(U^TU = I\)</span> and <span class="math inline">\(UU^T = I\)</span>, a generalization of the unit-length vector.</p>
+<div class="hottip">
+<p>Something I’m not sure about is how to write down the rotation matrix for a <span class="math inline">\(n &gt; 2\)</span> dimensional space.</p>
+</div>
+<p><br></p>
+<div class="chilltip">
+<p>We can represent <span class="math inline">\(\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim \mathcal N(0, \Sigma)\)</span> as</p>
+<p><span class="math display">\[\begin{bmatrix} X_1 \\ X_2
+\end{bmatrix} = \begin{bmatrix} u_{11} &amp; u_{12} \\ u_{21} &amp; u_{22}
+\end{bmatrix} \begin{bmatrix} \sqrt{\lambda_1} &amp; 0 \\ 0 &amp; \sqrt{\lambda_2}
+\end{bmatrix} \begin{bmatrix} Z_1 \\ Z_2
+\end{bmatrix}\]</span></p>
+<p>What’s the means of <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>? Zero. Because it’s an expectation of a constant matrix times a constant matrix times the <span class="math inline">\(Z\)</span> values.</p>
+<p>What’s the covariance matrix of <span class="math inline">\(X\)</span>?</p>
+<p><span class="math display">\[X = U \Lambda^{1/2} Z
+\]</span> <span class="math display">\[ \text{Cov}(X) = \text{Cov}(U \Lambda^{1/2} Z)\]</span> <span class="math display">\[ = U \Lambda^{1/2} \text{Cov}(Z) \Lambda^{1/2} U^T \]</span> <span class="math display">\[ = U \Lambda^{1/2} I \Lambda^{1/2} U^T \]</span> <span class="math display">\[ = U \Lambda U^T.\]</span></p>
+<p><span class="math display">\[ = \Sigma. \]</span></p>
+<p>We have to verify now that the definition for bivariate normality holds.</p>
+To satisfy the definition of bivariate normality for any random vector <span class="math inline">\((X,Y)\)</span>, we want to show that for any <span class="math inline">\(a,b \in \mathbb R\)</span> such that <span class="math inline">\(a_1X + a_2Y\)</span> is normally distributed. Let $a =
+<span class="math display">\[\begin{bmatrix} a_1 \\ a_2
+\end{bmatrix}\]</span>
+<p>To get <span class="math inline">\(X_1 + X_2\)</span>, we would want to calculate:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a^T X &amp; = \underbrace{a^T U \Lambda^{1/2}}_{b^T = \begin{bmatrix} b_1 &amp; b_2
+\end{bmatrix}} Z
+\end{aligned}
+\]</span></p>
+<p>Using moment generating functions, we showed that the sum of two independent normal distributions, then the combination of the two has mean as sum of the means and the variance is</p>
+<p><span class="math display">\[b_1 Z_1 \sim \mathcal N(0, b_1^2)\]</span> <span class="math display">\[b_2 Z_2 \sim \mathcal N(0, b_2^2)\]</span></p>
+<p><span class="math display">\[b_1 Z_1 + b_2 Z_2 \sim \mathcal N(0, b_1^2 + b_2^2) \quad \quad \text{ by a prior mgf argument}\]</span></p>
+</div>
+</section>
+<section id="principal-components-analysis" class="level1">
+<h1>Principal Components Analysis</h1>
+<p>Principal components analysis can be done by applying this decomposition to the sample covariance <span class="math inline">\(\hat \Sigma\)</span> estimated from data <span class="math inline">\(x_1, ..., x_n \in \mathbb R^2\)</span>.</p>
+<p>The columns of <span class="math inline">\(U\)</span> are PC directions, <span class="math inline">\(s_1\)</span>, <span class="math inline">\(s_2\)</span> are the PC scales, <span class="math inline">\(U^T x_i\)</span> are the PC scores.</p>
+<div class="cooltip">
+<p>One useful feature of thinking about PCA as a probabilistic argument is that it reveals its sensitivity to outliers, because normal distributions are sensitive to outliers.</p>
+</div>
+</section>
+<section id="moment-generating-functions" class="level1">
+<h1>Moment Generating Functions</h1>
+<p>The mgf of a bivariate random vector <span class="math inline">\(X = (X_1, X_2)^T\)</span> is defined to be</p>
+<p><span class="math display">\[M_X(t) = \mathbb{E}\exp (t_1 X_1 + t_2 X_2) = \mathbb{E}\exp (t^T X),\]</span></p>
+<p>for <span class="math inline">\(t = \begin{bmatrix} t_1 \\ t_1 \end{bmatrix} \in \mathbb R^2\)</span>.</p>
+<p>If <span class="math inline">\(X\)</span> is bivariate normal then</p>
+<p><span class="math display">\[M_X(t) = \exp \left(
+t_1 \mu_{x_1} + t_2 \mu_{x_2} + \frac{1}{2} \left(t_1^2 \sigma^2_{x_1} + 2t_1 t_2 \rho \sigma_{x_1} \sigma_{x_2} + t_2^2 \sigma_{x_2}^2 \right)
+\right).
+\]</span></p>
+<p>In matrix/vector notation, if <span class="math inline">\(\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim \mathcal N(\mu, \Sigma)\)</span>, then</p>
+<p><span class="math display">\[M_X(t) = \exp \left( t^T \mu + \frac{1}{2} t^T \Sigma t \right)
+\]</span></p>
+</section>
+<section id="inequalities" class="level1">
+<h1>Inequalities</h1>
+<p>Earlier we saw Boole’s Inequality and Bonferroni’s inequality. Inequalities are quite useful in probability because it’s often easier to bound some quantity of interest than to characterize it exactly. Often a decent bound is all that is needed.</p>
+<p>For example, suppose you are manufacturing widgets. Each widget can be defective in three different ways, <span class="math inline">\(A_1, A_2, A_3\)</span>. You have data on the probability of each type of defect <span class="math inline">\(P(A_k)\)</span>, but you don’t have any data on the joint probability of these events.</p>
+<p>Fortunately the probability of any defect can be bounded using Boole’s inequality:</p>
+<p><span class="math display">\[P(A_1 \cup A_2 \cup A_3) \leq P(A_1) + P(A_2) + P(A_3)
+\]</span></p>
+<p>If each <span class="math inline">\(P(A_k)\)</span> is small, then we can guarantee that the probability of any defect occuring is small.</p>
+<p>if the number of possible defects is large, then their pairwise possible combinations are quite large, so we can save on data collection quite a bit.</p>
+<div class="bluetip">
+<p>Boole’s inequality (aka union bound): For any <span class="math inline">\(A_1, A_2, ...\)</span></p>
+<p><span class="math display">\[P \left( \bigcup_{i=1}^\infty A_i \right) \leq \sum_{i=1}^\infty P(A_i).\]</span></p>
+<p>Bonferroni’s inequality:</p>
+<p><span class="math display">\[P\left( \bigcap_{i=1}^\infty A_i \right) \geq 1 - \sum_{i=1}^\infty P(A^c_{i}).\]</span></p>
+</div>
+</section>
+<section id="markovs-inequality" class="level1">
+<h1>Markov’s Inequality</h1>
+<p>One of the simplest but most useful inequalities in probability theory:</p>
+<p>Markov’s inequality: if <span class="math inline">\(X\)</span> is nonnegative and <span class="math inline">\(a &gt; 0\)</span>, then</p>
+<p><span class="math display">\[P(X \geq a) \leq \frac{ \mathbb{E}X }{a}.
+\]</span></p>
+<p>Proof:</p>
+<p>Since <span class="math inline">\(1 \geq \mathbb 1(X \geq a),\)</span>$</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}X &amp; \geq \mathbb{E}X \mathbb 1 (X \geq a) \\
+&amp; \geq \mathbb{E}a \mathbb 1(X \geq a) \\
+&amp; = a P(X \geq a).
+\end{aligned}
+\]</span></p>
+<p>Dividing both sides by <span class="math inline">\(a\)</span> yields the result.</p>
+<section id="investing-returns-example" class="level2">
+<h2 class="anchored" data-anchor-id="investing-returns-example">Investing Returns Example</h2>
+<p>You invest $1000 dollars in a holding where the annual returns are <span class="math inline">\(\mathrm{Pareto}(\alpha, c)\)</span> distributed with <span class="math inline">\(\alpha = 2\)</span> and <span class="math inline">\(c = 1/4\)</span>.</p>
+<p>More precisely, after <span class="math inline">\(n\)</span> years, your investment is worth</p>
+<p><span class="math display">\[Y_n = 1000 X_1 X_2 \cdots X_n\]</span></p>
+<p>dollars, where <span class="math inline">\(X_1, ..., X_n \sim \mathrm{Pareto}(\alpha, c)\)</span> independently.</p>
+<p>Recall that the pdf of <span class="math inline">\(\mathrm{Pareto}(\alpha, c)\)</span> is</p>
+<p><span class="math display">\[p(x) = \frac{\alpha c^{\alpha}}{x^{\alpha+1}} \mathbb 1(x &gt; c).\]</span></p>
+<div class="bluetip">
+<p>Is this a good investment?</p>
+<p>First, guess using your intuition. Then try to show something formally.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="dv">2</span> <span class="sc">*</span> .<span class="dv">25</span><span class="sc">^</span>(<span class="dv">2</span>) <span class="sc">/</span> x<span class="sc">^</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> (x <span class="sc">&gt;</span> .<span class="dv">25</span>)}</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(f, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week9_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Since so much of the pdf appears to be concentrated in (0.25,1), we were wondering, given that the Pareto distrbution has heavy tails, what’s the probability of getting an outcome <span class="math inline">\(\geq 1\)</span>?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cdf_f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { <span class="dv">1</span> <span class="sc">-</span> (.<span class="dv">25</span><span class="sc">/</span>x)<span class="sc">^</span><span class="dv">2</span> }</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">cdf_f</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0625</code></pre>
+</div>
+</div>
+<p>It looks like that might happen 6.25% of the time, but we don’t really have a sense of how large those values might be.</p>
+</div>
+<p><br></p>
+<div class="chilltip">
+<p>Applying Markov’s theorem:</p>
+<p>We’re interested in <span class="math inline">\(P(Y_n \geq a) \leq \frac{\mathbb{E}Y_n}{a}\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y_n \geq a) &amp; \leq \frac{\mathbb{E}Y_n}{a} \\
+&amp; = \frac{\mathbb{E}10000 X_1 \cdots X_n}{a} \\
+&amp; = \frac{1000 (\mathbb{E}X_1) \cdots (\mathbb{E}X_n)}{a} \\
+&amp; = \frac{1000}{a} \left( \frac{\alpha c}{\alpha - 1} \right)^n \\
+&amp; = \frac{1000}{a} \left( \frac{1}{2} \right)^n \stackrel{n \to \infty }{\Longrightarrow} 0 \\
+\Longrightarrow &amp; P(Y_n \geq a) \longrightarrow 0 \quad \text{ for all } a &gt; 0.
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+<div class="cooltip">
+<p>If one sees a probability of some large event that they want to bound, usually the first thing one should try is applying Markov’s theorem.</p>
+</div>
+</section>
+<section id="corollaries-of-markovs-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="corollaries-of-markovs-inequality">Corollaries of Markov’s Inequality</h2>
+<ol type="1">
+<li>For any random variable <span class="math inline">\(X\)</span> and any <span class="math inline">\(a &gt; 0\)</span>,</li>
+</ol>
+<p><span class="math display">\[P(|X| \geq a) \leq \frac{\mathbb{E}|X|}{a}.\]</span></p>
+<ol start="2" type="1">
+<li>For any random variable <span class="math inline">\(X\)</span>, any <span class="math inline">\(a \in \mathbb R\)</span>, and any monotone increasing function <span class="math inline">\(g(x) \geq 0\)</span>,</li>
+</ol>
+<p><span class="math display">\[P(X \geq a) \leq \frac{\mathbb{E}g(X)}{g(a)}.\]</span></p>
+<ol start="3" type="1">
+<li>Chebyshev’s inequality: For any random variable <span class="math inline">\(X\)</span> and any <span class="math inline">\(a &gt; 0\)</span>,</li>
+</ol>
+<p><span class="math display">\[P(|X - \mathbb{E}X| \geq a) \leq \frac{\text{Var}(X)}{a^2}.\]</span></p>
+<p>Chebyshev’s inequality allows us to bound the probability that a random variable is a certain distance from its mean.</p>
+<div class="bluetip">
+<p>Try to show 2 and 3 using Markov’s inequality.</p>
+<p>Because <span class="math inline">\(x \geq a \to g(x) \geq g(a)\)</span>, <span class="math display">\[P(X \geq a) \leq P(g(X) \geq g(a)) \quad \text{ since $g$ is monotonically increasing}.\]</span></p>
+<p>(If the statement said <em>strictly</em> monotone, the first inequality would be an equality.)</p>
+<p>Note that <span class="math inline">\(g(a)\)</span> needs to be positive.</p>
+<p>And then apply Markov’s inequality to get that</p>
+<p><span class="math display">\[P(X \geq a) = P(g(X) \geq g(a)) = \frac{\mathbb{E}g(X)}{g(a)}.\]</span></p>
+<p>Then for 3, we want to set <span class="math inline">\(g(x) = x^2\)</span>, which is monotonically increasing on <span class="math inline">\(X \geq 0\)</span>.</p>
+<p><span class="math display">\[\begin{aligned}
+P(|X-\mathbb{E}X| \geq a) &amp; = P(| X - \mathbb{E}X |^2 \geq a^2) \\
+&amp; \leq \frac{ \mathbb{E}|X-\mathbb{E}X|^2 }{a^2} \\
+&amp; = \frac{\text{Var}(X)}{a^2},
+\end{aligned}
+\]</span></p>
+<p>noting that <span class="math inline">\(|X - \mathbb{E}X|\)</span> and <span class="math inline">\(a^2\)</span> being non-negative is what makes this work.</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../week8/week8.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Week 8</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

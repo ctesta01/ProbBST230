@@ -1,0 +1,282 @@
+---
+title: Week 9
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+$$
+:::
+
+# Recap 
+
+We left off talking about bivariate normal distributions. 
+We characterized them using their covariances, and showed that 
+we could use matrix decomposition on the covariance matrix to 
+give it an interpretation in terms of rotation and scaling matrices. 
+
+Some handy definitions: 
+
+The eigendecomposition of $\Sigma$ is $\Sigma = U \Lambda U^T$. 
+
+A matrix is orthogonal if $U^TU = I$ and $UU^T = I$, a generalization of 
+the unit-length vector. 
+
+:::{.hottip}
+Something I'm not sure about is how to write down the rotation matrix for a 
+$n > 2$ dimensional space. 
+:::
+<br>
+
+:::{.chilltip}
+We can represent $\begin{bmatrix} X_1 \\ X_2 
+\end{bmatrix} \sim \mathcal N(0, \Sigma)$ as
+
+$$\begin{bmatrix} X_1 \\ X_2
+\end{bmatrix} = \begin{bmatrix} u_{11} & u_{12} \\ u_{21} & u_{22} 
+\end{bmatrix} \begin{bmatrix} \sqrt{\lambda_1} & 0 \\ 0 & \sqrt{\lambda_2}
+\end{bmatrix} \begin{bmatrix} Z_1 \\ Z_2
+\end{bmatrix}$$
+
+What's the means of $X_1$, $X_2$? Zero.  Because it's an expectation of a constant matrix times a constant matrix times the $Z$ values. 
+
+What's the covariance matrix of $X$? 
+
+$$X = U \Lambda^{1/2} Z
+$$
+$$ \Cov(X) = \Cov(U \Lambda^{1/2} Z)$$
+$$ = U \Lambda^{1/2} \Cov(Z) \Lambda^{1/2} U^T $$
+$$ = U \Lambda^{1/2} I \Lambda^{1/2} U^T $$
+$$ = U \Lambda U^T.$$
+
+$$ = \Sigma. $$
+
+We have to verify now that the definition for bivariate normality holds. 
+
+To satisfy the definition of bivariate normality for any random vector $(X,Y)$, we want to show that for any $a,b \in \mathbb R$ such that $a_1X + a_2Y$ is normally distributed.  Let $a = \begin{bmatrix} a_1 \\ a_2
+\end{bmatrix}
+
+To get $X_1 + X_2$, we would want to calculate: 
+
+$$
+\begin{aligned}
+a^T X & = \underbrace{a^T U \Lambda^{1/2}}_{b^T = \begin{bmatrix} b_1 & b_2
+\end{bmatrix}} Z 
+\end{aligned}
+$$
+
+Using moment generating functions, we showed that 
+the sum of two independent normal distributions, 
+then the combination of the two has 
+mean as sum of the means and the variance is 
+
+
+$$b_1 Z_1 \sim \mathcal N(0, b_1^2)$$
+$$b_2 Z_2 \sim \mathcal N(0, b_2^2)$$
+
+$$b_1 Z_1 + b_2 Z_2 \sim \mathcal N(0, b_1^2 + b_2^2) \quad \quad \text{ by a prior mgf argument}$$
+:::
+
+# Principal Components Analysis
+
+Principal components analysis can be done by 
+applying this decomposition to the sample covariance 
+$\hat \Sigma$ estimated from data $x_1, ..., x_n \in \mathbb R^2$. 
+
+The columns of $U$ are PC directions, $s_1$, $s_2$ are 
+the PC scales, $U^T x_i$ are the PC scores. 
+
+:::{.cooltip}
+One useful feature of thinking about PCA as a probabilistic argument is that it reveals its sensitivity to outliers, because normal distributions are sensitive to outliers.
+:::
+
+# Moment Generating Functions
+
+The mgf of a bivariate random vector 
+$X = (X_1, X_2)^T$ is defined to be 
+
+$$M_X(t) = \E \exp (t_1 X_1 + t_2 X_2) = \E \exp (t^T X),$$
+
+for $t = \begin{bmatrix} t_1 \\ t_1 \end{bmatrix} \in \mathbb R^2$. 
+
+If $X$ is bivariate normal then 
+
+$$M_X(t) = \exp \left( 
+ t_1 \mu_{x_1} + t_2 \mu_{x_2} + \frac{1}{2} \left(t_1^2 \sigma^2_{x_1} + 2t_1 t_2 \rho \sigma_{x_1} \sigma_{x_2} + t_2^2 \sigma_{x_2}^2 \right) 
+\right). 
+$$
+
+In matrix/vector notation, if $\begin{bmatrix} X_1 \\ X_2
+\end{bmatrix} \sim \mathcal N(\mu, \Sigma)$, then 
+
+$$M_X(t) = \exp \left( t^T \mu + \frac{1}{2} t^T \Sigma t \right)
+$$
+
+# Inequalities
+
+Earlier we saw Boole's Inequality and Bonferroni's inequality.  Inequalities are quite useful in probability because it's often easier to bound some quantity of interest than to characterize it exactly. Often a decent bound is all that is needed. 
+
+For example, suppose you are manufacturing widgets. Each widget can be defective in three different ways, $A_1, A_2, A_3$. You have data on the probability of each type of defect $P(A_k)$, but you don't have any data on the joint probability of these events. 
+
+Fortunately the probability of any defect can be bounded using Boole's inequality: 
+
+$$P(A_1 \cup A_2 \cup A_3) \leq P(A_1) + P(A_2) + P(A_3)
+$$
+
+If each $P(A_k)$ is small, then we can guarantee that the probability of any defect occuring is small. 
+
+if the number of possible defects is large, then their pairwise possible combinations are quite large, so we can save on data collection quite a bit. 
+
+:::{.bluetip}
+Boole's inequality (aka union bound): For any $A_1, A_2, ...$ 
+
+$$P \left( \bigcup_{i=1}^\infty A_i \right) \leq \sum_{i=1}^\infty P(A_i).$$
+
+Bonferroni's inequality: 
+
+$$P\left( \bigcap_{i=1}^\infty A_i \right) \geq 1 - \sum_{i=1}^\infty P(A^c_{i}).$$
+:::
+
+# Markov's Inequality 
+
+One of the simplest but most useful inequalities in probability theory: 
+
+Markov's inequality: if $X$ is nonnegative and $a > 0$, then 
+
+$$P(X \geq a) \leq \frac{ \E X }{a}.
+$$
+
+Proof: 
+
+Since $1 \geq \mathbb 1(X \geq a),$$
+
+$$\begin{aligned}
+\E X & \geq \E X \mathbb 1 (X \geq a) \\ 
+& \geq \E a \mathbb 1(X \geq a) \\ 
+& = a P(X \geq a).
+\end{aligned}
+$$
+
+Dividing both sides by $a$ yields the result. 
+
+## Investing Returns Example
+
+You invest $1000 dollars in a holding where the annual 
+returns are $\mathrm{Pareto}(\alpha, c)$ distributed with $\alpha = 2$ and $c = 1/4$. 
+
+More precisely, after $n$ years, your investment is worth 
+
+$$Y_n = 1000 X_1 X_2 \cdots X_n$$
+
+dollars, where $X_1, ..., X_n \sim \mathrm{Pareto}(\alpha, c)$ independently. 
+
+Recall that the pdf of $\mathrm{Pareto}(\alpha, c)$ is 
+
+$$p(x) = \frac{\alpha c^{\alpha}}{x^{\alpha+1}} \mathbb 1(x > c).$$
+
+
+:::{.bluetip}
+Is this a good investment? 
+
+First, guess using your intuition. Then try to show something formally.
+
+```{r}
+f <- function(x) {2 * .25^(2) / x^(2 + 1) * (x > .25)}
+curve(f, from = 0, to = 2)
+```
+
+
+Since so much of the pdf appears to be concentrated in (0.25,1), we were wondering, given that the Pareto distrbution has heavy tails, what's the probability of getting an outcome $\geq 1$? 
+```{r}
+cdf_f <- function(x) { 1 - (.25/x)^2 }
+1 - cdf_f(1)
+```
+
+It looks like that might happen 6.25% of the time, but we don't really have a sense of how large those values might be. 
+:::
+
+<br>
+
+:::{.chilltip}
+Applying Markov's theorem: 
+
+We're interested in $P(Y_n \geq a) \leq \frac{\E Y_n}{a}$. 
+
+$$
+\begin{aligned}
+P(Y_n \geq a) & \leq \frac{\E Y_n}{a} \\ 
+& = \frac{\E 10000 X_1 \cdots X_n}{a} \\ 
+& = \frac{1000 (\E X_1) \cdots (\E X_n)}{a} \\ 
+& = \frac{1000}{a} \left( \frac{\alpha c}{\alpha - 1} \right)^n \\ 
+& = \frac{1000}{a} \left( \frac{1}{2} \right)^n \stackrel{n \to \infty }{\Longrightarrow} 0 \\ 
+\Longrightarrow & P(Y_n \geq a) \longrightarrow 0 \quad \text{ for all } a > 0.
+\end{aligned}
+$$
+:::
+
+<br>
+
+:::{.cooltip}
+If one sees a probability of some large event that they 
+want to bound, usually the first thing one should try 
+is applying Markov's theorem.
+:::
+
+## Corollaries of Markov's Inequality
+
+1. For any random variable $X$ and any $a > 0$, 
+
+$$P(|X| \geq a) \leq \frac{\E |X|}{a}.$$
+
+2. For any random variable $X$, any $a \in \mathbb R$, and any monotone increasing function $g(x) \geq 0$, 
+
+$$P(X \geq a) \leq \frac{\E g(X)}{g(a)}.$$
+
+3. Chebyshev's inequality: For any random variable $X$ and any $a > 0$, 
+
+$$P(|X - \E X| \geq a) \leq \frac{\Var(X)}{a^2}.$$
+
+Chebyshev's inequality allows us to bound the probability that a random variable is a certain distance from its mean. 
+
+:::{.bluetip}
+Try to show 2 and 3 using Markov's inequality. 
+
+Because $x \geq a \to g(x) \geq g(a)$, 
+$$P(X \geq a) \leq P(g(X) \geq g(a)) \quad \text{ since $g$ is monotonically increasing}.$$
+
+(If the statement said *strictly* monotone, the first inequality would be an equality.)
+
+Note that $g(a)$ needs to be positive. 
+
+And then apply Markov's inequality to get that 
+
+$$P(X \geq a) = P(g(X) \geq g(a)) = \frac{\E g(X)}{g(a)}.$$
+
+Then for 3, we want to set $g(x) = x^2$, which is 
+monotonically increasing on $X \geq 0$. 
+
+$$\begin{aligned}
+P(|X-\E X| \geq a) & = P(| X - \E X |^2 \geq a^2) \\ 
+& \leq \frac{ \E |X-\E X|^2 }{a^2} \\ 
+& = \frac{\Var(X)}{a^2},
+\end{aligned}
+$$
+
+noting that $|X - \E X|$ and $a^2$ being non-negative 
+is what makes this work.
+:::

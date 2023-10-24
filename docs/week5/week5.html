@@ -192,6 +192,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="../week6/week6.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 6</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week7/week7.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 7</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -527,14 +532,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4 class="anchored" data-anchor-id="the-poisson-distribution-family">The Poisson Distribution Family</h4>
 <p>The <span class="math inline">\(\text{Poisson}(\theta)\)</span> distributions form an exponential family since the pmfs are</p>
 <p><span class="math display">\[p(x \mid \theta) = \frac{\theta^x e^{-\theta}}{x!} \mathbb 1 \left(x \in \mathcal X\right) = \exp (x \log (\theta) - \theta) \frac{1}{x!} \mathbb 1\left(x \in \mathcal X\right) = \exp (\phi(\theta) t(x) - \kappa(\theta)) h(x)\]</span></p>
-<p>for $= $, where <span class="math inline">\(\mathcal X = \{0,1,2,...\}\)</span>, <span class="math inline">\(t(x) = x\)</span>, <span class="math inline">\(\phi(\theta) = \log(\theta)\)</span>, <span class="math inline">\(\kappa(\theta) = \theta\)</span>, and <span class="math inline">\(h(x) = \frac{1}{x!} \mathbb 1(x \in \mathcal X)\)</span>.</p>
+<p>for <span class="math inline">\(\theta \in \Theta = (0,\infty)\)</span>, where <span class="math inline">\(\mathcal X = \{0,1,2,...\}\)</span>, <span class="math inline">\(t(x) = x\)</span>, <span class="math inline">\(\phi(\theta) = \log(\theta)\)</span>, <span class="math inline">\(\kappa(\theta) = \theta\)</span>, and <span class="math inline">\(h(x) = \frac{1}{x!} \mathbb 1(x \in \mathcal X)\)</span>.</p>
 </section>
 </section>
 </section>
 <section id="multi-parameter-exponential-families" class="level2">
 <h2 class="anchored" data-anchor-id="multi-parameter-exponential-families">Multi-Parameter Exponential Families</h2>
 <p>An exponential family is a collection of distributions indexed by <span class="math inline">\(\theta \in \Theta\)</span> with pdfs/pmfs of the form</p>
-<p>$p(x ) = ( $</p>
+<p><span class="math display">\[p(x \mid \theta) = \exp( \phi(\theta) t(x) - \kappa(\theta)) h(x)
+\]</span></p>
 <section id="gamma-example" class="level3">
 <h3 class="anchored" data-anchor-id="gamma-example">Gamma Example</h3>
 <p>The <span class="math inline">\(\text{Gamma}(a,b)\)</span> distributions, with <span class="math inline">\(a, b &gt; 0\)</span> are an exponential family:</p>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability (BST 230) Notes - 8&nbsp; Week 7</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../week8/week8.html" rel="next">
+<link href="../week6/week6.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Week 7</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Probability (BST 230) Notes</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methods (BST 232) Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week1/week1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week2/week2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week4/week4.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week5/week5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week6/week6.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week7/week7.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week8/week8.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 8</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#recap" id="toc-recap" class="nav-link active" data-scroll-target="#recap">Recap</a>
+  <ul class="collapse">
+  <li><a href="#independence-and-dependence" id="toc-independence-and-dependence" class="nav-link" data-scroll-target="#independence-and-dependence">Independence and Dependence</a></li>
+  <li><a href="#sums-of-gaussians" id="toc-sums-of-gaussians" class="nav-link" data-scroll-target="#sums-of-gaussians">Sums of Gaussians</a></li>
+  </ul></li>
+  <li><a href="#conditional-expectations" id="toc-conditional-expectations" class="nav-link" data-scroll-target="#conditional-expectations">Conditional Expectations</a>
+  <ul class="collapse">
+  <li><a href="#law-of-total-expectation-law-of-total-variance" id="toc-law-of-total-expectation-law-of-total-variance" class="nav-link" data-scroll-target="#law-of-total-expectation-law-of-total-variance">Law of Total Expectation &amp; Law of Total Variance</a>
+  <ul class="collapse">
+  <li><a href="#example-compound-distributions" id="toc-example-compound-distributions" class="nav-link" data-scroll-target="#example-compound-distributions">Example: Compound Distributions</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2">Example 2</a></li>
+  </ul></li>
+  <li><a href="#the-exchange-paradox" id="toc-the-exchange-paradox" class="nav-link" data-scroll-target="#the-exchange-paradox">The Exchange Paradox</a></li>
+  </ul></li>
+  <li><a href="#mixture-distributions" id="toc-mixture-distributions" class="nav-link" data-scroll-target="#mixture-distributions">Mixture Distributions</a>
+  <ul class="collapse">
+  <li><a href="#gamma-poisson-mixtures-aka-negative-binomial" id="toc-gamma-poisson-mixtures-aka-negative-binomial" class="nav-link" data-scroll-target="#gamma-poisson-mixtures-aka-negative-binomial">Gamma-Poisson Mixtures (aka Negative Binomial)</a></li>
+  <li><a href="#beta-binomial-mixture" id="toc-beta-binomial-mixture" class="nav-link" data-scroll-target="#beta-binomial-mixture">Beta-Binomial Mixture</a></li>
+  </ul></li>
+  <li><a href="#bivariate-transformations" id="toc-bivariate-transformations" class="nav-link" data-scroll-target="#bivariate-transformations">Bivariate Transformations</a>
+  <ul class="collapse">
+  <li><a href="#discrete-case" id="toc-discrete-case" class="nav-link" data-scroll-target="#discrete-case">Discrete Case</a></li>
+  <li><a href="#continuous-case" id="toc-continuous-case" class="nav-link" data-scroll-target="#continuous-case">Continuous Case</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Week 7</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="recap" class="level1">
+<h1>Recap</h1>
+<section id="independence-and-dependence" class="level2">
+<h2 class="anchored" data-anchor-id="independence-and-dependence">Independence and Dependence</h2>
+<p><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent if and only if for all (measurable) functions <span class="math inline">\(g(x)\)</span> and <span class="math inline">\(h(y)\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{E}(g(X)h(Y)) = \mathbb{E}(g(X))\mathbb{E}(h(Y))
+\]</span></p>
+</section>
+<section id="sums-of-gaussians" class="level2">
+<h2 class="anchored" data-anchor-id="sums-of-gaussians">Sums of Gaussians</h2>
+<p>This property of mgfs can simplify derivations of the distribution of a sum of independent random variables.</p>
+<p>The mgf of <span class="math inline">\(X \sim \mathcal N(\mu, \sigma^2)\)</span> is</p>
+<p><span class="math display">\[
+M_X(t) = \exp(\mu t + \frac{1}{s} \sigma^2 t^2).
+\]</span></p>
+<p>Suppose <span class="math inline">\(X_1 \sim \mathcal N(\mu_1, \sigma^2_1)\)</span> and <span class="math inline">\(X_2 \sim \mathcal N(\mu_2, \sigma^2_2)\)</span> independently. Then</p>
+<p><span class="math display">\[
+M_{X_1 + X_2}(t) = M_{X_1}(t)M_{X_2}(t)
+\]</span></p>
+<p><span class="math display">\[
+=\exp\left( (\mu_1 + \mu_2) t + \frac{1}{2}(\sigma_1^2 + \sigma^2_2) t^2\right),
+\]</span></p>
+<p>which is the mgf of <span class="math inline">\(\mathcal N(\mu_1 + \mu_2, \sigma^2_1 + \sigma^2_2)\)</span> for all <span class="math inline">\(t\)</span>.</p>
+<p>Recall that if two variables have the mgfs that are equal and finite around some interval of the origin, then they are the variables are equal in distribution. (It turns out that if two mgfs are finite and equal on a neighborhood around zero, they must be equal everywhere).</p>
+<p>Therefore we’re allowed to make the jump that <span class="math display">\[
+Y \sim \mathcal N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2) \Rightarrow X_1 + X_2 \stackrel{d}{=} Y.
+\]</span></p>
+</section>
+</section>
+<section id="conditional-expectations" class="level1">
+<h1>Conditional Expectations</h1>
+<p>Recall that if <span class="math inline">\((X,Y)\)</span> is a random vector and <span class="math inline">\(g(x)\)</span> is a measurable function. The conditional expectation of <span class="math inline">\(g(X)\)</span> given that <span class="math inline">\(Y=y\)</span> is</p>
+<p><span class="math display">\[
+\mathbb E(g(X) | Y=y) = \int_{x \in \mathcal X} g(x) f_{X|Y}(x|y) dx
+\]</span></p>
+<p>We have to be a bit careful with the notation <span class="math inline">\(\mathbb E[X|Y=y]\)</span> which might lead you to believe we’re conditioning on the probability that <span class="math inline">\(Y=y\)</span>, but the probability <span class="math inline">\(Y=y\)</span> is vanishingly small (0), though there is a <em>density</em> for the probability distribution of <span class="math inline">\(Y\)</span> at <span class="math inline">\(y\)</span>.</p>
+<section id="law-of-total-expectation-law-of-total-variance" class="level2">
+<h2 class="anchored" data-anchor-id="law-of-total-expectation-law-of-total-variance">Law of Total Expectation &amp; Law of Total Variance</h2>
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}X = \mathbb{E}(\mathbb{E}(X \mid Y))\)</span></li>
+<li><span class="math inline">\(\text{Var}X = \mathbb{E}(\text{Var}(X \mid Y)) = \text{Var}(\mathbb{E}(X\mid Y))\)</span></li>
+</ol>
+<div class="chilltip">
+<p>Looking at claim 2, let’s expand the two terms on the right:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}(\text{Var}(X \mid Y)) &amp; = \mathbb{E}(\mathbb{E}(X^2 \mid Y ) - \mathbb{E}(X \mid Y)^2) \\
+&amp; = \mathbb{E}(\mathbb{E}(X^2 \mid Y)) - \mathbb{E}(\mathbb{E}(X \mid Y)^2) \\
+&amp; = \mathbb{E}(X^2) - \mathbb{E}(\mathbb{E}(X \mid Y)^2) \quad \text{ by Law of Total Expectation}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Var}(\mathbb{E}(X \mid Y)) &amp; = \mathbb{E}(\mathbb{E}(X \mid Y)^2) - \mathbb{E}(\mathbb{E}(X \mid Y))^2 \\
+&amp; = \mathbb{E}(\mathbb{E}(X \mid Y)^2) - (\mathbb{E}X)^2 \quad \text{ by Law of Total Expectation}
+\end{aligned}
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}(\text{Var}(X \mid Y)) + \text{Var}(\mathbb{E}(X \mid Y)) &amp; = \mathbb{E}X^2 - (\mathbb{E}X)^2 \\
+&amp; = \text{Var}X.
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+<div class="hottip">
+<p>We define conditional expectation before we define conditional probability. Why? It seems almost backwards?</p>
+<p>There is measure-theoretic difficulty with continuous distributions. There are paradoxes that can come up if this is done too naively. This is called the <strong>Borel paradox</strong>.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Kolmogorov_paradox">Wikipedia article</a></li>
+<li><a href="https://philosophy.ucla.edu/wp-content/uploads/2016/08/Borel-Kolmogorov-Paradox.pdf">Philosophical ramifications</a></li>
+<li><a href="http://www.cs.ox.ac.uk/people/yarin.gal/website/PDFs/Short-talk-03-2014.pdf">Slides</a></li>
+<li><a href="http://philsci-archive.pitt.edu/18434/1/borel-kolmogorov-PSA.pdf">Writeup</a></li>
+<li><a href="http://hps.elte.hu/~gszabo/Preprints/Borel-Kolmogorov_presentation_short.pdf">Preprint</a></li>
+</ul>
+<p>There was one study in the 1990s on tracking populations of fish, but it was based on a faulty construction of a conditional distribution due to the Borel paradox.</p>
+</div>
+<section id="example-compound-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="example-compound-distributions">Example: Compound Distributions</h3>
+<p>Say you roll a die and it comes up <span class="math inline">\(Y\)</span>. Then you roll the die <span class="math inline">\(Y\)</span> times, getting outcomes <span class="math inline">\(X_1,...,X_Y\)</span>. What is <span class="math inline">\(\mathbb{E}(\sum_{i=1}^Y X_i)?\)</span>.</p>
+<p>This is two-stage procedure leads to something we call a <span class="vocab">compound distribution</span>, which are also called <span class="vocab">mixture models</span> or <span class="vocab">hierarchical model</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left( \sum_{i=1}^Y X_i \right) &amp; = \mathbb{E}\left( \mathbb{E}\left( \sum_{i=1}^Y X_i \mid Y \right) \right) \\
+&amp; = \mathbb{E}\left( \sum_{i=1}^Y \mathbb{E}(X_i \mid Y ) \right)  \\
+&amp; = \mathbb{E}(3.5 Y) = 3.5^2.
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(Y\)</span> itself is a discrete uniform on <span class="math inline">\(\{1,...,6\}\)</span> and each <span class="math inline">\(X_i\)</span> is also a discrete uniform on <span class="math inline">\(\{1,...,6\}\)</span>, but the composition of the two is not.</p>
+<p>The sum of a random number of random variables is said to follow a <em>compound distribution</em>.</p>
+</section>
+<section id="example-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-2">Example 2</h3>
+<p>Suppose <span class="math inline">\(N \sim \text{Poisson}(\lambda)\)</span> and <span class="math inline">\(X_1,...,X_N \sim \text{Geometric}(q)\)</span> independently given <span class="math inline">\(N\)</span>. Let <span class="math inline">\(S = \sum_{i=1}^N X_i\)</span>.</p>
+<p>By the law of total expectation</p>
+<p><span class="math display">\[\mathbb{E}S = \mathbb{E}(\mathbb{E}(S \mid N)) = \mathbb{E}( N / q) = \lambda / q.
+\]</span></p>
+<p>Remember that if two variables are independent, then <span class="math inline">\(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)\)</span>, which is also true of conditional variances.</p>
+<p>So we can say that</p>
+<p><span class="math display">\[
+\text{Var}(S \mid N) = \sum_{i=1}^N \text{Var}(X_i \mid N) = N \frac{1-q}{q^2}.
+\]</span></p>
+<p>Therefore, by the law of total variance,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Var}S &amp; = \mathbb{E}(\text{Var}(S \mid N)) + \text{Var}(\mathbb{E}(S \mid N)) \\
+&amp; = \mathbb{E}(N(1-q)/q^2) + \text{Var}(N/q) \\
+&amp; = \lambda(1-q)/q^2 + \lambda/q^2 \\
+&amp; = \lambda(2-q)/q^2.
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="the-exchange-paradox" class="level2">
+<h2 class="anchored" data-anchor-id="the-exchange-paradox">The Exchange Paradox</h2>
+<p>At a carnival, there is a mysterious man with two envelopes on the table in front of him. He tells you that one of the envelopes has twice as much money as the other, and you can pick one. You randomly pick one envelope and find <span class="math inline">\(x\)</span> dollars inside. Now, he says, you can keep that money or take the money in the other envelope.</p>
+<p>Your friend says you should switch, because you will either get <span class="math inline">\(x/2\)</span> or <span class="math inline">\(2x\)</span> dollars, each with probability 1/2, so the expected value of switching is</p>
+<p><span class="math display">\[
+(1/2)(x/2) + (1/2)(2x) = 5x/4
+\]</span></p>
+<p>What would you do?</p>
+<div class="cooltip">
+<p>The problem is that what’s in the envelope is not a random quantity.</p>
+<p>We want to evaluate</p>
+<p><span class="math display">\[
+\mathbb{E}(\text{How Much Money You'd Get} \mid \text{You Switch})
+\]</span></p>
+<p>And we want to see if this is the same, larger, or smaller than:</p>
+<p><span class="math display">\[
+\mathbb{E}(\text{How Much Money You'd Get} \mid \text{You Don't Switch})
+\]</span></p>
+<p>Let <span class="math inline">\(M\)</span> be the amount of money in the lower value envelope.</p>
+<p>If you first pick the envelope with the higher amount, and you switch you’d get <span class="math inline">\(M\)</span> money, and if you pick the envelope with the lower amount and switch, you’d get <span class="math inline">\(2M\)</span> money.</p>
+<p><span class="math display">\[
+\mathbb{E}(\text{How Much Money You'd Get} \mid \text{You Switch}) = (1/2)M + (1/2)2M
+\]</span></p>
+<p>If you pick the envelope with the higher amount and you don’t switch, then you get <span class="math inline">\(2M\)</span> and you don’t …</p>
+<p><span class="math display">\[
+\mathbb{E}(\text{How Much Money You'd Get} \mid \text{You Don't Switch}) = (1/2)M + (1/2)2M
+\]</span></p>
+</div>
+<p><br></p>
+<div class="chilltip">
+<p>Let <span class="math inline">\(X =\)</span> the amount in the envelope selected and <span class="math inline">\(Y =\)</span> amount in the other envelope.</p>
+<p>Let <span class="math inline">\(m\)</span> and <span class="math inline">\(2m\)</span> denote the (unknown) amount of money in the two envelopes.</p>
+<p>Then <span class="math display">\[P(Y = 2m \mid X = m) = 1
+\]</span> <span class="math display">\[P(Y = m \mid X = 2m) = 1
+\]</span></p>
+<p><span class="math display">\[P(X = m) = P(X = 2m) = 1/2.\]</span></p>
+<p>Thus by law of total expectation</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}Y &amp; = \mathbb{E}(\mathbb{E}(Y \mid X))  \\
+&amp; = \mathbb{E}(Y \mid X=m)P(X=m) + \mathbb{E}(Y \mid X = 2m) P(X = 2m) \\
+&amp; = (2m)(1/2) + m(1/2) = 3m/2.
+\end{aligned}
+\]</span></p>
+<p>Meanwhile,</p>
+<p><span class="math display">\[\mathbb{E}X = mP(X = m) + 2m P(X = 2m) = 3m/2.
+\]</span></p>
+<p>There is no advantage to switching.</p>
+<p>Morals: Write down your assumptions carefully, and realize that your intuition can lead you astray.</p>
+</div>
+</section>
+</section>
+<section id="mixture-distributions" class="level1">
+<h1>Mixture Distributions</h1>
+<p>Suppose the heights of adult women and men are <span class="math inline">\(\mathcal N(\mu_1, \sigma_1^2)\)</span> and <span class="math inline">\(\mathcal N(\mu_2, \sigma_2^2)\)</span>, respectively.</p>
+<p>Then the pdf of heights for women and men combined is</p>
+<p><span class="math display">\[\pi \mathcal N(\mu_1, \sigma_1^2) + (1-\pi) \mathcal N(\mu_2, \sigma_2^2)
+\]</span></p>
+<p>where <span class="math inline">\(\pi\)</span> is the proportion of women in the population.</p>
+<p>This is called a mixture of Gaussians.</p>
+<p>More generally, mixture distributions are obtained by taking a weighted sum or integral of pdfs/pmfs.</p>
+<p>Mixtures are a useful way of enrichiing a simple family of distributions.</p>
+<section id="gamma-poisson-mixtures-aka-negative-binomial" class="level3">
+<h3 class="anchored" data-anchor-id="gamma-poisson-mixtures-aka-negative-binomial">Gamma-Poisson Mixtures (aka Negative Binomial)</h3>
+<p>Suppose a <span class="math inline">\(\text{Poisson}(\lambda)\)</span> model makes sense for <span class="math inline">\(X\)</span>, but we don’t know <span class="math inline">\(\lambda\)</span>. A natural approach is to place a distribution on <span class="math inline">\(\lambda\)</span> and integrate it out.</p>
+<p>For instance, define a joint distribution <span class="math inline">\(p(x, \lambda)\)</span> by setting</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x \mid \lambda) &amp; = \text{Poisson}(x \mid \lambda) \\
+p(\lambda) &amp; = \text{Gamma}(\lambda \mid r, q/(1-q)).
+\end{aligned}
+\]</span></p>
+<p>Then <span class="math display">\[
+p(x) = \int p(x \mid \lambda) p(\lambda) \mathrm d \lambda = \text{NegativeBinomial} (x \mid r, q).
+\]</span></p>
+<p>This model is much more robust to outliers than the Poisson.</p>
+<p>Integrating out a parameter in this way is often referred to as <span class="vocab">overdispersion.</span> So this example is an <em>overdispersed Poisson</em>.</p>
+</section>
+<section id="beta-binomial-mixture" class="level3">
+<h3 class="anchored" data-anchor-id="beta-binomial-mixture">Beta-Binomial Mixture</h3>
+<p>As another example, suppose a <span class="math inline">\(\text{Binomial}(N,q)\)</span> model makes sense for <span class="math inline">\(X\)</span> but we don’t know <span class="math inline">\(q\)</span>.</p>
+<p>Placing a <span class="math inline">\(\text{Beta}\)</span> distribution on <span class="math inline">\(q\)</span> yields</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x \mid q) &amp; = \text{Binomial}(x \mid N, q) \\
+p(q) &amp; = \text{Beta}(q \mid a,b).
+\end{aligned}
+\]</span></p>
+<p>The resulting marginal pmf of <span class="math inline">\(X\)</span> is</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x) &amp; = \int p(x \mid q) p(q) \mathrm dq \\
+&amp; = \int_0^1 {N \choose x} q^x (1-q)^{N-x} \frac{1}{B(a,b)} q^{a-1} (1-q)^{b-1} \mathrm d q \\
+&amp; = { N \choose x } \frac{B(a + x, b + N - x)}{B(a,b)}.
+\end{aligned}
+\]</span></p>
+<p>Let’s actually work that one out more carefully since it’s enlightening:</p>
+<div class="chilltip">
+<p>Jeff really likes probability because you can evaluate incredibly complicated looking integrals just by knowing the forms of different probability distributions. <span class="math display">\[
+\begin{aligned}
+p(x) &amp; = \int p(x \mid q) p(q) \mathrm dq \\
+&amp; = \int  {N \choose x} q^x (1-q)^{N-x} \frac{1}{B(a,b)} q^{a-1} (1-q)^{b-1} \mathrm d q \\
+&amp; = {N \choose x } \frac{1}{B(a,b)} \int \underbrace{q^{a+x-1} (1-q)^{b+N-x-1}}_{\text{proportional to a Beta distribution}} \mathrm dq  \\
+&amp; = {N \choose x} \frac{B(a+x,b+N-x)}{B(a,b)} \underbrace{\int \frac{1}{B(a+x,b+N-x)} q^{a+x-1} (1-q)^{b+N-x-1} \mathrm dq}_{= \int \text{Beta}(q \mid a+x, b+N-x) \mathrm dq} \\
+&amp; = {N \choose x} \frac{B(a+x, b+N-x)}{B(a,b)}.
+\end{aligned}
+\]</span></p>
+</div>
+</section>
+</section>
+<section id="bivariate-transformations" class="level1">
+<h1>Bivariate Transformations</h1>
+<section id="discrete-case" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-case">Discrete Case</h2>
+<p>Suppose <span class="math inline">\((U,V) = g(X,Y)\)</span> for some function <span class="math inline">\(g\)</span>.</p>
+<p>If <span class="math inline">\((X,Y)\)</span> is discrete, then the joint pmf of <span class="math inline">\((U,V)\)</span> is</p>
+<p><span class="math display">\[f_{U,V}(u,v) = sum_{x,y} f_{X,Y} (x,y) \mathbb 1(g(x,y) = (u,v)).
+\]</span></p>
+<p>This is really just the same as the univariate case, except that we are considering bivariate rather than univariate elements.</p>
+</section>
+<section id="continuous-case" class="level2">
+<h2 class="anchored" data-anchor-id="continuous-case">Continuous Case</h2>
+<p>It is less obvious how to handle the case where <span class="math inline">\((X,Y)\)</span> is continuous. Fortunately, however, there is still a nice formula.</p>
+<p>Suppose <span class="math inline">\((X,Y)\)</span> is a continuous random vector, and <span class="math inline">\((U,V) = g(X,Y)\)</span> for some function <span class="math inline">\(g\)</span> such that</p>
+<ol type="1">
+<li><span class="math inline">\(g\)</span> is one-to-one, with inverse <span class="math inline">\(h(u,v) = (x,y)\)</span> on its range,</li>
+<li>the partial derivatives of <span class="math inline">\(g(x,y)\)</span> exist and are continuous</li>
+<li>the Jacobian matrix <span class="math inline">\(Dh\)</span> is nonsingular, where</li>
+</ol>
+<p><span class="math display">\[Dh = \begin{bmatrix}
+  \frac{\partial x}{\partial u} &amp; \frac{\partial x}{\partial v} \\
+  \frac{\partial y}{\partial u} &amp; \frac{\partial y}{\partial v}
+  \end{bmatrix} =
+  \begin{bmatrix}
+  \frac{\partial h_1}{\partial u} &amp; \frac{\partial h_1}{\partial v} \\
+  \frac{\partial h_2}{\partial u} &amp; \frac{\partial h_2}{\partial v}
+  \end{bmatrix}.
+\]</span></p>
+<p>The joint pdf of <span class="math inline">\((U,V)\)</span> is</p>
+<p><span class="math display">\[f_{U,V}(u,v) = f_{X,Y}(h_1(u,v), h_2(u,v)) \lvert \det (Dh) \rvert
+\]</span></p>
+<p>for <span class="math inline">\((u,v)\)</span> in the range of <span class="math inline">\(g(X,Y)\)</span> and is zero elsewhere.</p>
+<p><span class="math inline">\(g(x,y)\)</span> being one-to-one means that if <span class="math inline">\((x,y) \neq (x',y')\)</span> then <span class="math inline">\(g(x,y) \neq g(x',y')\)</span>. A one-to-one function has a inverse from its range back to its domain.</p>
+<p>The determinant factor is</p>
+<p><span class="math display">\[\lvert \det (Dh) \rvert = \lvert \frac{\partial h_1}{\partial u} \frac{\partial h_2}{\partial v} - \frac{\partial h_1}{\partial v} \frac{\partial h_2}{\partial u} \rvert.
+\]</span></p>
+<p>Sometimes <span class="math inline">\(\det (Dh)\)</span> is referred to as the Jacobian of <span class="math inline">\(h\)</span>, often denoted <span class="math inline">\(J_h\)</span> or simply <span class="math inline">\(J\)</span>. The notation is not totally standard though, and sometimes <span class="math inline">\(J_h\)</span> denotes the matrix <span class="math inline">\(Dh\)</span>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../week6/week6.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Week 6</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../week8/week8.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Week 8</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
