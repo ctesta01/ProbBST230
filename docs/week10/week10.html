@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability (BST 230) Notes - 11&nbsp; Week 10</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../week9/week9.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Week 10</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Probability (BST 230) Notes</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methods (BST 232) Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week1/week1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week2/week2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week4/week4.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week5/week5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week6/week6.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week7/week7.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week8/week8.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week9/week9.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week10/week10.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 10</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#l_p-spaces" id="toc-l_p-spaces" class="nav-link active" data-scroll-target="#l_p-spaces"><span class="math inline">\(L_p\)</span> Spaces</a>
+  <ul class="collapse">
+  <li><a href="#hölders-inequality" id="toc-hölders-inequality" class="nav-link" data-scroll-target="#hölders-inequality">Hölder’s Inequality</a>
+  <ul class="collapse">
+  <li><a href="#proof" id="toc-proof" class="nav-link" data-scroll-target="#proof">Proof</a></li>
+  </ul></li>
+  <li><a href="#corollaries-of-hölder" id="toc-corollaries-of-hölder" class="nav-link" data-scroll-target="#corollaries-of-hölder">Corollaries of Hölder</a>
+  <ul class="collapse">
+  <li><a href="#cauchy-schwarz" id="toc-cauchy-schwarz" class="nav-link" data-scroll-target="#cauchy-schwarz">Cauchy-Schwarz</a></li>
+  <li><a href="#lyapunovs-inequality" id="toc-lyapunovs-inequality" class="nav-link" data-scroll-target="#lyapunovs-inequality">Lyapunov’s inequality</a></li>
+  <li><a href="#covariance-inequality" id="toc-covariance-inequality" class="nav-link" data-scroll-target="#covariance-inequality">Covariance Inequality</a></li>
+  </ul></li>
+  <li><a href="#minkowskis-inequality" id="toc-minkowskis-inequality" class="nav-link" data-scroll-target="#minkowskis-inequality">Minkowski’s Inequality</a></li>
+  </ul></li>
+  <li><a href="#recap-morals-of-inequalities" id="toc-recap-morals-of-inequalities" class="nav-link" data-scroll-target="#recap-morals-of-inequalities">Recap / Morals of Inequalities</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Week 10</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="l_p-spaces" class="level1">
+<h1><span class="math inline">\(L_p\)</span> Spaces</h1>
+<p><span class="math inline">\(L^p\)</span> spaces are nice classes of functions that come up a lot.</p>
+<p>For <span class="math inline">\(p \geq 1\)</span>, the <span class="math inline">\(L^p\)</span> norm of a random variable is <span class="math inline">\((\mathbb{E}|X|^p)^{1/p}.\)</span></p>
+<p>Examples:</p>
+<ul>
+<li>The <span class="math inline">\(L^1\)</span> norm is simply <span class="math inline">\(\mathbb{E}|X|\)</span>.</li>
+<li>If <span class="math inline">\(\mathbb{E}X = 0\)</span> then the <span class="math inline">\(L^2\)</span> norm is <span class="math inline">\((\mathbb{E}|X|^2)^{1/2} = \sqrt{\text{Var}(X)}.\)</span></li>
+</ul>
+<p>The set of random variables <span class="math inline">\(X\)</span> such that <span class="math inline">\((\mathbb{E}|X|^p)^{1/p} &lt; \infty\)</span> is denoted <span class="math inline">\(L^p\)</span>.</p>
+<p>That is, <span class="math inline">\(X \in L^p\)</span> means that <span class="math inline">\((\mathbb{E}|X|^p)^{1/p} &lt; \infty\)</span>.</p>
+<p>Note that <span class="math inline">\((\mathbb{E}|X|^p)^{1/p} &lt; \infty\)</span> iff <span class="math inline">\(\mathbb{E}|X|^p &lt; \infty.\)</span> The purpose of the <span class="math inline">\(1/p\)</span> is that it makes it have the properties of a norm.</p>
+<div class="cooltip">
+<p>In other settings, we talk about the <span class="math inline">\(L^p\)</span> norm on functions. If <span class="math inline">\(f : \mathbb{R}\to \mathbb{R}\)</span>, then we would write that</p>
+<p><span class="math display">\[||f||_1 = \int_{-\infty}^\infty |f(x)| \mathrm dx.\]</span></p>
+<p>And <span class="math inline">\(L^1\)</span> is the set of all functions such that <span class="math inline">\(||f||_1 &lt; \infty\)</span>.</p>
+<p>For <span class="math inline">\(L^p\)</span> in general is given by the functions such that</p>
+<p><span class="math display">\[(\int_{-\infty}^\infty |f(x)|^p \mathrm dx)^{1/p} &lt; \infty.\]</span></p>
+</div>
+<p><br></p>
+<div class="chilltip">
+<p>It’s worth noting that since we’re defining norms, we can think about how we’re creating norms on three different things: * Vectors * Functions * Random variables</p>
+</div>
+<p>Properties that are required for a norm:</p>
+<ol type="1">
+<li>Nonnegativity</li>
+<li>Triangle inequality</li>
+<li>Positive definiteness (zero on zero) (?)</li>
+</ol>
+<section id="hölders-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="hölders-inequality">Hölder’s Inequality</h2>
+<p>For any random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, if <span class="math inline">\(p,q &gt; 1\)</span> such that</p>
+<p><span class="math display">\[\frac{1}{p} + \frac{1}{q} = 1\]</span></p>
+<p>then</p>
+<p><span class="math display">\[\mathbb{E}|XY| \leq (\mathbb{E}| X|^p)^{1/p} (\mathbb{E}|Y|^q)^{1/q}.\]</span></p>
+<section id="proof" class="level3">
+<h3 class="anchored" data-anchor-id="proof">Proof</h3>
+<p>By the weighted AM-GM inequality with <span class="math inline">\(n = 2\)</span>, with <span class="math inline">\(w_1 = 1/p\)</span> and <span class="math inline">\(w_2 = 1/q\)</span>,</p>
+<p><span class="math display">\[\frac{1}{q} \frac{|X|^q}{\mathbb{E}|X|^q} + \frac{1}{q} \frac{|Y|^q}{\mathbb{E}|Y|^q} \geq
+\frac{\mathbb{E}|XY|}{(\mathbb{E}|X|^p)^{1/p} (\mathbb{E}|Y|^q)^{1/q}}. \]</span></p>
+</section>
+</section>
+<section id="corollaries-of-hölder" class="level2">
+<h2 class="anchored" data-anchor-id="corollaries-of-hölder">Corollaries of Hölder</h2>
+<section id="cauchy-schwarz" class="level3">
+<h3 class="anchored" data-anchor-id="cauchy-schwarz">Cauchy-Schwarz</h3>
+<p>The Cauchy-Schwarz inequality is an important special case of Hölder’s inequality.</p>
+<p>For any random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>,</p>
+<p><span class="math display">\[E|XY| \leq (\mathbb{E}|X|^2)^{1/2} (\mathbb{E}|Y|^2)^{1/2}.\]</span></p>
+<p>Proof: Apply Hölder’s inequality with <span class="math inline">\(p = q = 2\)</span>.</p>
+</section>
+<section id="lyapunovs-inequality" class="level3">
+<h3 class="anchored" data-anchor-id="lyapunovs-inequality">Lyapunov’s inequality</h3>
+<p>If <span class="math inline">\(1 \leq r &lt; s &lt; \infty\)</span>, then</p>
+<p><span class="math display">\[(E|X|^r)^{1/r} \leq (\mathbb{E}|X|^s)^{1/s}.\]</span></p>
+<p>Thus if <span class="math inline">\(X \in L^s\)</span> then <span class="math inline">\(X \in L^r\)</span> for all <span class="math inline">\(r \in [1,s)\)</span>.</p>
+<p>Proof: Apply Hölder’s inequality to the random variables <span class="math inline">\(|X|^r\)</span> and <span class="math inline">\(Y=1\)</span> with <span class="math inline">\(p = s/r\)</span> (and <span class="math inline">\(q = 1/(1-1/p)\)</span>) to get</p>
+<p><span class="math display">\[\mathbb{E}|X|^r \leq (\mathbb{E}|X|^{rp})^{1/p} = (\mathbb{E}|X|^s)^{r/s}.\]</span></p>
+<p>Raising both sides to the power of <span class="math inline">\(1/r\)</span> yields the result.</p>
+</section>
+<section id="covariance-inequality" class="level3">
+<h3 class="anchored" data-anchor-id="covariance-inequality">Covariance Inequality</h3>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have means <span class="math inline">\(\mu_X, \mu_Y\)</span> and variances <span class="math inline">\(\sigma_X^2, \sigma_Y^2\)</span>, then</p>
+<p><span class="math display">\[|\text{Cov}(X,Y)| \leq \sigma_X \sigma_Y. \]</span></p>
+<div class="cooltip">
+<p><span class="math display">\[
+\begin{aligned}
+|\text{Cov}(X,Y)| &amp; = |\mathbb{E}(X - \mu_X)(Y - \mu_Y)| \\
+&amp; \leq |\mathbb{E}(X-\mu_X)(Y-\mu_Y)| \quad \tiny \text{by Jensen's inequality, since }|\cdot|\text{ is convex} \\
+&amp; \leq (\mathbb{E}|X-\mu_X|^2)^{1/2} (\mathbb{E}|Y-\mu_Y|^2)^{1/2} \\
+&amp; = (\sigma_X^2){1/2} (\sigma_Y^2)^{1/2} \\
+&amp; = \sigma_X \sigma_Y
+\end{aligned}
+\]</span></p>
+</div>
+<p>This shows that <span class="math inline">\(-1 \leq \rho_{X,Y} \leq 1\)</span> where <span class="math inline">\(\rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}\)</span>.</p>
+</section>
+</section>
+<section id="minkowskis-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="minkowskis-inequality">Minkowski’s Inequality</h2>
+<p>For any random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and any <span class="math inline">\(p \geq 1\)</span>,</p>
+<p><span class="math display">\[(\mathbb{E}|X + Y|^p)^{1/p} \leq (\mathbb{E}|X|^p)^{1/p} + (\mathbb{E}|Y|^p)^{1/p}.\]</span></p>
+<p>Proof is in Casella &amp; Berger, Theorem 4.7.5.</p>
+<p>Minkowski’s inequality establishes the triangle inequality for <span class="math inline">\(L^p\)</span> norms.</p>
+</section>
+</section>
+<section id="recap-morals-of-inequalities" class="level1">
+<h1>Recap / Morals of Inequalities</h1>
+<p>Boole’s Inequality: if you’re trying to show something has small probability of happening, and it can happen a few ways each of which are bounded by small probability. Useful for bounding something close to zero.</p>
+<p>Markov’s inequality: comes up a lot, whenever you’re trying to establish an upper bound on large probabilities — often good to try applying Markov’s first. E.g., showing some errors or something is converging to zero — then we want to show the probability that the error is big, is small.</p>
+<p>Chebyshev’s inequality and Hoeffding’s inequality are kind of the same sort of thing. Usually what these are used for is situations like if <span class="math inline">\(X\)</span> is the sample mean, then we can say that the sample mean is close to whatever it’s converging to with high probability. E.g., to show the law of large numbers.</p>
+<p>Chernoff’s bound: again, same thing.</p>
+<p>Hoeffding’s: again, the sample mean is converging to the mean.</p>
+<p>Jensen’s inequality: Whenever you have a bound involving an expectation and it needs to be manipulated in some way, sometimes it’s easier to put the function on the inside of the expectation, and sometimes it’s easier to put it on the outside of the expectation depending on the problem. So it’s useful for both establishing an upper bound or a lower bound depending on whether putting a convex function on the inside or outside of the expectation is easier.</p>
+<p>Inequalities due to Jensen’s inequality with moments, and the inequalities with <span class="math inline">\(\log\)</span> terms are especially useful.</p>
+<p>Weighted AM-GM is not super common, but when it does show up, it’s super nice. As we saw, useful in the proof of Hölder’s inequality.</p>
+<p>Hölder’s and Cauchy-Schwarz are for when we have products of variables.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../week9/week9.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Week 9</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

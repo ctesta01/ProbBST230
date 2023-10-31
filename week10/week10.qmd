@@ -1,0 +1,186 @@
+---
+title: "Week 10"
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+$$
+:::
+
+# $L_p$ Spaces
+
+$L^p$ spaces are nice classes of functions that come up a lot.
+
+For $p \geq 1$, the $L^p$ norm of a random variable is 
+$(\E |X|^p)^{1/p}.$
+
+Examples: 
+
+  * The $L^1$ norm is simply $\E|X|$. 
+  * If $\E X = 0$ then the $L^2$ norm is $(\E|X|^2)^{1/2} = \sqrt{\Var(X)}.$
+
+The set of random variables $X$ such that $(\E |X|^p)^{1/p} < \infty$ is denoted $L^p$. 
+
+That is, $X \in L^p$ means that $(\E |X|^p)^{1/p} < \infty$. 
+
+Note that $(\E |X|^p)^{1/p} < \infty$ iff $\E |X|^p < \infty.$ The purpose of the $1/p$ is that it makes it have the properties of a norm. 
+
+:::{.cooltip}
+In other settings, we talk about the $L^p$ norm on functions. If $f : \R \to \R$, 
+then we would write that 
+
+$$||f||_1 = \int_{-\infty}^\infty |f(x)| \mathrm dx.$$
+
+And $L^1$ is the set of all functions such that $||f||_1 < \infty$. 
+
+For $L^p$ in general is given by the functions such that 
+
+$$(\int_{-\infty}^\infty |f(x)|^p \mathrm dx)^{1/p} < \infty.$$
+:::
+
+<br>
+
+:::{.chilltip}
+It's worth noting that since we're defining norms, we can think about how we're creating norms 
+on three different things: 
+  * Vectors
+  * Functions 
+  * Random variables
+:::
+
+Properties that are required for a norm: 
+
+1. Nonnegativity 
+2. Triangle inequality 
+3. Positive definiteness (zero on zero) (?)
+
+## Hölder's Inequality
+
+For any random variables $X$ and $Y$, if $p,q > 1$ such that 
+
+$$\frac{1}{p} + \frac{1}{q} = 1$$
+
+then 
+
+$$\E |XY| \leq (\E | X|^p)^{1/p} (\E |Y|^q)^{1/q}.$$
+
+### Proof 
+
+By the weighted AM-GM inequality with $n = 2$, with $w_1 = 1/p$ and $w_2 = 1/q$,
+
+$$\frac{1}{q} \frac{|X|^q}{\E |X|^q} + \frac{1}{q} \frac{|Y|^q}{\E |Y|^q} \geq 
+\frac{\E |XY|}{(\E |X|^p)^{1/p} (\E |Y|^q)^{1/q}}. $$
+
+## Corollaries of Hölder
+
+### Cauchy-Schwarz
+
+The Cauchy-Schwarz inequality is an important special case of 
+Hölder's inequality. 
+
+For any random variables $X$ and $Y$, 
+
+$$E|XY| \leq (\E |X|^2)^{1/2} (\E|Y|^2)^{1/2}.$$ 
+
+Proof: Apply Hölder's inequality with $p = q = 2$. 
+
+### Lyapunov's inequality
+
+If $1 \leq r < s < \infty$, then 
+
+$$(E|X|^r)^{1/r} \leq (\E |X|^s)^{1/s}.$$
+
+Thus if $X \in L^s$ then $X \in L^r$ for all $r \in [1,s)$. 
+
+Proof: Apply Hölder's inequality to the random variables
+$|X|^r$ and $Y=1$ with $p = s/r$ (and $q = 1/(1-1/p)$) to get 
+
+$$\E |X|^r \leq (\E |X|^{rp})^{1/p} = (\E |X|^s)^{r/s}.$$
+
+Raising both sides to the power of $1/r$ yields the result. 
+
+### Covariance Inequality 
+
+If $X$ and $Y$ have means $\mu_X, \mu_Y$ and variances 
+$\sigma_X^2, \sigma_Y^2$, then 
+
+$$|\Cov(X,Y)| \leq \sigma_X \sigma_Y. $$
+
+:::{.cooltip}
+$$
+\begin{aligned}
+|\Cov(X,Y)| & = |\E(X - \mu_X)(Y - \mu_Y)| \\ 
+& \leq |\E(X-\mu_X)(Y-\mu_Y)| \quad \tiny \text{by Jensen's inequality, since }|\cdot|\text{ is convex} \\ 
+& \leq (\E|X-\mu_X|^2)^{1/2} (\E |Y-\mu_Y|^2)^{1/2} \\ 
+& = (\sigma_X^2){1/2} (\sigma_Y^2)^{1/2} \\ 
+& = \sigma_X \sigma_Y
+\end{aligned}
+$$
+:::
+
+This shows that $-1 \leq \rho_{X,Y} \leq 1$ where $\rho_{X,Y} = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y}$. 
+
+## Minkowski's Inequality 
+
+For any random variables $X$ and $Y$ and any $p \geq 1$, 
+
+$$(\E |X + Y|^p)^{1/p} \leq (\E |X|^p)^{1/p} + (\E |Y|^p)^{1/p}.$$ 
+
+Proof is in Casella & Berger, Theorem 4.7.5. 
+
+Minkowski's inequality establishes the triangle inequality for $L^p$ norms. 
+
+
+# Recap / Morals of Inequalities 
+
+Boole's Inequality: if you're trying to show something has small probability of happening,
+and it can happen a few ways each of which are bounded by small probability. Useful for 
+bounding something close to zero. 
+
+Markov's inequality: comes up a lot, whenever you're trying to establish an upper bound 
+on large probabilities — often good to try applying Markov's first. E.g., showing
+some errors or something is converging to zero — then we want to show the probability 
+that the error is big, is small. 
+
+Chebyshev's inequality and Hoeffding's inequality are kind of the same sort of thing. 
+Usually what these are used for is situations like if $X$ is the sample mean, then 
+we can say that the sample mean is close to whatever it's converging to with high 
+probability. E.g., to show the law of large numbers. 
+
+Chernoff's bound: again, same thing. 
+
+Hoeffding's: again, the sample mean is converging to the mean. 
+
+Jensen's inequality: Whenever you have a bound involving an expectation and it
+needs to be manipulated in some way, sometimes it's easier to put the function on
+the inside of the expectation, and sometimes it's easier to put it on the outside
+of the expectation depending on the problem. So it's useful for 
+both establishing an upper bound or a lower bound depending on whether 
+putting a convex function on the inside or outside of the expectation is easier.
+
+Inequalities due to Jensen's inequality with moments, and the inequalities with 
+$\log$ terms are especially useful. 
+
+Weighted AM-GM is not super common, but when it does show up, it's super nice. 
+As we saw, useful in the proof of Hölder's inequality. 
+
+Hölder's and Cauchy-Schwarz are for when we have products of variables. 
+
+
+

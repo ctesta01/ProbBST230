@@ -93,6 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../week10/week10.html" rel="next">
 <link href="../week8/week8.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -206,6 +207,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="../week9/week9.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 9</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week10/week10.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 10</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -223,6 +229,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#investing-returns-example" id="toc-investing-returns-example" class="nav-link" data-scroll-target="#investing-returns-example">Investing Returns Example</a></li>
   <li><a href="#corollaries-of-markovs-inequality" id="toc-corollaries-of-markovs-inequality" class="nav-link" data-scroll-target="#corollaries-of-markovs-inequality">Corollaries of Markov’s Inequality</a></li>
+  <li><a href="#example-tail-bounds-for-normal-distributions" id="toc-example-tail-bounds-for-normal-distributions" class="nav-link" data-scroll-target="#example-tail-bounds-for-normal-distributions">Example: Tail Bounds for Normal Distributions</a></li>
+  </ul></li>
+  <li><a href="#chernoffs-bound" id="toc-chernoffs-bound" class="nav-link" data-scroll-target="#chernoffs-bound">Chernoff’s Bound</a>
+  <ul class="collapse">
+  <li><a href="#example-tail-bounds-for-normal-distributions-1" id="toc-example-tail-bounds-for-normal-distributions-1" class="nav-link" data-scroll-target="#example-tail-bounds-for-normal-distributions-1">Example: Tail Bounds for Normal Distributions</a></li>
+  </ul></li>
+  <li><a href="#jensens-inequality" id="toc-jensens-inequality" class="nav-link" data-scroll-target="#jensens-inequality">Jensen’s Inequality</a>
+  <ul class="collapse">
+  <li><a href="#convex-functions" id="toc-convex-functions" class="nav-link" data-scroll-target="#convex-functions">Convex Functions</a></li>
+  <li><a href="#weighted-am-gm-inequality" id="toc-weighted-am-gm-inequality" class="nav-link" data-scroll-target="#weighted-am-gm-inequality">Weighted AM-GM Inequality</a></li>
+  <li><a href="#hoeffdings-inequality" id="toc-hoeffdings-inequality" class="nav-link" data-scroll-target="#hoeffdings-inequality">Hoeffding’s Inequality</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -353,7 +370,7 @@ t_1 \mu_{x_1} + t_2 \mu_{x_2} + \frac{1}{2} \left(t_1^2 \sigma^2_{x_1} + 2t_1 t_
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {<span class="dv">2</span> <span class="sc">*</span> .<span class="dv">25</span><span class="sc">^</span>(<span class="dv">2</span>) <span class="sc">/</span> x<span class="sc">^</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> (x <span class="sc">&gt;</span> .<span class="dv">25</span>)}</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(f, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="week9_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="week9_files/figure-html/investment_modeling-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Since so much of the pdf appears to be concentrated in (0.25,1), we were wondering, given that the Pareto distrbution has heavy tails, what’s the probability of getting an outcome <span class="math inline">\(\geq 1\)</span>?</p>
@@ -417,6 +434,165 @@ P(|X-\mathbb{E}X| \geq a) &amp; = P(| X - \mathbb{E}X |^2 \geq a^2) \\
 \]</span></p>
 <p>noting that <span class="math inline">\(|X - \mathbb{E}X|\)</span> and <span class="math inline">\(a^2\)</span> being non-negative is what makes this work.</p>
 </div>
+</section>
+<section id="example-tail-bounds-for-normal-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="example-tail-bounds-for-normal-distributions">Example: Tail Bounds for Normal Distributions</h2>
+<p>Suppose <span class="math inline">\(X \sim \mathcal N(\mu, \sigma^2)\)</span> and we want to bound the probability that <span class="math inline">\(X\)</span> is far from its mean. The exact expression involves the standard normal CDF <span class="math inline">\(\Psi(x)\)</span>:</p>
+<p><span class="math display">\[P(|X - \mu| \geq a) = P\left(
+\lvert\frac{X - \mu}{\sigma} \rvert \geq
+a / \sigma
+\right) = 2 \Psi(-a/\sigma)
+\]</span> for <span class="math inline">\(a &gt; 0\)</span>. However, <span class="math inline">\(\Psi(x)\)</span> does not have a simple closed form.</p>
+<p>Meanwhile, Chebyshev’s inequality easily yields <span class="math display">\[P(|X-\mu| \geq a) \leq \frac{\text{Var}(X)}{a^2}
+= \frac{\sigma^2}{a^2}
+\]</span></p>
+</section>
+</section>
+<section id="chernoffs-bound" class="level1">
+<h1>Chernoff’s Bound</h1>
+<p>This is a surprisingly powerful corollary of Markov’s inequality. It yields an exponentially decaying bound as <span class="math inline">\(a\)</span> grows, compared to the <span class="math inline">\(1/a\)</span> in Markov’s inequality.</p>
+<p><span class="vocab">Chernoff’s bound</span></p>
+<p><span class="math display">\[P(X \geq a) \leq \inf_{t &gt; 0} e^{-ta} \mathbb{E}\exp (tX)
+\]</span></p>
+<p>Proof: For all <span class="math inline">\(t &gt; 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(X \geq a) &amp; = P(tX \geq ta) \\
+&amp; = P(\exp (tX) \geq \exp (ta)) \\
+&amp; \leq \frac{\mathbb{E}\exp (tX)}{\exp (ta)} \\
+= e^{-ta} \mathbb{E}\exp (tX).
+\end{aligned}
+\]</span></p>
+<p>Since the left-hand side doesn’t depend on <span class="math inline">\(t\)</span>, the inequality holds when taking the infimum of the right-hand side over <span class="math inline">\(t\)</span>.</p>
+<section id="example-tail-bounds-for-normal-distributions-1" class="level2">
+<h2 class="anchored" data-anchor-id="example-tail-bounds-for-normal-distributions-1">Example: Tail Bounds for Normal Distributions</h2>
+<p>Suppose <span class="math inline">\(X \sim \mathcal N(\mu, \sigma^2)\)</span>. By Chernoff’s bound,</p>
+<p><span class="math display">\[\begin{aligned}
+P(X - \mu \geq a) &amp; \leq \inf_{t &gt; 0} e^{-ta} \mathbb{E}\exp \left( t(X - \mu) \right) \\
+&amp; = \inf_{t &gt; 0} e^{-ta} \exp \left( \frac{1}{2} \sigma^2 t^t \right) \\
+&amp; = \inf_{t &gt; 0} \exp \left( -ta + \frac{1}{2} \sigma^2 t^2)
+\end{aligned}\]</span></p>
+<p>using the formula for the mgf of <span class="math inline">\(X - \mu \sim \mathcal N(0, \sigma^2)\)</span>.</p>
+<p>To minimize <span class="math inline">\(f(t) = -ta + \frac{1}{2} \sigma^2 t^2\)</span> we set</p>
+<p><span class="math display">\[ 0 = f'(t) = -a + \sigma^2 t
+\]</span></p>
+<p>and solve to get <span class="math inline">\(t = a/\sigma^2\)</span>. Plugging this in yields <span class="math display">\[P(X - \mu \geq a) \leq \exp (- a^2/\sigma^2 + \frac{1}{2} a^2 / \sigma^2) = \exp(-\frac{1}{2} a^2 / \sigma^2).\]</span></p>
+<p>By symmetry <span class="math inline">\(P(-(X-\mu) \geq a) \leq \exp( - \frac{1}{2} a^2 / \sigma^2)\)</span>. Thus,</p>
+<p><span class="math display">\[P(|X - \mu | \geq a) \leq 2 \exp ( -\frac{1}{2} a^2 / \sigma^2).\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">exact_value =</span> <span class="fu">pnorm</span>(<span class="at">q =</span> <span class="sc">-</span>a) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="at">q =</span> a)),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">chebyshev =</span> <span class="dv">1</span><span class="sc">/</span>a<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chernoff =</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>.<span class="dv">5</span><span class="sc">*</span>a<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt1 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="fu">c</span>(exact_value, chebyshev, chernoff),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">'bound'</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">'pr'</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> pr, <span class="at">color =</span> bound)) <span class="sc">+</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">85</span>,.<span class="dv">75</span>)) <span class="sc">+</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtitle</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Bound on P(|X - "</span>, mu, <span class="st">") ≥ a)"</span>)))</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt2 <span class="ot">&lt;-</span> plt1 <span class="sc">+</span> </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">number_format</span>()) <span class="sc">+</span> </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">15</span>, .<span class="dv">25</span>))</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>plt1 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week9_files/figure-html/compare_inequalities-1.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week9_files/figure-html/compare_inequalities-2.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+</div>
+<p>A tighter bound can be achieved using</p>
+<p><span class="math display">\[
+P(|X - \mu| \geq a) \leq
+\sqrt{\frac{2 \sigma^2}{\pi a^2}} \exp (
+  -\frac{1}{2} a^2 / \sigma^2
+).
+\]</span></p>
+</section>
+</section>
+<section id="jensens-inequality" class="level1">
+<h1>Jensen’s Inequality</h1>
+<section id="convex-functions" class="level2">
+<h2 class="anchored" data-anchor-id="convex-functions">Convex Functions</h2>
+<p>A function <span class="math inline">\(g : \mathcal X \to \mathbb R\)</span> is convex if</p>
+<p><span class="math display">\[g(tx + (1-t)y) \leq tg(x) + (1-t)g(y)
+\]</span></p>
+<p>A function <span class="math inline">\(g: \mathcal X \to \mathbb R\)</span> is concave if <span class="math inline">\(-g\)</span> is convex.</p>
+<p>Intuition: Conex functions curve upwards, concave functions curve downwards.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">length.out=</span><span class="dv">1000</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> x<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">exp =</span> <span class="fu">exp</span>(x),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">neg_log =</span> <span class="sc">-</span><span class="fu">log</span>(x),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_inv =</span> <span class="dv">1</span><span class="sc">/</span>x</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">'f'</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">'g(x)'</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># mutate(</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   f = case_when(</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     f == 'x2' ~ paste(expression(x^2)),</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     f == 'exp' ~ paste(expression(e^x)),</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     f == 'neg_log' ~ paste(expression(log(x))),</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     f == 'x_inv' ~ paste(expression(1/x))</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ) |&gt; </span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="st">`</span><span class="at">g(x)</span><span class="st">`</span>, <span class="at">color =</span> f)) <span class="sc">+</span> </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose <span class="math inline">\(g : \mathcal X \to \mathbb R\)</span> is twice-differentiable at all <span class="math inline">\(x \in \mathcal X\)</span>. Then <span class="math inline">\(g\)</span> is convex if and only if</p>
+<p><span class="math display">\[\frac{\partial^2}{\partial x^2 } g(x) \geq 0\]</span></p>
+<p>for all <span class="math inline">\(x \in \mathcal X\)</span>.</p>
+<p>Suppose <span class="math inline">\(g : \mathcal X \to \mathbb R\)</span> is a convex function. For any <span class="math inline">\(x_0 \in \mathcal X\)</span>, there exist <span class="math inline">\(a,b \in \mathcal R\)</span> such that <span class="math display">\[ax + b \leq g(x)\]</span> for all <span class="math inline">\(x \in \mathcal X\)</span> and</p>
+<p><span class="math display">\[a x_0 + b = g(x_0)\]</span></p>
+<p><span class="vocab">Jensen’s Inequality:</span> If <span class="math inline">\(X\)</span> is a random variable with range <span class="math inline">\(\mathcal X\)</span> and <span class="math inline">\(g: \mathcal X \to \mathbb R\)</span> is a convex function, then</p>
+<p><span class="math display">\[g(\mathbb{E}X) \leq \mathbb{E}g(X).\]</span></p>
+<p>Proof: Define <span class="math inline">\(x_0 = \mathbb{E}X\)</span>. Since <span class="math inline">\(g\)</span> is convex, there exist <span class="math inline">\(a, b \in \mathbb R\)</span> such that <span class="math inline">\(ax + b \leq g(x)\)</span> for all <span class="math inline">\(x \in \mathcal X\)</span> and <span class="math inline">\(ax_0 + b = g(x_0).\)</span> Therefore,</p>
+<p><span class="math display">\[g(\mathbb{E}X) = g(x_0) = ax_0 + b = \mathbb{E}(aX + b) \leq \mathbb{E}g(X).\]</span></p>
+</section>
+<section id="weighted-am-gm-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="weighted-am-gm-inequality">Weighted AM-GM Inequality</h2>
+<p>The inequality of arithmetic means and geometric means is a classic result that can be easily proved using Jensen’s inequality.</p>
+<p>Weighted AM-GM Inequality: For any <span class="math inline">\(x_1, ... x_n \geq 0\)</span> and <span class="math inline">\(w_1, ..., w_n \geq 0\)</span> such that <span class="math inline">\(\sum_{i=1}^n w_i = 1\)</span>,</p>
+<p><span class="math display">\[w_1x_1 + ... + w_n x_n \geq x_1^{1_2} \cdots x_{n}^{w_n}.\]</span></p>
+<div class="bluetip">
+<p>Show this using Jensen’s inequality</p>
+</div>
+</section>
+<section id="hoeffdings-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="hoeffdings-inequality">Hoeffding’s Inequality</h2>
+<p>Suppose <span class="math inline">\(X_1, ..., X_n\)</span> are independent random variables such that <span class="math inline">\(r_i \leq X_i \leq s_i\)</span> and denote <span class="math inline">\(\bar X = \frac{1}{n} \sum_{i=1}^n X_i\)</span>. Then for all <span class="math inline">\(a &gt; 0\)</span></p>
+<p><span class="math display">\[P(| \bar X - \mathbb{E}\bar X &gt; a) \leq 2 \exp \left( - \frac{2a^n}{\frac{1}{n} \sum_{i=1}^n (s_i - r_i)^2} \right).\]</span></p>
+<p>Hoeffding’s shows that for bounded independent random variables, the sample mean converges exponentially quickly to the mea.</p>
+<p>Like Chernoff’s bound, Hoeffding’s provides an exponentially decaying bound as <span class="math inline">\(a\)</span> grows. An advantage of Hoeffding’s is that the mgf doesn’t need to be known to get an explicit bound. On the other hand, the random variables need to be bounded.</p>
+<p>For instance, if <span class="math inline">\(X_1, ..., X_n \sim \text{Bernoulli}(q),\)</span> then</p>
+<p><span class="math display">\[P(| \bar X - q | &gt; a) \leq 2 \exp (-2a^n).\]</span></p>
 
 
 </section>
@@ -563,6 +739,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../week10/week10.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Week 10</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -195,14 +195,14 @@ Is this a good investment?
 
 First, guess using your intuition. Then try to show something formally.
 
-```{r}
+```{r investment_modeling}
 f <- function(x) {2 * .25^(2) / x^(2 + 1) * (x > .25)}
 curve(f, from = 0, to = 2)
 ```
 
 
 Since so much of the pdf appears to be concentrated in (0.25,1), we were wondering, given that the Pareto distrbution has heavy tails, what's the probability of getting an outcome $\geq 1$? 
-```{r}
+```{r check_investing}
 cdf_f <- function(x) { 1 - (.25/x)^2 }
 1 - cdf_f(1)
 ```
@@ -280,3 +280,201 @@ $$
 noting that $|X - \E X|$ and $a^2$ being non-negative 
 is what makes this work.
 :::
+
+## Example: Tail Bounds for Normal Distributions 
+
+Suppose $X \sim \mathcal N(\mu, \sigma^2)$ and 
+we want to bound the probability that $X$ is far from its mean.  The exact expression involves the standard normal CDF $\Psi(x)$: 
+
+$$P(|X - \mu| \geq a) = P\left( 
+ \lvert\frac{X - \mu}{\sigma} \rvert \geq
+ a / \sigma
+\right) = 2 \Psi(-a/\sigma)
+$$
+for $a > 0$. However, $\Psi(x)$ does not have
+a simple closed form. 
+
+Meanwhile, Chebyshev's inequality easily yields 
+$$P(|X-\mu| \geq a) \leq \frac{\Var(X)}{a^2} 
+= \frac{\sigma^2}{a^2}
+$$
+
+# Chernoff's Bound 
+
+This is a surprisingly powerful corollary of 
+Markov's inequality. It yields an exponentially decaying bound as $a$ grows, compared to the $1/a$ in Markov's inequality. 
+
+<span class='vocab'>Chernoff's bound</span>
+
+$$P(X \geq a) \leq \inf_{t > 0} e^{-ta} \E \exp (tX) 
+$$ 
+
+Proof: For all $t > 0$, 
+
+$$
+\begin{aligned}
+P(X \geq a) & = P(tX \geq ta) \\ 
+& = P(\exp (tX) \geq \exp (ta)) \\ 
+& \leq \frac{\E \exp (tX)}{\exp (ta)} \\ 
+= e^{-ta} \E \exp (tX).
+\end{aligned}
+$$
+
+Since the left-hand side doesn't depend on $t$, the inequality holds when taking the infimum of the right-hand side over $t$. 
+
+## Example: Tail Bounds for Normal Distributions 
+
+Suppose $X \sim \mathcal N(\mu, \sigma^2)$. 
+By Chernoff's bound, 
+
+$$\begin{aligned}
+P(X - \mu \geq a) & \leq \inf_{t > 0} e^{-ta} \E \exp \left( t(X - \mu) \right) \\ 
+& = \inf_{t > 0} e^{-ta} \exp \left( \frac{1}{2} \sigma^2 t^t \right) \\ 
+& = \inf_{t > 0} \exp \left( -ta + \frac{1}{2} \sigma^2 t^2)
+\end{aligned}$$ 
+
+using the formula for the mgf of $X - \mu \sim \mathcal N(0, \sigma^2)$. 
+
+To minimize $f(t) = -ta + \frac{1}{2} \sigma^2 t^2$ we set 
+
+$$ 0 = f'(t) = -a + \sigma^2 t
+$$
+
+and solve to get $t = a/\sigma^2$. Plugging this in yields 
+$$P(X - \mu \geq a) \leq \exp (- a^2/\sigma^2 + \frac{1}{2} a^2 / \sigma^2) = \exp(-\frac{1}{2} a^2 / \sigma^2).$$
+
+By symmetry $P(-(X-\mu) \geq a) \leq \exp( - \frac{1}{2} a^2 / \sigma^2)$. Thus, 
+
+$$P(|X - \mu | \geq a) \leq 2 \exp ( -\frac{1}{2} a^2 / \sigma^2).$$ 
+
+```{r compare_inequalities}
+#| out.width: 50%
+#| fig.width: 6
+#| fig.height: 3
+
+library(tidyverse)
+
+df <- tibble(
+  a = seq(1, 6, length.out = 1000),
+  exact_value = pnorm(q = -a) + (1-pnorm(q = a)),
+  chebyshev = 1/a^2,
+  chernoff = 2*exp(-.5*a^2)
+)
+
+plt1 <- df |> 
+tidyr::pivot_longer(
+  cols = c(exact_value, chebyshev, chernoff),
+  names_to = 'bound',
+  values_to = 'pr'
+) |> 
+ggplot(aes(x = a, y = pr, color = bound)) + 
+geom_line() + 
+theme_bw() + 
+theme(legend.position = c(.85,.75)) + 
+ggtitle(expression(paste("Bound on P(|X - ", mu, ") ≥ a)")))
+
+plt2 <- plt1 + 
+scale_y_log10(labels = scales::number_format()) + 
+theme(legend.position = c(.15, .25))
+
+plt1 
+plt2 
+```
+
+A tighter bound can be achieved using 
+
+$$
+P(|X - \mu| \geq a) \leq 
+\sqrt{\frac{2 \sigma^2}{\pi a^2}} \exp (
+  -\frac{1}{2} a^2 / \sigma^2
+).
+$$
+
+# Jensen's Inequality 
+
+## Convex Functions 
+
+A function $g : \mathcal X \to \mathbb R$ is 
+convex if 
+
+$$g(tx + (1-t)y) \leq tg(x) + (1-t)g(y)
+$$ 
+
+A function $g: \mathcal X \to \mathbb R$ is concave if $-g$ is convex. 
+
+Intuition: Conex functions curve upwards, concave functions curve downwards. 
+
+```{r convex_functions}
+tibble(
+  x = seq(-2,2,length.out=1000),
+  x2 = x^2,
+  exp = exp(x),
+  neg_log = -log(x),
+  x_inv = 1/x
+) |> tidyr::pivot_longer(
+  cols = 2:5,
+  names_to = 'f',
+  values_to = 'g(x)'
+) |> 
+# mutate(
+#   f = case_when(
+#     f == 'x2' ~ paste(expression(x^2)),
+#     f == 'exp' ~ paste(expression(e^x)),
+#     f == 'neg_log' ~ paste(expression(log(x))),
+#     f == 'x_inv' ~ paste(expression(1/x))
+#   )
+# ) |> 
+ggplot(aes(x = x, y = `g(x)`, color = f)) + 
+geom_line()
+```
+
+Suppose $g : \mathcal X \to \mathbb R$ is twice-differentiable at all $x \in \mathcal X$. Then $g$ is convex if and only if 
+
+$$\frac{\partial^2}{\partial x^2 } g(x) \geq 0$$
+
+for all $x \in \mathcal X$. 
+
+Suppose $g : \mathcal X \to \mathbb R$ is a convex function. For any $x_0 \in \mathcal X$, there exist $a,b \in \mathcal R$ such that 
+$$ax + b \leq g(x)$$ 
+for all $x \in \mathcal X$ and 
+
+$$a x_0 + b = g(x_0)$$ 
+
+<span class='vocab'>Jensen's Inequality:</span> If $X$ is a random variable with range 
+$\mathcal X$ and $g: \mathcal X \to \mathbb R$ is a convex function, then 
+
+$$g(\E X) \leq \E g(X).$$
+
+Proof:  Define $x_0 = \E X$. Since $g$ is convex, there exist $a, b \in \mathbb R$ such that $ax + b \leq g(x)$ for all $x \in \mathcal X$ and $ax_0 + b = g(x_0).$ Therefore, 
+
+$$g(\E X) = g(x_0) = ax_0 + b = \E(aX + b) \leq \E g(X).$$
+
+## Weighted AM-GM Inequality 
+
+The inequality of arithmetic means and geometric means is a classic result that can be easily proved using Jensen's inequality. 
+
+Weighted AM-GM Inequality: For any $x_1, ... x_n \geq 0$ and 
+$w_1, ..., w_n \geq 0$ such that $\sum_{i=1}^n w_i = 1$, 
+
+$$w_1x_1 + ... + w_n x_n \geq x_1^{1_2} \cdots x_{n}^{w_n}.$$
+
+:::{.bluetip}
+Show this using Jensen's inequality
+:::
+
+## Hoeffding's Inequality
+
+Suppose $X_1, ..., X_n$ are independent random variables 
+such that $r_i \leq X_i \leq s_i$ and denote $\bar X = \frac{1}{n} \sum_{i=1}^n X_i$. Then for all $a > 0$
+
+$$P(| \bar X - \E \bar X > a) \leq 2 \exp \left( - \frac{2a^n}{\frac{1}{n} \sum_{i=1}^n (s_i - r_i)^2} \right).$$
+
+Hoeffding's shows that for bounded independent random variables, the sample mean converges exponentially quickly to the mea. 
+
+Like Chernoff's bound, Hoeffding's provides an exponentially decaying bound as $a$ grows. An advantage of
+Hoeffding's is that the mgf doesn't need to be known to get an explicit bound. On the other hand, the
+random variables need to be bounded. 
+
+For instance, if $X_1, ..., X_n \sim \text{Bernoulli}(q),$ then
+
+$$P(| \bar X - q | > a) \leq 2 \exp (-2a^n).$$
