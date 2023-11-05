@@ -565,6 +565,15 @@ P(|X - \mu| \geq a) \leq
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ) |&gt; </span></span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="st">`</span><span class="at">g(x)</span><span class="st">`</span>, <span class="at">color =</span> f)) <span class="sc">+</span> </span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in log(x): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 500 rows containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="week9_files/figure-html/convex_functions-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>Suppose <span class="math inline">\(g : \mathcal X \to \mathbb R\)</span> is twice-differentiable at all <span class="math inline">\(x \in \mathcal X\)</span>. Then <span class="math inline">\(g\)</span> is convex if and only if</p>
 <p><span class="math display">\[\frac{\partial^2}{\partial x^2 } g(x) \geq 0\]</span></p>

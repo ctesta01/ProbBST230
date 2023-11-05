@@ -9,6 +9,9 @@ $$
 \newcommand{\EY}[0]{\mathbb{E} Y}
 \newcommand{\R}[0]{\mathbb{R}}
 \newcommand{\t}[1]{\text{#1}}
+\newcommand{\b}[1]{\mathbf{#1}}
+\newcommand{\tt}[1]{\mathtt{#1}}
+\newcommand{\T}[0]{\mathtt{T}}
 
 % 1 create conditionally independent symbol:
 \newcommand\independent{\perp\!\!\!\perp}
@@ -18,6 +21,7 @@ $$
 \newcommand{\Cov}[0]{\text{Cov}}
 \newcommand{\Cor}[0]{\text{Cor}}
 \newcommand{\e}[0]{\epsilon}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
 
 \newcommand{\argmax}[0]{\text{argmax}}
 $$
@@ -182,5 +186,300 @@ As we saw, useful in the proof of Hölder's inequality.
 
 Hölder's and Cauchy-Schwarz are for when we have products of variables. 
 
+# Multivariate Normal Distributions 
 
+The multivariate normal (or multivariate Gaussian) family is a generalization
+of the univariate normal to random vectors. 
+
+It is, without a doubt, the most important family of distributions in 
+probability and statistics. 
+
+Central Limit Theorem: 
+
+  * CLT: The sum of a large number of independent random variables is approximately normal. (Generalizes to the sum of random vectors being multivariate normal)
+  * Consequently, many real-world quantities tend to be normallly distributed.
+  * When designing models, the CLT helps us understand when a normal model would be appropriate. 
+
+Multivariate normal distributions have quite nice analytic tractability: 
+
+  * Calculations can often be done in closed form, making normal models computationally convenient. 
+  * Normal distributions can be combined to build complex models that are still tractable. 
+
+A random vector $X = (X_1, ..., X_k)^T$ is <span class='vocab'>multivariate normal</span> if
+$a^T X$ (the dot-product of $a$ and $X$) is univariate normal for all $a \in \R^k$. 
+
+We consider the univariate normal family to include the degenerate case $\mathcal N(\mu,0)$,
+defined as the point mass at $\mu$. 
+
+Multivariate normals are determined by two parameters: 
+
+  1. The mean $\mu$ which may be any vector in $\R^k$, and 
+  2. The covariance $\sigma$ which may be any $k \times k$ real symmetric positive semi-definite
+  matrix. (Recall semi-definiteness: $v^T \Sigma v \geq 0 \, \forall v \in \R^k$.)
+
+We write that $X \sim \mathcal N(\mu, \Sigma)$ to denote $X$ is multivariate normal with 
+$\E X = \mu$ and $\Cov(X) = \Sigma$. 
+
+:::{.hottip}
+It is possible that $\Sigma$ might not be invertible, in which case it has no 
+density and the pdf does not exist. 
+:::
+
+If $\Sigma$ is an invertible matrix, then the pdf of $X \sim \mathcal N(\mu, \Sigma)$ is 
+
+$$\mathcal N(x \mid \mu, \Sigma) = \frac{1}{(2 \pi )^{k/2} | \det (\Sigma) |^{1/2}}
+\exp \left( -\frac{1}{2} (x-\mu)^T \Sigma^{-1} (x-\mu) \right)$$ 
+
+for all $x \in \R^k$. Here $\det (\Sigma)$ denotes the determinant of $\Sigma$. 
+
+:::{.chilltip}
+Though it's formally obvious why $\Sigma$ needs to be invertible, but is there 
+more intuition to be had as to why it needs to be invertible? 
+
+If $\Sigma$ were not invertible, then there would be nonzero vectors $a$ such that 
+$a^T X = 0$. 
+
+```{r}
+#| out.width: 50% 
+#| fig.width: 5
+#| fig.height: 5
+#| echo: false
+#| fig.align: center
+#| warning: false
+
+suppressMessages(library(tidyverse))
+df <- tibble::tibble(x = rnorm(n = 1000), y = 1.25 * x)
+
+ggplot(df, aes(x, y)) + 
+geom_point() + 
+theme_bw() + 
+xlim(c(-4,4)) + 
+ylim(c(-4,4)) + 
+ggtitle("A degenerate multivariate normal distribution", 
+expression(paste("det(", Sigma, ") = ", cov(as.matrix(df)) )))
+```
+
+This would mean that $X$ lives in a (strict) subspace. 
+In 2D this is like saying that the distribution lives on a line.
+Hence it occupies a measure zero space. 
+
+In 2D, it's like saying the "area" the distribution occupies is zero. 
+
+In 3D, it's like saying the "volume" the distribution occupies is zero. 
+:::
+
+$\mathcal N(0,I)$ denotes the standard multivariate normal distribution. 
+
+# Eigendecomposition of $\Sigma$
+
+Let $\Sigma$ be any real symmetric positive semi-definite matrix. 
+
+The eigendecomposition of $\Sigma$ is the factorization $\Sigma = U D U^T$, where 
+
+  * $U \in \R^{k \times k}$ is orthogonal, that is, $U^TU = UU^T = I$ and 
+  * $D = \text{diag}(d_{11}, ..., d_{kk})$ where $d_{11} \geq d_{22} \geq \cdots \geq d_{kk} \geq 0$,
+  i.e., $D$ is diagonal with nonnegative diagonal entries in decreasing order.
+  
+:::{.cooltip}
+What is the geometric interpretation of positive semi-definiteness? 
+
+Essentially it's that the function $f(a) = a^T \Sigma a$ is upward parabolically shaped 
+in a 2D setting. 
+
+<center>
+<img src="standalone_figures/semidefiniteness/semidefiniteness.svg">
+</center>
+:::
+
+The columns of $U$ are called the eigenvectors, and the diagonal entries of $D$ 
+are the corresponding eigenvalues. 
+
+Writing $U = [ u_1 \cdots u_k]$ yields the usual $\Sigma u_i = d_{ii} u_i$ property:
+
+$$\left[ \Sigma u_1 \cdots \Sigma u_k \right] = \Sigma U = U D U^T U = U D = \left[ d_{11} u_1 \cdots d_{kk} u_k \right].$$
+
+:::{.bluetip}
+An equivalent definition of positive semidefiniteness is saying that the eigenvalues 
+are nonnegative for a real symmetric matrix.
+
+Also note that we can write these in matrix notation as 
+
+$$D = \begin{bmatrix} 
+d_{11} & 0 & 0 & \cdots \\ 
+0 & d_{22} & 0 & \cdots \\
+0 & 0 & \ddots & 0 \\ 
+\vdots & & 0 & d_{kk}
+\end{bmatrix}, \quad \quad 
+U = \begin{bmatrix} 
+\rule[-1ex]{0.5pt}{2.5ex} & & \rule[-1ex]{0.5pt}{2.5ex} \\ 
+u_1 & \cdots & u_k \\
+\rule[-1ex]{0.5pt}{2.5ex} & & \rule[-1ex]{0.5pt}{2.5ex} 
+\end{bmatrix}.$$
+
+When we say a matrix is orthogonal, that means that all of the columns are
+orthogonormal. (Two columns are orthonormal if they are orthogonal and have norm 1).
+:::
+
+### Affine Transformation Property 
+
+If $X \sim \mathcal N(\mu, \Sigma)$ is $k$-dimensional, then 
+
+$$AX + b \sim \mathcal N(A \mu + b, A\Sigma A^T)$$ 
+
+for all $A \in \R^{k \times k}$ and $b \in \R^m$. 
+
+:::{.cooltip}
+$$ \E (AX + b) = A \E X + b = A \mu + b $$
+
+$$ \begin{aligned} \Cov (AX + b) = \Cov(AX) & = A \Cov (X) A^T \\ 
+& = A \Sigma A^T \end{aligned}$$ 
+:::
+
+Examples: 
+
+If $Z \sim \mathcal N(0, I)$, then $U D^{1/2} Z + \mu \sim \mathcal N(\mu,\Sigma )$. 
+
+If $X \sim \mathcal N(\mu, I)$ then $D^{-1/2} U^T (X-\mu) \sim \mathcal N(0, I)$. 
+
+Any permutation of the numbers 1,...,k can be represented by a binary matrix $\Pi \in \{0, 1 \}^{k \times k}$
+that has a single 1 in row and column. If $X \sim \mathcal N(\mu, \Sigma)$ then $\Pi X \sim \mathcal N(\Pi \mu, \Pi \Sigma \Pi^T)$. 
+
+:::{.cooltip}
+$$A = UD^{1/2} \quad \quad b = \mu$$
+
+$$UD^{1/2} Z + \mu \sim \mathcal N(A \cdot 0 + \mu, A I A^T)$$
+$$ = \mathcal N(\mu, U D^{1/2} D^{1/2 T} U^T)$$
+$$ = \mathcal N(\mu, U D U^T)$$
+$$ = \mathcal N(\mu, \Sigma)$$
+:::
+
+### Precision Matrix
+
+The precision matrix is given by $\Sigma^{-1}$, often denoted $\Lambda$. 
+
+In terms of $\mu$ and $\Lambda = \Sigma^{-1}$, the pdf of a multivariate normal 
+distribution is given by 
+
+$$\mathcal N(x \mid \mu, \Lambda^{-1}) = \frac{|\det (\Lambda)|^{1/2}}{(2\pi)^{k/2}}
+\exp \left( - \frac{1}{2} (x-\mu)^\tt{T} \Lambda (x-\mu) \right).$$
+
+If $\Sigma = UDU^{\tt{T}}$ is the eigendecomposition, and $\Sigma^{-1}$ exists, then 
+$$\Sigma^{-1} = UD^{-1}U^\tt{T}.$$
+
+Given $D$, it is easy to compute $D^{-1}$ since it is simply 
+$$D^{-1} = \text{diag}(1/d_{11}, ..., 1/d_{kk}).$$
+
+### Independence and Covariance 
+
+We write $X \independent Y$ to denote that $X$ and $Y$ are independent, i.e. that 
+$X \independent Y \Leftrightarrow f(X,Y) = f(X)f(Y).$$
+
+Similarly, we write $X \independent Y \mid Z$ to indicate that 
+$$f(X,Y \mid Z) = f(x \mid z)f(Y \mid Z).$$
+
+Just note that $f$ will accordingly need to be either a probability mass
+or probability density function depending on the random variables, and whereas
+it represents a bivariate function on the left hand side, the right hand side
+represents (either unconditional or conditional) marginal functions.
+
+Suppose that $X \sim \mathcal N(\mu,\Sigma)$. Then $\Sigma_{ij} = 0$ if and only if 
+$X_i \independent X_{j}$. 
+
+Thus uncorrelated multivariate normal random variables are independent. This does not 
+necessarily hold for other distributions.
+
+:::{.chilltip}
+Why does this hold? 
+
+We can carry out a variable transformation where we multiply $X$ by $A$ to 
+reduce it from a random vector of $k$ random variables to only two and see that 
+the pdf factors. 
+
+Let 
+$$A = \begin{bmatrix}
+0 & \cdots & 0 & 1 & \cdots & 0 \\ 
+0 & \cdots & 0 & 0 & 1 & \cdots 
+\end{bmatrix} \quad \text{ so that } A X = \begin{bmatrix} X_i \\ X_j 
+\end{bmatrix}.$$
+
+Then 
+
+$$\begin{aligned}A X & \sim \mathcal N(A \mu, A \Sigma A^\tt{T}) \\
+& = \mathcal N\left( \begin{bmatrix} \mu_i \\ mu_j \end{bmatrix}, 
+\begin{bmatrix} \Sigma_{ii} & \Sigma_{ij} \\ \Sigma_{ji} & \Sigma_{jj} \end{bmatrix} \right).
+\end{aligned}
+$$
+
+Working out the matrix arithmetic, this pdf factors a product, showing that 
+$$(X_1, X_2)^\tt{T} \sim \mathcal N(\mu_1, \Sigma_{ii}) \mathcal N(\mu_2, \Sigma_{jj}).$$
+:::
+
+### Transformation to Chi-Squared
+
+Confidence sets are often constructed using the following fact: 
+
+If $Z \sim \mathcal N(0, I_k)$, then $Z^\tt{T} Z \sim \mathcal \chi^2 (k)$.
+
+Proof: $\sum_{i=1}^k Z_i^2 \sim \chi^2(k)$ since $Z_i \sim \mathcal N(0, 1)$ independently. 
+
+:::{.cooltip}
+If $X \sim \mathcal N(\mu, \Sigma)$ and $\Sigma^{-1}$ exist, then 
+$$(X - \mu)^\tt{T} \Sigma^{-1} (X-\mu) \sim \chi^2(k).$$
+
+The crux of the idea is to use that we can break up $D^{-1}$ into two pieces 
+and $D^{-1/2} = D^{-1/2 \T}.$
+
+$$(X - \mu) U D^{-1/2} D^{-1/2 \T} U^T (X - \mu) = (X-\mu) \Sigma^{-1/2} \Sigma^{1/2} (X-\mu),$$
+
+where $U D^{1/2} Z + \mu = X$ and $Z = D^{-1/2 \T} U^\T (X - \mu)$. Thus now 
+the expression given is $Z^T Z$. 
+:::
+
+### Normality of Marginal and Conditional Distributions
+
+Multivariate normal distributions are still multivariate normals after 
+marginalizing and conditioning. 
+
+If $X$ is multivariate normal, then any subset of its entries are multivariate normal. 
+
+If $X$ is multivariate normal, then the conditional distribution of any subset of entries given any other 
+subset of entries is multivariate normal. 
+
+To state these results more precisely, we partition $X$ into two subsets of 
+entries as follows: 
+
+$$X = \begin{bmatrix} X_a \\ X_b \end{bmatrix}.$$ 
+
+Let $X \sim \mathcal N(\mu, \Sigma)$ be $k$-dimensional, and suppose
+
+$$X = \begin{bmatrix} X_a \\ X_b \end{bmatrix}, \quad \mu = \bmat{\mu_a \\ \mu_b}, \quad 
+\Sigma = \bmat{\Sigma_{aa} & \Sigma_{ab} \\ \Sigma_{ba} & \Sigma_{bb}}$$
+
+where $X_a$ and $X_b$ are $l$ and $m$ dimensional, respectively. 
+
+The marginal distributions of $X_a$ and $X_b$ are 
+
+$$X_a \sim \mathcal N(\mu_a, \Sigma_{aa})$ and $X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).$$
+
+Proof: Let $A = [I_{l \times l} 0_{l \times m}]$, that is $A$ is the $l \times k$ matrix with 
+the $l \times l$ identity in the first block and the rest zeroes. 
+Then 
+$$X_a = AX \sim \mathcal N(A \mu, A \Sigma A^\T) = \mathcal N(\mu_a, \Sigma_{aa}).$$
+
+The case of $X_b$ is similar, but with $B = [0_{m \times l} I_{m \times m}]$. 
+
+The conditional distribution of $X_a$ given $X_b = x_b$ is 
+
+$$X_a \mid X_b = x_b \sim \mathcal N(\mu_{a|b}, \Sigma_{a|b}),$$
+
+where 
+$$\mu_{a|b} = \mu_a + \Sigma_{ab}\Sigma^{-1}_{bb}(x_b - \mu_b)$$
+$$\Sigma_{a|b} = \Sigma_{aa} - \Sigma_{ab}\Sigma_{bb}^{-1}\Sigma_{ba}.$$
+
+Interestingly, note that $\Sigma_{a|b}$ does not depend
+on $x_b$. 
+
+Deriving this formula is instructive, but to derive 
+it we will need to take two excursions to learn about 
+proportionality, and inversion of $2 \times 2$ block matrices.
 

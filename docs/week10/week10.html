@@ -172,6 +172,15 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#minkowskis-inequality" id="toc-minkowskis-inequality" class="nav-link" data-scroll-target="#minkowskis-inequality">Minkowski’s Inequality</a></li>
   </ul></li>
   <li><a href="#recap-morals-of-inequalities" id="toc-recap-morals-of-inequalities" class="nav-link" data-scroll-target="#recap-morals-of-inequalities">Recap / Morals of Inequalities</a></li>
+  <li><a href="#multivariate-normal-distributions" id="toc-multivariate-normal-distributions" class="nav-link" data-scroll-target="#multivariate-normal-distributions">Multivariate Normal Distributions</a></li>
+  <li><a href="#eigendecomposition-of-sigma" id="toc-eigendecomposition-of-sigma" class="nav-link" data-scroll-target="#eigendecomposition-of-sigma">Eigendecomposition of <span class="math inline">\(\Sigma\)</span></a>
+  <ul class="collapse">
+  <li><a href="#affine-transformation-property" id="toc-affine-transformation-property" class="nav-link" data-scroll-target="#affine-transformation-property">Affine Transformation Property</a></li>
+  <li><a href="#precision-matrix" id="toc-precision-matrix" class="nav-link" data-scroll-target="#precision-matrix">Precision Matrix</a></li>
+  <li><a href="#independence-and-covariance" id="toc-independence-and-covariance" class="nav-link" data-scroll-target="#independence-and-covariance">Independence and Covariance</a></li>
+  <li><a href="#transformation-to-chi-squared" id="toc-transformation-to-chi-squared" class="nav-link" data-scroll-target="#transformation-to-chi-squared">Transformation to Chi-Squared</a></li>
+  <li><a href="#normality-of-marginal-and-conditional-distributions" id="toc-normality-of-marginal-and-conditional-distributions" class="nav-link" data-scroll-target="#normality-of-marginal-and-conditional-distributions">Normality of Marginal and Conditional Distributions</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -292,8 +301,176 @@ ul.task-list li input[type="checkbox"] {
 <p>Inequalities due to Jensen’s inequality with moments, and the inequalities with <span class="math inline">\(\log\)</span> terms are especially useful.</p>
 <p>Weighted AM-GM is not super common, but when it does show up, it’s super nice. As we saw, useful in the proof of Hölder’s inequality.</p>
 <p>Hölder’s and Cauchy-Schwarz are for when we have products of variables.</p>
+</section>
+<section id="multivariate-normal-distributions" class="level1">
+<h1>Multivariate Normal Distributions</h1>
+<p>The multivariate normal (or multivariate Gaussian) family is a generalization of the univariate normal to random vectors.</p>
+<p>It is, without a doubt, the most important family of distributions in probability and statistics.</p>
+<p>Central Limit Theorem:</p>
+<ul>
+<li>CLT: The sum of a large number of independent random variables is approximately normal. (Generalizes to the sum of random vectors being multivariate normal)</li>
+<li>Consequently, many real-world quantities tend to be normallly distributed.</li>
+<li>When designing models, the CLT helps us understand when a normal model would be appropriate.</li>
+</ul>
+<p>Multivariate normal distributions have quite nice analytic tractability:</p>
+<ul>
+<li>Calculations can often be done in closed form, making normal models computationally convenient.</li>
+<li>Normal distributions can be combined to build complex models that are still tractable.</li>
+</ul>
+<p>A random vector <span class="math inline">\(X = (X_1, ..., X_k)^T\)</span> is <span class="vocab">multivariate normal</span> if <span class="math inline">\(a^T X\)</span> (the dot-product of <span class="math inline">\(a\)</span> and <span class="math inline">\(X\)</span>) is univariate normal for all <span class="math inline">\(a \in \mathbb{R}^k\)</span>.</p>
+<p>We consider the univariate normal family to include the degenerate case <span class="math inline">\(\mathcal N(\mu,0)\)</span>, defined as the point mass at <span class="math inline">\(\mu\)</span>.</p>
+<p>Multivariate normals are determined by two parameters:</p>
+<ol type="1">
+<li>The mean <span class="math inline">\(\mu\)</span> which may be any vector in <span class="math inline">\(\mathbb{R}^k\)</span>, and</li>
+<li>The covariance <span class="math inline">\(\sigma\)</span> which may be any <span class="math inline">\(k \times k\)</span> real symmetric positive semi-definite matrix. (Recall semi-definiteness: <span class="math inline">\(v^T \Sigma v \geq 0 \, \forall v \in \mathbb{R}^k\)</span>.)</li>
+</ol>
+<p>We write that <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> to denote <span class="math inline">\(X\)</span> is multivariate normal with <span class="math inline">\(\mathbb{E}X = \mu\)</span> and <span class="math inline">\(\text{Cov}(X) = \Sigma\)</span>.</p>
+<div class="hottip">
+<p>It is possible that <span class="math inline">\(\Sigma\)</span> might not be invertible, in which case it has no density and the pdf does not exist.</p>
+</div>
+<p>If <span class="math inline">\(\Sigma\)</span> is an invertible matrix, then the pdf of <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> is</p>
+<p><span class="math display">\[\mathcal N(x \mid \mu, \Sigma) = \frac{1}{(2 \pi )^{k/2} | \det (\Sigma) |^{1/2}}
+\exp \left( -\frac{1}{2} (x-\mu)^T \Sigma^{-1} (x-\mu) \right)\]</span></p>
+<p>for all <span class="math inline">\(x \in \mathbb{R}^k\)</span>. Here <span class="math inline">\(\det (\Sigma)\)</span> denotes the determinant of <span class="math inline">\(\Sigma\)</span>.</p>
+<div class="chilltip">
+<p>Though it’s formally obvious why <span class="math inline">\(\Sigma\)</span> needs to be invertible, but is there more intuition to be had as to why it needs to be invertible?</p>
+<p>If <span class="math inline">\(\Sigma\)</span> were not invertible, then there would be nonzero vectors <span class="math inline">\(a\)</span> such that <span class="math inline">\(a^T X = 0\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="week10_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This would mean that <span class="math inline">\(X\)</span> lives in a (strict) subspace. In 2D this is like saying that the distribution lives on a line. Hence it occupies a measure zero space.</p>
+<p>In 2D, it’s like saying the “area” the distribution occupies is zero.</p>
+<p>In 3D, it’s like saying the “volume” the distribution occupies is zero.</p>
+</div>
+<p><span class="math inline">\(\mathcal N(0,I)\)</span> denotes the standard multivariate normal distribution.</p>
+</section>
+<section id="eigendecomposition-of-sigma" class="level1">
+<h1>Eigendecomposition of <span class="math inline">\(\Sigma\)</span></h1>
+<p>Let <span class="math inline">\(\Sigma\)</span> be any real symmetric positive semi-definite matrix.</p>
+<p>The eigendecomposition of <span class="math inline">\(\Sigma\)</span> is the factorization <span class="math inline">\(\Sigma = U D U^T\)</span>, where</p>
+<ul>
+<li><span class="math inline">\(U \in \mathbb{R}^{k \times k}\)</span> is orthogonal, that is, <span class="math inline">\(U^TU = UU^T = I\)</span> and</li>
+<li><span class="math inline">\(D = \text{diag}(d_{11}, ..., d_{kk})\)</span> where <span class="math inline">\(d_{11} \geq d_{22} \geq \cdots \geq d_{kk} \geq 0\)</span>, i.e., <span class="math inline">\(D\)</span> is diagonal with nonnegative diagonal entries in decreasing order.</li>
+</ul>
+<div class="cooltip">
+<p>What is the geometric interpretation of positive semi-definiteness?</p>
+<p>Essentially it’s that the function <span class="math inline">\(f(a) = a^T \Sigma a\)</span> is upward parabolically shaped in a 2D setting.</p>
+<center>
+<img src="standalone_figures/semidefiniteness/semidefiniteness.svg">
+</center>
+</div>
+<p>The columns of <span class="math inline">\(U\)</span> are called the eigenvectors, and the diagonal entries of <span class="math inline">\(D\)</span> are the corresponding eigenvalues.</p>
+<p>Writing <span class="math inline">\(U = [ u_1 \cdots u_k]\)</span> yields the usual <span class="math inline">\(\Sigma u_i = d_{ii} u_i\)</span> property:</p>
+<p><span class="math display">\[\left[ \Sigma u_1 \cdots \Sigma u_k \right] = \Sigma U = U D U^T U = U D = \left[ d_{11} u_1 \cdots d_{kk} u_k \right].\]</span></p>
+<div class="bluetip">
+<p>An equivalent definition of positive semidefiniteness is saying that the eigenvalues are nonnegative for a real symmetric matrix.</p>
+<p>Also note that we can write these in matrix notation as</p>
+<p><span class="math display">\[D = \begin{bmatrix}
+d_{11} &amp; 0 &amp; 0 &amp; \cdots \\
+0 &amp; d_{22} &amp; 0 &amp; \cdots \\
+0 &amp; 0 &amp; \ddots &amp; 0 \\
+\vdots &amp; &amp; 0 &amp; d_{kk}
+\end{bmatrix}, \quad \quad
+U = \begin{bmatrix}
+\rule[-1ex]{0.5pt}{2.5ex} &amp; &amp; \rule[-1ex]{0.5pt}{2.5ex} \\
+u_1 &amp; \cdots &amp; u_k \\
+\rule[-1ex]{0.5pt}{2.5ex} &amp; &amp; \rule[-1ex]{0.5pt}{2.5ex}
+\end{bmatrix}.\]</span></p>
+<p>When we say a matrix is orthogonal, that means that all of the columns are orthogonormal. (Two columns are orthonormal if they are orthogonal and have norm 1).</p>
+</div>
+<section id="affine-transformation-property" class="level3">
+<h3 class="anchored" data-anchor-id="affine-transformation-property">Affine Transformation Property</h3>
+<p>If <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> is <span class="math inline">\(k\)</span>-dimensional, then</p>
+<p><span class="math display">\[AX + b \sim \mathcal N(A \mu + b, A\Sigma A^T)\]</span></p>
+<p>for all <span class="math inline">\(A \in \mathbb{R}^{k \times k}\)</span> and <span class="math inline">\(b \in \mathbb{R}^m\)</span>.</p>
+<div class="cooltip">
+<p><span class="math display">\[ \mathbb{E}(AX + b) = A \mathbb{E}X + b = A \mu + b \]</span></p>
+<p><span class="math display">\[ \begin{aligned} \text{Cov}(AX + b) = \text{Cov}(AX) &amp; = A \text{Cov}(X) A^T \\
+&amp; = A \Sigma A^T \end{aligned}\]</span></p>
+</div>
+<p>Examples:</p>
+<p>If <span class="math inline">\(Z \sim \mathcal N(0, I)\)</span>, then <span class="math inline">\(U D^{1/2} Z + \mu \sim \mathcal N(\mu,\Sigma )\)</span>.</p>
+<p>If <span class="math inline">\(X \sim \mathcal N(\mu, I)\)</span> then <span class="math inline">\(D^{-1/2} U^T (X-\mu) \sim \mathcal N(0, I)\)</span>.</p>
+<p>Any permutation of the numbers 1,…,k can be represented by a binary matrix <span class="math inline">\(\Pi \in \{0, 1 \}^{k \times k}\)</span> that has a single 1 in row and column. If <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> then <span class="math inline">\(\Pi X \sim \mathcal N(\Pi \mu, \Pi \Sigma \Pi^T)\)</span>.</p>
+<div class="cooltip">
+<p><span class="math display">\[A = UD^{1/2} \quad \quad b = \mu\]</span></p>
+<p><span class="math display">\[UD^{1/2} Z + \mu \sim \mathcal N(A \cdot 0 + \mu, A I A^T)\]</span> <span class="math display">\[ = \mathcal N(\mu, U D^{1/2} D^{1/2 T} U^T)\]</span> <span class="math display">\[ = \mathcal N(\mu, U D U^T)\]</span> <span class="math display">\[ = \mathcal N(\mu, \Sigma)\]</span></p>
+</div>
+</section>
+<section id="precision-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="precision-matrix">Precision Matrix</h3>
+<p>The precision matrix is given by <span class="math inline">\(\Sigma^{-1}\)</span>, often denoted <span class="math inline">\(\Lambda\)</span>.</p>
+<p>In terms of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\Lambda = \Sigma^{-1}\)</span>, the pdf of a multivariate normal distribution is given by</p>
+<p><span class="math display">\[\mathcal N(x \mid \mu, \Lambda^{-1}) = \frac{|\det (\Lambda)|^{1/2}}{(2\pi)^{k/2}}
+\exp \left( - \frac{1}{2} (x-\mu)^\mathtt{T} \Lambda (x-\mu) \right).\]</span></p>
+<p>If <span class="math inline">\(\Sigma = UDU^{\mathtt{T}}\)</span> is the eigendecomposition, and <span class="math inline">\(\Sigma^{-1}\)</span> exists, then <span class="math display">\[\Sigma^{-1} = UD^{-1}U^\mathtt{T}.\]</span></p>
+<p>Given <span class="math inline">\(D\)</span>, it is easy to compute <span class="math inline">\(D^{-1}\)</span> since it is simply <span class="math display">\[D^{-1} = \text{diag}(1/d_{11}, ..., 1/d_{kk}).\]</span></p>
+</section>
+<section id="independence-and-covariance" class="level3">
+<h3 class="anchored" data-anchor-id="independence-and-covariance">Independence and Covariance</h3>
+<p>We write <span class="math inline">\(X \perp\!\!\!\perp Y\)</span> to denote that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, i.e.&nbsp;that <span class="math inline">\(X \perp\!\!\!\perp Y \Leftrightarrow f(X,Y) = f(X)f(Y).\)</span>$</p>
+<p>Similarly, we write <span class="math inline">\(X \perp\!\!\!\perp Y \mid Z\)</span> to indicate that <span class="math display">\[f(X,Y \mid Z) = f(x \mid z)f(Y \mid Z).\]</span></p>
+<p>Just note that <span class="math inline">\(f\)</span> will accordingly need to be either a probability mass or probability density function depending on the random variables, and whereas it represents a bivariate function on the left hand side, the right hand side represents (either unconditional or conditional) marginal functions.</p>
+<p>Suppose that <span class="math inline">\(X \sim \mathcal N(\mu,\Sigma)\)</span>. Then <span class="math inline">\(\Sigma_{ij} = 0\)</span> if and only if <span class="math inline">\(X_i \perp\!\!\!\perp X_{j}\)</span>.</p>
+<p>Thus uncorrelated multivariate normal random variables are independent. This does not necessarily hold for other distributions.</p>
+<div class="chilltip">
+<p>Why does this hold?</p>
+<p>We can carry out a variable transformation where we multiply <span class="math inline">\(X\)</span> by <span class="math inline">\(A\)</span> to reduce it from a random vector of <span class="math inline">\(k\)</span> random variables to only two and see that the pdf factors.</p>
+<p>Let <span class="math display">\[A = \begin{bmatrix}
+0 &amp; \cdots &amp; 0 &amp; 1 &amp; \cdots &amp; 0 \\
+0 &amp; \cdots &amp; 0 &amp; 0 &amp; 1 &amp; \cdots
+\end{bmatrix} \quad \text{ so that } A X = \begin{bmatrix} X_i \\ X_j
+\end{bmatrix}.\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[\begin{aligned}A X &amp; \sim \mathcal N(A \mu, A \Sigma A^\mathtt{T}) \\
+&amp; = \mathcal N\left( \begin{bmatrix} \mu_i \\ mu_j \end{bmatrix},
+\begin{bmatrix} \Sigma_{ii} &amp; \Sigma_{ij} \\ \Sigma_{ji} &amp; \Sigma_{jj} \end{bmatrix} \right).
+\end{aligned}
+\]</span></p>
+<p>Working out the matrix arithmetic, this pdf factors a product, showing that <span class="math display">\[(X_1, X_2)^\mathtt{T} \sim \mathcal N(\mu_1, \Sigma_{ii}) \mathcal N(\mu_2, \Sigma_{jj}).\]</span></p>
+</div>
+</section>
+<section id="transformation-to-chi-squared" class="level3">
+<h3 class="anchored" data-anchor-id="transformation-to-chi-squared">Transformation to Chi-Squared</h3>
+<p>Confidence sets are often constructed using the following fact:</p>
+<p>If <span class="math inline">\(Z \sim \mathcal N(0, I_k)\)</span>, then <span class="math inline">\(Z^\mathtt{T} Z \sim \mathcal \chi^2 (k)\)</span>.</p>
+<p>Proof: <span class="math inline">\(\sum_{i=1}^k Z_i^2 \sim \chi^2(k)\)</span> since <span class="math inline">\(Z_i \sim \mathcal N(0, 1)\)</span> independently.</p>
+<div class="cooltip">
+<p>If <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> and <span class="math inline">\(\Sigma^{-1}\)</span> exist, then <span class="math display">\[(X - \mu)^\mathtt{T} \Sigma^{-1} (X-\mu) \sim \chi^2(k).\]</span></p>
+<p>The crux of the idea is to use that we can break up <span class="math inline">\(D^{-1}\)</span> into two pieces and <span class="math inline">\(D^{-1/2} = D^{-1/2 \mathtt{T}}.\)</span></p>
+<p><span class="math display">\[(X - \mu) U D^{-1/2} D^{-1/2 \mathtt{T}} U^T (X - \mu) = (X-\mu) \Sigma^{-1/2} \Sigma^{1/2} (X-\mu),\]</span></p>
+<p>where <span class="math inline">\(U D^{1/2} Z + \mu = X\)</span> and <span class="math inline">\(Z = D^{-1/2 \mathtt{T}} U^\mathtt{T}(X - \mu)\)</span>. Thus now the expression given is <span class="math inline">\(Z^T Z\)</span>.</p>
+</div>
+</section>
+<section id="normality-of-marginal-and-conditional-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="normality-of-marginal-and-conditional-distributions">Normality of Marginal and Conditional Distributions</h3>
+<p>Multivariate normal distributions are still multivariate normals after marginalizing and conditioning.</p>
+<p>If <span class="math inline">\(X\)</span> is multivariate normal, then any subset of its entries are multivariate normal.</p>
+<p>If <span class="math inline">\(X\)</span> is multivariate normal, then the conditional distribution of any subset of entries given any other subset of entries is multivariate normal.</p>
+<p>To state these results more precisely, we partition <span class="math inline">\(X\)</span> into two subsets of entries as follows:</p>
+<p><span class="math display">\[X = \begin{bmatrix} X_a \\ X_b \end{bmatrix}.\]</span></p>
+<p>Let <span class="math inline">\(X \sim \mathcal N(\mu, \Sigma)\)</span> be <span class="math inline">\(k\)</span>-dimensional, and suppose</p>
+<p><span class="math display">\[X = \begin{bmatrix} X_a \\ X_b \end{bmatrix}, \quad \mu = \begin{bmatrix} \mu_a \\ \mu_b \end{bmatrix}, \quad
+\Sigma = \begin{bmatrix} \Sigma_{aa} &amp; \Sigma_{ab} \\ \Sigma_{ba} &amp; \Sigma_{bb} \end{bmatrix}\]</span></p>
+<p>where <span class="math inline">\(X_a\)</span> and <span class="math inline">\(X_b\)</span> are <span class="math inline">\(l\)</span> and <span class="math inline">\(m\)</span> dimensional, respectively.</p>
+<p>The marginal distributions of <span class="math inline">\(X_a\)</span> and <span class="math inline">\(X_b\)</span> are</p>
+<p><span class="math display">\[X_a \sim \mathcal N(\mu_a, \Sigma_{aa})$ and $X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).\]</span></p>
+<p>Proof: Let <span class="math inline">\(A = [I_{l \times l} 0_{l \times m}]\)</span>, that is <span class="math inline">\(A\)</span> is the <span class="math inline">\(l \times k\)</span> matrix with the <span class="math inline">\(l \times l\)</span> identity in the first block and the rest zeroes. Then <span class="math display">\[X_a = AX \sim \mathcal N(A \mu, A \Sigma A^\mathtt{T}) = \mathcal N(\mu_a, \Sigma_{aa}).\]</span></p>
+<p>The case of <span class="math inline">\(X_b\)</span> is similar, but with <span class="math inline">\(B = [0_{m \times l} I_{m \times m}]\)</span>.</p>
+<p>The conditional distribution of <span class="math inline">\(X_a\)</span> given <span class="math inline">\(X_b = x_b\)</span> is</p>
+<p><span class="math display">\[X_a \mid X_b = x_b \sim \mathcal N(\mu_{a|b}, \Sigma_{a|b}),\]</span></p>
+<p>where <span class="math display">\[\mu_{a|b} = \mu_a + \Sigma_{ab}\Sigma^{-1}_{bb}(x_b - \mu_b)\]</span> <span class="math display">\[\Sigma_{a|b} = \Sigma_{aa} - \Sigma_{ab}\Sigma_{bb}^{-1}\Sigma_{ba}.\]</span></p>
+<p>Interestingly, note that <span class="math inline">\(\Sigma_{a|b}\)</span> does not depend on <span class="math inline">\(x_b\)</span>.</p>
+<p>Deriving this formula is instructive, but to derive it we will need to take two excursions to learn about proportionality, and inversion of <span class="math inline">\(2 \times 2\)</span> block matrices.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
