@@ -6,7 +6,7 @@ format:
     theme: ../style.scss
 ---
 
-Welcome to my notes on (Non-Measure Theoretic) Probability! 
+Welcome to my notes on (Mostly Non-Measure Theoretic) Probability! 
 
 ```{r, echo=FALSE, out.width='100%'}
 knitr::include_graphics('week10/standalone_figures/semidefiniteness/semidefiniteness.svg')
