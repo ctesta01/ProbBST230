@@ -5,3 +5,23 @@ format:
     toc: true
     theme: ../style.scss
 ---
+
+Welcome to my notes on (Non-Measure Theoretic) Probability! 
+
+```{r, echo=FALSE, out.width='100%'}
+knitr::include_graphics('week10/standalone_figures/semidefiniteness/semidefiniteness.svg')
+```
+
+I hope you will enjoy them, but you do have to be prepared: the notation is pretty all over the place. 
+
+I've been honing my $\LaTeX$ tikz and pgfplots skills throughout this course, so
+I hope you enjoy the diagrams I have diligently been creating throughout. 
+
+Besides the above, here are a couple more figures I'm so thrilled to have been
+able to learn how to make in $\LaTeX$.
+
+```{r, echo=FALSE, out.width='100%'}
+knitr::include_graphics('week6/standalone_figures/conditional_expectation/conditional_expectation.svg')
+knitr::include_graphics('week2/standalone_figures/measureable_f/measureable_f.svg')
+knitr::include_graphics('week4/standalone_figures/converging_normals/converging_normals.svg')
+```

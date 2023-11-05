@@ -642,5 +642,12 @@
     "title": "Week 9",
     "section": "Hoeffding’s Inequality",
     "text": "Hoeffding’s Inequality\nSuppose \\(X_1, ..., X_n\\) are independent random variables such that \\(r_i \\leq X_i \\leq s_i\\) and denote \\(\\bar X = \\frac{1}{n} \\sum_{i=1}^n X_i\\). Then for all \\(a > 0\\)\n\\[P(| \\bar X - \\mathbb{E}\\bar X > a) \\leq 2 \\exp \\left( - \\frac{2a^n}{\\frac{1}{n} \\sum_{i=1}^n (s_i - r_i)^2} \\right).\\]\nHoeffding’s shows that for bounded independent random variables, the sample mean converges exponentially quickly to the mea.\nLike Chernoff’s bound, Hoeffding’s provides an exponentially decaying bound as \\(a\\) grows. An advantage of Hoeffding’s is that the mgf doesn’t need to be known to get an explicit bound. On the other hand, the random variables need to be bounded.\nFor instance, if \\(X_1, ..., X_n \\sim \\text{Bernoulli}(q),\\) then\n\\[P(| \\bar X - q | > a) \\leq 2 \\exp (-2a^n).\\]"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Probability (BST 230) Notes",
+    "section": "",
+    "text": "Welcome to my notes on (Non-Measure Theoretic) Probability!\n\n\n\n\n\nI hope you will enjoy them, but you do have to be prepared: the notation is pretty all over the place.\nI’ve been honing my \\(\\LaTeX\\) tikz and pgfplots skills throughout this course, so I hope you enjoy the diagrams I have diligently been creating throughout.\nBesides the above, here are a couple more figures I’m so thrilled to have been able to learn how to make in \\(\\LaTeX\\)."
   }
 ]
