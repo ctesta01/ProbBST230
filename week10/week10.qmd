@@ -459,7 +459,7 @@ where $X_a$ and $X_b$ are $l$ and $m$ dimensional, respectively.
 
 The marginal distributions of $X_a$ and $X_b$ are 
 
-$$X_a \sim \mathcal N(\mu_a, \Sigma_{aa})$ and $X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).$$
+$$X_a \sim \mathcal N(\mu_a, \Sigma_{aa}) \quad \text{ and }\quad X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).$$
 
 Proof: Let $A = [I_{l \times l} 0_{l \times m}]$, that is $A$ is the $l \times k$ matrix with 
 the $l \times l$ identity in the first block and the rest zeroes. 

@@ -1,0 +1,230 @@
+---
+title: "Week 11"
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+\newcommand{\b}[1]{\mathbf{#1}}
+\newcommand{\tt}[1]{\mathtt{#1}}
+\newcommand{\T}[0]{\mathtt{T}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+
+\newcommand{\sumint}[0]{\;\;\;\mathclap{\displaystyle\int}\mathclap{\textstyle\sum} \;\;\;}
+\newcommand{\align}[1]{\begin{aligned} #1 \end{aligned}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+$$
+
+
+:::
+
+# Recap — and Continuing Multivariate Normality
+
+We introduced several properties of the multivariate normal distributions. 
+We introduced eigendecomposition of the covariance matrix; the precision matrix; 
+independence and covariance; transformation to a $\chi^2(k)$ distribution, etc. 
+
+## Proportionality
+
+$f(x)$ is proportional to $g(x)$ if there exists $c \neq 0$ such that 
+$f(x) = cg(x)$ for all $x$. (This can be generalized to allow $c=0$ but
+the definition is more complicated and we won't need it here.)
+
+We write $f \propto g$ to denote that $f$ is proportional to $g$. 
+
+Properties: 
+
+  1. If $f \propto g$ then $g \propto f$ (Symmetry).
+  2. If $f \propto g$ and $g \propto h$, then $f \propto h$ (Transitivity). 
+  3. If $f$ and $g$ are pdfs or pmfs and $f \propto g$, then $f = g$. 
+
+:::{.bluetip}
+Symmetry because one can take $c_2 = 1/c_1$. 
+
+Transitivity because one can multiply $c_1 c_2$. 
+
+For the third, the two properties to apply is that the integral/sum over all 
+values of a pdf/pmf is 1 and proportionality applies at all individual values. 
+
+So $\sum f = \sum g = 1$, and $f(x) = cg(x) \quad \forall x$. 
+
+Observe that $\sum f(x) = \sum c g(x) = c \sum g(x) = c \times 1 = 1$. 
+
+$\therefore c = 1$
+
+:::
+
+## Proportionality of the Multivariate Normal 
+
+The pdf of $X \sim \mathcal N(\mu, \Sigma),$ when $\Lambda = \Sigma^{-1}$ exists is 
+
+$$\begin{aligned}\mathcal N(x \mid \mu, \Lambda^{-1}) & = \frac{|\det \Lambda|^{1/2}}{(2\pi)^{k/2}}
+\exp \left( -\frac{1}{2} (x- \mu)^\T \Lambda (x-\mu)\right)  \\ 
+& \propto \exp \left( -\frac{1}{2} (x-\mu)^\T \Lambda (x-\mu)\right) \\ 
+& = \exp \left( -\frac{1}{2} ( x^\T \Lambda x - x^T \Lambda \mu - \mu^T \Lambda x + \overbrace{\mu^T \Lambda \mu}^{\text{constant}} \right) \\ 
+& \propto \exp \left( -\frac{1}{2} (x^\T \Lambda x - 2 \mu^T \Lambda x \right).
+\end{aligned}$$ 
+
+Suppose $f(x) \propto \exp(-\frac{1}{2} (x^\T A x - 2c^T x))$. 
+
+Set $\Lambda = A$ and $\mu^\T \Lambda = c^T$ and solve for $\mu$ and $\Sigma$. 
+
+$\Sigma = A^{-1}$ and $\mu = A^{-1} c$ because $c = \Lambda^\T \mu = \Lambda \mu$. 
+
+Therefore $f(x) = \mathcal N(x \mid A^{-1} c, A^{-1})$.
+
+## Conditional Distributions 
+
+To find the distribution of $X_a \mid X_b = x_b$, letting $\Lambda = \Sigma^{-1}$, 
+
+$$\align{p(x_a \mid x_b) \propto p(x_a, x_b) & = p(x) = \mathcal N(x \mid \mu, \Sigma)  \\
+& \propto \exp \left( -\frac{1}{2} (x^\T \Lambda x - 2 \mu^\T \Lambda x \right)
+}.$$
+
+Multiplying out and keeping only terms depending on $x_a$, 
+
+$$\align{
+x^\T & \Lambda x - 2 \mu^\T \Lambda x = \bmat{x_a \\ x_b}^\T \bmat{\Lambda_{aa} & \Lambda_{ab} \\ \Lambda_{ba} & \Lambda_{bb}} \bmat{x_a \\ x_b} 
+- 2 \bmat{\mu_a \\ \mu_b}^\T \bmat{\Lambda_{aa} & \Lambda_{ab} \\ \Lambda_{ba} & \Lambda_{bb}} \bmat{x_a \\ x_b} \\ 
+& = \bmat{x_a^\T \Lambda_{aa} + x_b^\T \Lambda_{ba} & x_a^\T \Lambda_{ab} + x_b^\T \Lambda_{bb}} \bmat{x_a \\ x_b} - 
+2 \bmat{\mu_a^\T \Lambda_{aa} + \mu_b^\T \Lambda_{ba} & \mu_a^T \Lambda_{ab} + \mu_b^\T \Lambda_{bb}} \bmat{x_a \\ x_b} \\ 
+& = (x_a^\T \Lambda_{aa} + x_b^\T \Lambda_{ba}) x_a + (x_a^T \Lambda_{ab} +\cancel{ x_b^\T \Lambda_{bb}}) x_b - 2((\mu_a^T \Lambda_{aa} + \mu_b^\T \Lambda_{ba})x_a + \cancel{(\mu_a^\T \Lambda{ab} + \mu_b^\T \Lambda_{bb}) x_b}) \\ 
+& \text{we can cancel terms that don't depend on $x_a$} \\ 
+& = x_a^\T \Lambda_{aa} x_a + x_b^\T \Lambda_{ba} x_a + x_a^\T \Lambda_{ab} x_b - 2(\mu_a^\T \Lambda_{aa} + \mu_b^\T \Lambda_{ba})x_a + \text{a constant} \\ 
+& = x_a^\T \Lambda_{aa} x_a - 2(\mu_a^\T \Lambda_{aa} + \mu_b^\T \Lambda_{ba} - x_b^T \Lambda_{ba}) x_a + \text{ a constant} \\ 
+& = x_a^\T \Lambda_{aa} x_a - 2(\mu_a^\T \Lambda_{aa} - (x_b-\mu_b)^T \Lambda_{ba})x_a + \text{ a constant}.
+% & = x_a^\T \Lambda_{aa} x_a + 2x_
+}$$
+
+To express $p(x_a \mid x_b)$ in terms of $\Sigma$ instead of $\Lambda$, we can use the following  handy formula for inversion of a $2 \times 2$ block matrix: 
+
+$$\bmat{A & B \\ C & D}^{-1} = \bmat{M & -MBD^{-1} \\ -D^{-1}CM & D^{-1} + D^{-1}CMBD^{-1}},$$
+
+where 
+
+$$M = (A - BD^{-1}C)^{-1}.$$
+
+Applying this to $\Sigma^{-1}$ we have in particular that 
+
+$$\Lambda_{aa} = (\Sigma_{aa} - \Sigma_{ab}\Sigma_{bb}^{-1} \Sigma_{ba})^{-1}$$
+$$\Lambda_{aa}^{-1} \Lambda_{ab} = -\Sigma_{ab}\Sigma_{bb}^{-1}.$$
+
+Plugging into the prior result, 
+
+$$\align{p(x_a \mid x_b) & = \mathcal N \left( x_a \mid \mu_a - \Lambda_{aa}^{-1} \Lambda_{ab} (x_b - \mu_b), \Lambda_{aa}^{-1}\right) \\ 
+& = \mathcal N \left( x_a \mid \mu_a + \Sigma_{ab}\Sigma_{bb}^{-1} (x_b - \mu_b), \Sigma_{aa} - \Sigma_{ab} \Sigma_{bb}^{-1} \Sigma_{ba} \right).}$$
+
+## Linear-Gaussian Models
+
+Linear-Gaussian models are a unifying generalization of many commonly used models. 
+
+They are often used implicitly or explicitly in the following: 
+
+  * Bayesian linear regression 
+  * Principal components analysis 
+  * Factor analysis 
+  * Clustering with mixtures of Gaussians 
+  * Vector quantization 
+  * Kalman filter models 
+  * Hidden Markov models with Gaussian noise 
+
+### Details
+
+Suppose $X$ and $Y$ have a joint distribution such that 
+
+$$X \sim \mathcal N(\mu, \Lambda^{-1})$$
+$$Y \mid X = x \sim \mathcal N(Ax + b, L^{-1}),$$
+
+for some matrix $A$, vectors $\mu$ and $b$, and symmetric positive definite matrices $\Lambda$
+and $L$. 
+
+Then the marginal distribution of $X$ and the conditional distribution of $X \mid Y = y$ are
+
+$$Y \sim \mathcal N(A\mu + b, L^{-1} + A\Lambda^{-1}A^\T )$$
+$$X \mid Y = y \sim \mathcal N(C(A^\T L(y-b) + \Lambda \mu), C)$$
+
+where 
+
+$$C = (\Lambda + A^\T L A)^{-1}.$$
+
+## Bayesian Linear Regression 
+
+Consider a linear regression model: 
+
+$$Y \mid \beta \sim \mathcal N (A\beta, \sigma^2 I)$$
+
+where $Y = (Y_1, ..., Y_n)^\T$ is the vector of outcomes and $A$ is the
+design matrix, $A = \bmat{x_1 & \cdots & x_n}^\T$. 
+
+Suppose we place a normal prior distribution on $\beta \in \R^{k}$, the 
+vector of coefficients 
+
+$$\beta \sim \mathcal N(0, \Lambda^{-1}).$$
+
+This is a linear-Gaussian model with $X = \beta$, $\mu = 0$, $b = 0$, 
+$L^{-1} = \sigma^2 I$.
+
+Thus the conditional distribution of $\beta \mid Y = y$ is: 
+
+$$\beta \mid Y \sim \mathcal N(CA^\T y/\sigma^2, C).$$
+
+$$C = (\Lambda + A^\T A / \sigma^2)^{-1}.$$
+
+:::{.cooltip}
+Writing out the linear model: 
+
+$$Y_i = x_i^\T \beta + \varepsilon_i$$
+
+$$\varepsilon \sim \mathcal N(0, \sigma^2)$$
+
+$$Y = \bmat{Y_1 \\ \vdots \\ Y_n} \sim \mathcal N(A \beta, \sigma^2 I)$$
+
+$$A = \bmat{—x_1^\T— \\ \vdots \\ —x_n^\T— }.$$
+
+A is called the "design matrix."
+:::
+
+Let's write out $CA^Ty/\sigma^2$
+
+$$ = (\Lambda + A^\T A / \sigma^2)^{-1} A^T y / \sigma^2$$
+$$ = (\sigma^2 \Lambda + A^T A)^{-1} A^T y$$
+$$ \lim_{\Lambda \rightarrow 0} (A^\T A)^{-1} A^\T y,$$
+
+which is the OLS estimator. 
+
+:::{.hottip}
+Why do we believe the normal distribution is *so* important? 
+
+It comes up a lot in practice as a reasonable model because of the central limit theorem. 
+
+It's also because it's computationally, analytically tractable. You can actually derive
+all these conditional distributions, which is kind of remarkable. That's not usually the case for many other multivariate distributions. 
+
+Kalman filters are big time-series models where you have sensors and you have to keep 
+track in real-time where is the rocket, what is its position, where is it going, and
+do that based on noisy measurements. It's taking in lots of data and doing multivariate-normal
+calculations that you can do analytically. 
+
+You get a decent amount of flexibility in the multivariate Gaussian: you can not only 
+adjust the means and the variances, but you also have all the covariance parameters 
+which gives you a lot of parameters to work with providing flexibility.
+:::
+
+<!-- multivariate normals are the last topic on the midterm --> 
+
+<!-- chapter 4 problems are fair game for the exam --> 
