@@ -466,7 +466,7 @@ u_1 &amp; \cdots &amp; u_k \\
 \Sigma = \begin{bmatrix} \Sigma_{aa} &amp; \Sigma_{ab} \\ \Sigma_{ba} &amp; \Sigma_{bb} \end{bmatrix}\]</span></p>
 <p>where <span class="math inline">\(X_a\)</span> and <span class="math inline">\(X_b\)</span> are <span class="math inline">\(l\)</span> and <span class="math inline">\(m\)</span> dimensional, respectively.</p>
 <p>The marginal distributions of <span class="math inline">\(X_a\)</span> and <span class="math inline">\(X_b\)</span> are</p>
-<p><span class="math display">\[X_a \sim \mathcal N(\mu_a, \Sigma_{aa})$ and $X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).\]</span></p>
+<p><span class="math display">\[X_a \sim \mathcal N(\mu_a, \Sigma_{aa}) \quad \text{ and }\quad X_b \sim \mathcal N(\mu_b, \Sigma_{bb}).\]</span></p>
 <p>Proof: Let <span class="math inline">\(A = [I_{l \times l} 0_{l \times m}]\)</span>, that is <span class="math inline">\(A\)</span> is the <span class="math inline">\(l \times k\)</span> matrix with the <span class="math inline">\(l \times l\)</span> identity in the first block and the rest zeroes. Then <span class="math display">\[X_a = AX \sim \mathcal N(A \mu, A \Sigma A^\mathtt{T}) = \mathcal N(\mu_a, \Sigma_{aa}).\]</span></p>
 <p>The case of <span class="math inline">\(X_b\)</span> is similar, but with <span class="math inline">\(B = [0_{m \times l} I_{m \times m}]\)</span>.</p>
 <p>The conditional distribution of <span class="math inline">\(X_a\)</span> given <span class="math inline">\(X_b = x_b\)</span> is</p>

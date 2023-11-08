@@ -228,3 +228,6 @@ which gives you a lot of parameters to work with providing flexibility.
 <!-- multivariate normals are the last topic on the midterm --> 
 
 <!-- chapter 4 problems are fair game for the exam --> 
+
+# Statistics of Random Samples 
+
