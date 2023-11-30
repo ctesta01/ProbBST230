@@ -18,6 +18,8 @@ book:
     - week9/week9.qmd
     - week10/week10.qmd
     - week11/week11.qmd
+    - week13/week13.qmd
+    - week14/week14.qmd
 
 format:
   html:

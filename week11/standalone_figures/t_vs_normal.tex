@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{pgfplots}
+\usepackage{luacode}
+\pgfplotsset{compat=1.17}
+
+% Lua function for t-distribution
+\begin{luacode}
+function t_distribution(x, df)
+    local gamma = require("sci").gamma
+    return gamma((df+1)/2) / (math.sqrt(df*math.pi) * gamma(df/2)) * (1 + (x^2)/df)^(-((df+1)/2))
+end
+\end{luacode}
+
+% New command to call Lua function
+\newcommand{\tdist}[2]{\directlua{tex.print("" .. t_distribution(#1,#2))}}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[
+    title={Comparison of Normal and t-Distribution},
+    xlabel={Value},
+    ylabel={Probability Density},
+    legend pos=north west,
+    grid=major,
+    xmin=-5, xmax=5,
+    ymin=0, ymax=0.45
+]
+% Normal distribution
+\addplot [
+    domain=-5:5, 
+    samples=100, 
+    color=blue,
+] {1/(1*sqrt(2*pi)) * exp(-((x-0)^2)/(2*1^2))};
+\addlegendentry{Normal Distribution}
+
+% t-distribution with 10 degrees of freedom using Lua function
+\addplot [
+    domain=-5:5, 
+    samples=100, 
+    color=red,
+] {\tdist{x}{10}};
+\addlegendentry{t-Distribution (df=10)}
+
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

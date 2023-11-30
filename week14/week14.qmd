@@ -1,0 +1,278 @@
+---
+title: "Week 14"
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+\newcommand{\b}[1]{\mathbf{#1}}
+\newcommand{\tt}[1]{\mathtt{#1}}
+\newcommand{\T}[0]{\mathtt{T}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+
+\newcommand{\sumint}[0]{\;\;\;\mathclap{\displaystyle\int}\mathclap{\textstyle\sum} \;\;\;}
+\newcommand{\align}[1]{\begin{aligned} #1 \end{aligned}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\DeclareMathOperator*{\plim}{p-lim}
+$$
+:::
+
+# Limit Superiors and Limit Inferiors 
+
+The limit superior, denoted $\limsup_{n \to \infty} x_n$ is the smallest 
+number $u \in [-\infty, \infty]$ such that for all $\epsilon > 0$, there exists
+$N$ such that $x_n < u + \epsilon$ for all $n > N$. 
+
+The limit inferior, denoted $\liminf_{n \to \infty} x_n$ is the greatest 
+number $l \in [-\infty, \infty]$ such that for all $\epsilon  > 0$, there exists 
+$N$ such that $x_n > l - \epsilon$ for all $n > N$. 
+
+$\liminf x_n \leq \limsup x_n$ always and if $\liminf x_n = \limsup x_n$ then 
+$\lim x_n$ exists and all three are equal. 
+
+# Laws of Large Numbers and CLTs 
+
+There are several versions of the law of large numbers (LLN) and central limit 
+theorem (CLT). Different versions vary in what they show, and the conditions 
+under which they hold. For instance, the weak LLN (WLLN) shows convergence in probability, while
+the SLLN shows almost sure convergence. 
+
+## Weak LLN for uncorrelated variables 
+
+Suppose $X_1, X_2, ...$ are uncorrelated random variables, that is, 
+$\Cor(X_i, X_j) = 0$ (that is, they could be dependent, just not correlated). 
+Define $\bar X_n = \frac{1}{n} \sum_{i=1}^n X_i$. If $\E \bar X_{n} \to \mu \in \R$ and 
+$\limsup \frac{1}{n} \sum_{i=1}^n \Var(X_i) < \infty$, then 
+
+$$\bar X_n \xrightarrow[n\to\infty]{p} \mu.$$
+
+(We do not assume $X_1, X_2, ...$ are identically distributed.)
+
+Proof: By Chebyshev's inequality, for all $\epsilon > 0$, 
+
+$$
+\begin{aligned}
+P(|\bar X_n - \E \bar X_n| > \varepsilon ) & \leq \frac{\Var(\bar X_n)}{\epsilon^2} \\ 
+& = \frac{\frac{1}{n^2} \sum^n_{i,j=1} \Cov(X_i, X_j)}{\varepsilon^2} \\ 
+& = \frac{\frac{1}{n^2} \sum^n_{i = 1} \Var(X_i)}{n \varepsilon^2} \xrightarrow[n\to\infty]{} 0.
+\end{aligned}
+$$
+
+The result follows by a trivial application of Slutsky's theorem: 
+
+$$\bar X_n = (\bar X_n - \E \bar X_n) + \E \bar X_n \xrightarrow[p]{n \to \infty} 0 + \mu = \mu.$$
+
+:::{.chilltip}
+A good catch by a student is that to apply to Slutsky's theorem, one of these 
+need to converge in distribution while the other converges in probability. But since 
+they both converge to a constant, so they both converge in probability and distribution.
+
+Another way is to use a sandwich approach: 
+
+$$|\bar X_n - \E \bar X_n | \leq |\bar X_n - \mu| + \underbrace{|\mu - \E \bar X_n|}_{\to 0, \text{ by assumption}}.$$
+:::
+
+
+## Strong form of the Strong LLN 
+
+This is sometimes called "Kolmogorov's Strong Law."
+
+<span class='vocab'>Kolmogorov's Strong LLN.</span> Suppose $X, X_1, X_2, ...$
+are i.i.d. random variables. Then $\E |X| < \infty$ *if and only if* \frac{1}{n}
+\sum_{i=1}{n} X_i$ converges almost surely.  In this case, the limit equals $\E
+X$. 
+
+Proof: Kallenberg, Foundations of Modern Probability, Theorem 3.23.
+
+As an aside, Kallenberg is a great reference book (not necessarily nice to learn from), but 
+very advanced. 
+
+# Central Limit Theorems
+
+## Lyapunov CLT 
+
+Suppose $X_1, X_2, ...$ are independent random variables with means $\mu_i = \E X_i$ 
+and variances $\sigma_i^2 = \Var(X_i) < \infty$. Define $s_n^2 = \sum_{i=1}^n \sigma_i^2$. 
+If there exists $\delta > 0$ such that 
+
+$$\frac{1}{s_n^{2+\delta}} \sum_{i=1}^n \E \left( | X_i - \mu_i | ^{2+\delta} \right) \xrightarrow[n\to\infty]{} 0,$$
+
+then 
+
+$$\frac{1}{s_n} \sum_{i=1}^n (X_i - \mu_i) \xrightarrow[n\to\infty]{d} \mathcal N(0,1).$$
+
+If all of the variances were the same, the $s_n$ term would look familiar as $s_n = \sqrt{n} \sigma$. 
+
+Moral: If your sequence of random variables are iid and have finite variances, the CLT 
+holds. If your sequence of random variables are only independent and have finite variance,
+we need this additional Lyapunov criteria to hold. 
+
+## Multivariate CLT 
+
+Suppose $X, X_1, X_2, ...$ are iid $k$-dimensional random vectors. If the covariance matrix $\Sigma = \Cov(X)$
+is well-defined and all of its entries are finite, then 
+
+$$\sqrt{n}(\bar X_n - \mu ) \xrightarrow[n\to\infty]{d} \mathcal N(0,\Sigma)$$
+
+where $\bar X_n = \frac{1}{n} \sum_{i=1}^n X_i$ and $\mu = \E X$. 
+
+Note that we haven't yet discussed convergence of random vectors in distribution yet.
+
+We defined convergence in distributions in terms of the cdfs. However, the cdf-based definition
+doesn't generalize well beyond the univariate random variable case. The following
+equivalent definition is more commonly used and generalizes to random elements in other spaces 
+(such as random graphs, for which there aren't necessarily cdfs). 
+
+Suppose $X, X_1, X_2, ... \in \mathcal X$. We say $X_n$ converges in distribution to $X$ if
+$$\E g(X_n) \xrightarrow[n\to\infty]{} \E g(X)$$
+for all bounded and continuous functions $g : \mathcal X \to \R$. 
+
+It can be shown that this is equivalent to the cdf-based definition when $\mathcal X = \R$. 
+
+:::{.bluetip}
+Why is it not immediately obvious that this applies to cdfs? 
+
+They're not continuous. Let $g(x) = \mathbb 1(x \leq c)$. Then 
+
+$$\E g(X_n) = P(X_n \leq c) = F_{X_n}(c),$$
+
+but $g$ is not continuous.
+:::
+
+# Characteristic Functions 
+
+## Refresher on Complex Numbers 
+
+The imaginary unit $i$ is defined as $\sqrt{-1}$ so $i^2 = -1$. 
+Algebraically $i$ is treated like any other number, for instance, 
+
+$$(a + ib) + (a' + ib') = (a + a') + (b + b')i$$
+$$c(a+ib) = ca + icb.$$
+
+An imaginary number $z$ can be represented as $z = a+ib$ where $a \in \R$ is
+the real part and $b \in \R$ is the imaginary part. 
+
+$a + ib$ can be visualized as a vector $(a,b) \in \R^2$. 
+
+The absolute value or modulus of $a+ib$ is defined as 
+
+$$|a + ib| = \sqrt{a^2 + b^2}$$
+
+For $\theta \in \R$, the exponential function $\exp(i \theta)$ is
+defined as $\exp(i\theta) = \cos(\theta) + i \sin(\theta)$. 
+
+Thus, the real and imaginary parts of $\exp(i \theta)$ trace out the 
+unit circle in $\R^2$ as $\theta$ increases. Further $|\exp(i \theta)| = 1$. 
+
+Student-instructor interaction quote: "Are we like getting into imaginary polar
+coordinates?" "Yeah, you could think of it that way." "That's terrible."
+
+## Characteristic functions 
+
+The characteristic function (cf) of a random variable $X$ denoted $\phi_X(t)$ is
+defined for $t \in \R$ as 
+
+$$\phi_X(t) = \E \exp(i t X) = \E \cos(t X) + i \E \sin (tX).$$
+
+The cf is a complex generalization of the mgf. The advantage is that the cf always 
+exists and is finite. 
+
+Properties: Suppose $X, X_1, X_2, ...$ are random variables. 
+
+  1. $|\phi_X(t)| \leq 1$ for all $t \in \R$. 
+  2. $\phi_{cX}(t) = \phi_X(ct)$ for all $c, t \in \R$. 
+  3. If $X_1 \independent X_2$ then $\phi_{X_1 + X_2}(t) = \phi_{X_1}(t)\phi_{X_2}(t)$ for all $t \in \R$. 
+  4. If $\E |X|^k < \infty$ then $\frac{d^k \phi_X}{dt^k}(0) = i^k \E X^k.$
+  5. $X_1 \stackrel{d}{=} X_2$ if and only if $\phi_{X_1}(t) = \phi_{X_2}(t)$ for all $t \in \R$. 
+  6. $X_n \stackrel{d}{\to} X$ if and only if $\phi_{X_n} \to \phi_X(t)$ for all $t \in \R$. 
+
+Property 1 can be proven with Jensen's inequality.
+
+Are there distributions with mgfs that don't exist but that do have moments? 
+Jeff: I believe if I remember correctly, the mgf exists if all moments exist. So for 
+the pareto distribution and the t distribution, they have some moments but not all 
+moments exist. 
+
+# CLT Proof Sketch
+
+Let $f^{(k)}(t) = \frac{d^k f}{dt^k}(t)$ denote the $k$th derivative of $f$. 
+
+Taylor's theorem with Lagrange remainder. If $f(t)$ has $K$ derivatives then 
+
+$$f(t) = \sum_{k=1}^{K-1} \frac{f^{(k)}(t_0)}{k!} (t-t_0)^k + \frac{f^(K)(t_*)}{K!} (t-t_0)^K$$
+
+for some $t_*$ between $t$ and $t_0$. 
+
+For $t$ near $t_0$, we often approximate $f^{(K)}(t_*) \approx f^{(K)}(t_0).$$
+
+Thus a second-order Taylor approximation at $t_0 = 0$ would be 
+
+$$f(t) \approx f(0) + f'(0)t + \frac{1}{2} f''(0)t^2.$$
+
+If $\E(X) = 0$ and $\Var(X) = \sigma^2$, then for $t$ near 0,
+
+$$\phi_X(t) \approx 1 + i \E(X)t - \frac{1}{2} \E (X^2)t^2 = 1 - \frac{1}{2}\sigma^2 t^2.$$
+
+If $X,X_1,X_2,...$ are iid with $\E X = 0$ and $\sigma^2 = \Var(X) < \infty$, then 
+
+$$\begin{aligned}
+\phi_{\frac{1}{\sqrt{n}} \sum_{k=1}^n X_k}(t) & = \phi_{\sum_{k=1}^n X_k}(t / \sqrt{n}) \\ 
+& = \prod_{k=1}^n \phi_{X_k}(t / \sqrt{n}) \quad \text{(by independence)} \\
+& = \phi_X(t / \sqrt{n})^n \quad \text{(by identical distribution)} \\ 
+& \approx (1 - \frac{1}{2} \sigma^2 (t/\sqrt n )^2)^n \\ 
+& = (1 - \frac{1}{2} \sigma^2 t^2 / n)^n \\
+& \xrightarrow[]{n\to\infty} \exp(-\frac{1}{2} \sigma^2 t^2 ) = \phi_{\mathcal N(0, \sigma^2)}(t).
+\end{aligned}$$ 
+
+Thus, as long as the approximation above is justified, 
+
+$$\frac{1}{\sqrt{n}} \sum_{k=1}^n X_k \xrightarrow[n\to\infty]{d} \mathcal N(0, \sigma^2).$$
+
+To handle the case of $\E X = \mu \neq 0$, apply this to $X_i - \mu$. 
+
+# Borel-Cantelli Lemma
+
+Suppose $A_1, A_2, ...$ is a sequence of events. The number of these events containing a given 
+element $s \in S$ is 
+
+$$\sum_{n=1}^\infty \mathbb 1(s \in A_n).$$
+
+The event "$A_n$ infinitely often (i.o.)" is defined as 
+
+$$\{ A_n \; \mathrm{i.o.}\} = \left\{ s \in S : \sum_{n=1}^\infty \mathbb 1(s \in A_n) = \infty \right\}.$$
+
+Equivalently, this is more commonly written as 
+
+$$\{ A_n \; \mathrm{i.o.} \} = \bigcap_{m=1}^\infty \bigcup_{n=m}^\infty A_n.$$
+
+Roughly, the Borel-Cantelli lemma says that if $P(A_n) \to 0$ fast enough, then 
+$P(A_n \; \mathrm{i.o.}) = 0$. 
+
+<span class='vocab'>Borel-Cantelli Lemma:</span> Suppose $A_1, A_2, ...$ is a sequence of 
+events. 
+
+1. If $\sum_{n=1}^\infty P(A_n) < \infty$ then $P(A_n \; \text{i.o.}) = 0.$.
+2. If $\sum_{n=1}^\infty P(A_n) = \infty$ and $A_1, A_2, ...$ are mutually independent, then 
+$P(A_n \; \text{i.o.}) = 1.$
+
+Proof: We'll only prove 1 here. Suppose $\sum_{n=1}^\infty P(A_n) < \infty.$ Define $X(s) = \sum_{n=1}^\infty \mathbb 1(s \in A_n) \in \{ 0 1, 2, ...\} \cup \{ \infty \}$. Then 
+
+$$P(A_n \; \text{i.o.}) = P \left( \left\{ s \in S : \sum_{n=1}^\infty \mathbb 1(s \in A_n) = \infty \right\}  \right) = P(X = \infty).$$
+
+If $P(X = \infty) > 0$, then $\E X  = \infty$. However, ...

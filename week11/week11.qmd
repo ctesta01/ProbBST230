@@ -28,6 +28,7 @@ $$
 \newcommand{\sumint}[0]{\;\;\;\mathclap{\displaystyle\int}\mathclap{\textstyle\sum} \;\;\;}
 \newcommand{\align}[1]{\begin{aligned} #1 \end{aligned}}
 \newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
 $$
 
 
@@ -231,3 +232,371 @@ which gives you a lot of parameters to work with providing flexibility.
 
 # Statistics of Random Samples 
 
+Outline: 
+
+  * i.i.id. sampling 
+  * Definition of a statistic 
+  * Statistics of normal samples, including Cochran's theorem, Student's t-statistic
+  * Order statistics and friends 
+  * Sampling with and without replacement
+
+In practice, we usually have multiple data points, $x_1, ..., x_n$. 
+
+Here, each $x_i$ may be univariate or multivariate. 
+
+In many applications, it is natural to think of $x_1, ..., x_n$ as samples from a common distribution. 
+
+The most common setting is to model the data as independent and identically distributed (i.i.d.) random
+variables or random vectors $X_1, ..., X_n$ meaning that: 
+
+  1. (independent) $X_1, ..., X_n$ are mutually independent, and 
+  2. (identically distributed) $X_1 \stackrel{d}{=} X_i$ for all $i$. 
+
+We usually write "$X_1, ..., X_n$ are i.i.d." to denote this.
+
+Casella & Berger refer to this as a "random sample of size $n$," 
+but Jeff does not like this phrase as he finds it vague and thinks
+it should be avoided. 
+
+Sometimes people refer to each $X_i$ as a sample, and sometimes they refer
+to the whole collection $X_1, ..., X_n$ as a sample. Which one is meant should
+be clear from context. 
+
+Suppose you conduct an experiment to measure the speed of sound, and the measured
+outcome is $X$.  Since there is randomness in $X$, you decide to repeat the 
+experiment $n$ times. This yields $n$ outcomes, $X_1, ..., X_n$. Since the 
+experimental conditions are approximately the same in each iteration, we
+may assume the $X_i$ are i.i.d.
+
+Suppose the pdf/pmf of $X_1$ is $q(x)$. 
+
+We often denote this by writing "$X_1, ..., X_n \sim q $ i.i.d."
+
+The joint pdf/pmf is:
+
+$$f(x_1, ..., x_n) = q(x_1) \cdots q(x_n) = \prod_{i=1}^n q(x_i).$$
+
+If $q(x) = p(x \mid \theta)$ for some parametric family, then 
+
+$$f(x_1, ..., x_n) = p(x_1 \mid \theta) \cdots p(x_n \mid \theta) = \prod_{i=1}^n p(x_i \mid \theta).$$
+
+Viewing this as a function of $\theta$, it is called the *likelihood function*, and is usually
+denoted $L(\theta)$:
+
+$$L(\theta) = \prod_{i=1}^n p(x_i \mid \theta).$$
+
+Suppose $X_1, ..., X_n \stackrel{i.i.d.}{\sim} \t{Exponential}(\lambda)$. 
+
+Then the joint pdf is 
+
+$$L(\lambda) = p(x_1, ..., x_n \mid \lambda) = \prod_{i=1}^n p(x_i \mid \lambda)$$
+
+$$ = \prod_{i=1}^n \lambda \exp(-\lambda x_i)$$
+
+$$= \lambda^n \exp \left( -\lambda \sum_{i=1}^n x_i \right).$$
+
+## Definition of a Statistic
+
+Often we are interested in some function of the sample. 
+
+For instances, a sample mean, sample variance, maximum, minimum, some percentile, etc. 
+
+A statistic is some function $T(X_1, ..., X_n)$. 
+
+In the context of samples from a model $p(x \mid \theta)$, a statistic
+is not permitted to depend on the parameter $\theta$. 
+
+Otherwise, it can be any measurable function of the sample. 
+
+Often, we write $T$ to denote the random variable or 
+random vector $T(X_1, ..., X_n)$. 
+
+Basic examples of statistics: 
+
+  * Sample mean: $\bar X = \frac{1}{n} \sum_{i=1}^n X_i$$
+  * Sample variance: $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar X)^2$$
+  * Sample standard deviation: $S = \sqrt{S^2}$
+  * Min and max: $\min\{ X_1, ..., X_n\}$ and $\max\{ X_1, ..., X_n\}$
+  * Order statistics $X_{(1)}, ..., X_{(n)}$ are defined by sorting $X_1, ..., X_n$
+  from least to greatest. 
+
+For example, the median or different percentiles depend on order statistics. 
+
+Note that order statistics introduce dependency among the $X_{(1)}, ..., X_{(n)}$. 
+
+Suppose the $\{X_i\}$ are i.i.d. with mean $\mu = \E X_1$ and $\sigma^2 = \Var(X_1) < \infty$
+(which is the case as a result of one of the inequalities). 
+
+  1. $\E \bar X = \mu$ 
+  2. $\Var(\bar X) = \sigma^2 / n$
+  3. $\E \bar X^2 = \sigma^2 / n + \mu^2$ (this holds in general, regardless of whether $\{X_i\}$ are i.i.d. or not).
+  4. $(n-1) S^2 = (\sum_{i=1}^n X_i^2) - n \bar X^2$
+  5. $\E S^2 = \sigma^2$.
+
+Note that if the variance is finite, then the mean will be finite and exist — e.g., 
+if higher moments exist, then so too do the lower moments. 
+
+:::{.cooltip}
+Proof of property 3: 
+$$
+\begin{aligned}
+\Var(\bar X) & = \E(\bar X^2) - (\E \bar X)^2  \\ 
+\E(\bar X^2) & = \Var(\bar X) + (\E \bar X)^2  \\ 
+\E(\bar X^2) & = \sigma^2/n + \mu^2.
+\end{aligned}
+$$
+
+Proof of property 4: 
+$$
+\begin{aligned}
+(n-1)S^2 & = \sum_{i=1}^n (X_i - \bar X)^2 \\
+& = \sum_{i=1}^n (X_i^2 - 2X_i \bar X + \bar X^2) \\ 
+& = (\sum_{i=1}^n X_i^2) - 2 \bar X \underbrace{\sum_{i=1}^n X_i}_{= n \bar X} + n \bar X^2 \\
+& = (\sum_{i=1}^n X_i^2) - n \bar X^2.
+\end{aligned}
+$$
+
+Proof of property 5: 
+$$
+\begin{aligned}
+\E (n-1) S^2  & = \E( \sum_{i=1}^n X_i^2 ) - \underbrace{n \E(\bar X^2)}_{= n(\frac{\sigma^2}{n} + \mu^2)} \\ 
+& = \sum_{i=1}^n \E X_i^2 - n(\frac{\sigma^2}{n} + \mu^2) \\ 
+& = n (\sigma^2 + \cancel{\mu^2}) - (\sigma^2 + n \cancel{\mu^2}) \\
+& = (n-1) \sigma^2 \\ 
+& \Longrightarrow \boxed{\E S^2 = \sigma^2.}
+\end{aligned}
+$$
+:::
+
+Suppose $\phi$ is a population parameter, that is, $\phi$ is a function of the 
+distribution of $X_1, ..., X_n$. 
+
+A statistic $T$ is an unbiased estimator of $\phi$ if $\E T = \phi$. 
+
+Examples: 
+
+  * $\bar X$ is an unbiased estimator of $\mu$
+  * $S^2$ is an unbiased estimator of $\sigma^2$. 
+
+When the samples are normally distributed, more can be said about the sample mean
+$\bar X$ and the sample variance $S^2$. 
+
+If $X_1, ..., X_n \stackrel{i.i.d.}{\sim} \mathcal N(\mu, \sigma^2)$, then 
+
+  1. $\bar X$ and $S^2$ are independent. 
+  2. $\bar X \sim \mathcal N(\mu, \sigma^2/n)$.
+  3. $(n-1)S^2 / \sigma^2 \sim \mathcal \chi^2(n-1)$. 
+
+:::{.chilltip}
+The rough heuristic for why there's an $n-1$ in the $\chi^2$ distribution is
+that when the $-\bar X$ is included in the sum used to calculate $S^2$, 
+we are reducing the amount of information contained in the $\{ X_i - \bar X \}$ 
+terms that are summed over.
+:::
+
+## Cochran's Theorem 
+
+The results on the preceding slide can be derived from the following much more general
+result. 
+
+The rank of a symmetric matrix $A$ is the number of nonzero eigenvalues. 
+
+<span class='vocab'>Cochran's theorem</span>: Suppose $Z \sim \mathcal N(0,1)$
+is $n$-dimensional and $A_1, ..., A_k \in \R^{n \times n}$ are symmetric
+positive semi-definite matrices. Define $Y_i = Z^\T A_i Z$. If $\sum_{i=1}^k Y_i = Z^\T Z$ 
+then the following are equivalent: 
+
+  1. $\sum_{i=1}^k \text{rank}(A_i) = n$ 
+  2. $Y_1, ..., Y_k$ are independent
+  3. $Y_i \sim \chi^2(\text{rank}(A_i))$ for $i = 1, ..., k$. 
+
+Cochran's theorem forms the basis for hypothesis testing in ANOVA and
+linear regression with unknown outcome variance. 
+
+Looking for a proof reference:
+
+<https://en.wikipedia.org/wiki/Cochran%27s_theorem> 
+
+<https://yangfeng.hosting.nyu.edu/slides/cochran%27s-theorem.pdf> 
+
+## Student's $t$ statistic 
+
+William Sealy Gosset was a statistician and head experimental brewer at Guinness in the early 1900s. 
+He wanted to improve the yield of barley for brewing beer. He developed the 
+theory of $t$ statistics to accurately deal with the uncertainty in small sample
+sizes. Gosset published under the penname of "Student" since Guinness allowed its scientists
+to publish under conditions of anonymity, to avoid revealing trade secrets. 
+
+
+## $Z$ Statistic 
+
+Suppose $X_1, ..., X_n \sim \mathcal N(\mu, \sigma^2)$ and we want to estimate $\mu$. 
+The sample mean $\bar X$ is a natural estimate, but how can we quantify 
+our uncertainty about how close it is to $\mu$?
+
+First suppose $\sigma^2$ is known. Then 
+
+$$Z = \frac{\bar X - \mu}{\sigma / \sqrt{n}} \sim \mathcal N(0, 1).$$
+
+Remember, the variance of $\bar X$ is $\sigma^2 / n$. So the standard
+deviation of $\bar X$ is $\sigma / \sqrt{n}$. 
+
+We can use this to form confidence intervals for $\mu$. 
+
+For instance, $\bar X \pm 1.96 \sigma / \sqrt{n}$ is a 95% confidence interval since 
+
+$$ 
+P\left(\bar X - 1.96 \frac{\sigma}{\sqrt{n}} < \mu < \bar X + 1.96 \frac{\sigma}{\sqrt{n}} \right)$$
+$$ = P(-1.96 < Z < 1.96) \approx 0.95.$$
+
+"If we were to do this experiment repeatedly, say $n$ times, then 
+95% of the time, this interval will contain the true parameter $\mu$."
+
+What if $\sigma^2$ is unknown? A natural idea is to plug the sample variance $S^2$ into
+the formula above in place of the true $\sigma^2$. Unfortunately, when $n$ is small, this is 
+not a good approximation because there is a lot of randomness in $S^2$. 
+
+Gosset realized that one could derive the exact distribution of 
+
+$$T = \frac{\bar X - \mu}{S/\sqrt{n}}$$
+
+and use this to more accurately quantify uncertainty about $\mu$ when $n$ is small. 
+
+$T$ is called *Student's t statistic* and its distribution is called the *Student's t distribution*.
+
+This distribution is used to form confidence intervals for $\mu$, 
+construct $t$-tests, and shows up a lot in hypothesis testing. 
+
+How could we figure out the distribution of $T$? 
+
+Suppose $X_1, ..., X_n \stackrel{i.i.d.}{\sim} \mathcal N(\mu, \sigma^2)$. We 
+know that $\bar X \independent S^2$ and 
+
+$$\bar X \sim \mathcal N(\mu, \sigma^2/n)$$
+$$(n-1) S^2 / \sigma^2 \sim \chi^2(n-1)$$ 
+
+Therefore, 
+
+$$T = \frac{\bar X - \mu}{S/\sqrt{n}} = \frac{(\bar X - \mu)/(\sigma / \sqrt{n})}{\sqrt{S^2/\sigma^2}} = \frac{Z}{\sqrt{V/(n-1)}},$$
+
+where $Z \sim \mathcal N(0, 1)$ and $V \sim \chi^2(n-1)$ independently. 
+
+Thus, we just need to find the distribution of $Z / \sqrt{V/(n-1)}$. This can 
+be done using the bivariate transformation formula to get the pdf of $(T,V)$ and
+integrating out $V$. Carrying this out yields Student's $t$ distribution. 
+
+(The details are that we are defining $V = (n-1)S^2 / \sigma^2$ and so $\sqrt{V/(n-1)} = \sqrt{S^2 / \sigma^2}$.)
+
+:::{.cooltip}
+$$
+\begin{aligned}
+g : \pmat{Z \\ V} \mapsto & \pmat{\frac{Z}{\sqrt{V/(n-1)}} \\ V} \\ 
+& = \pmat{T \\ V} \\ 
+\end{aligned} 
+$$
+
+So we can carry out the following integration 
+to get the pdf of $T$, 
+$$\int f_{T,V}(t,v) \mathrm d v = f_T(t).$$
+
+What we find is that Student's $t$ distribution with $\nu > 0$ degrees
+of freedom (can be any $\nu > 0, \nu \in \mathbb R^+$), denoted $t_\nu$, has pdf 
+
+$$p(x \mid \nu) = \frac{\Gamma(\frac{\nu + 1}{2})}{\sqrt{\nu \pi } \Gamma \left( \frac{\nu}{2}\right)} \left( 1 + \frac{x^2}{\nu} \right)^{-\frac{\nu+1}{2}}$$
+
+for $x \in \mathbb R$.
+:::
+
+It has the properties that if $T \sim t_\nu$, then: 
+
+  1. $\E (T) = 0$ if $\nu > 1$, 
+  2. $\Var(T) = \frac{\nu}{\nu - 2}$ if $\nu > 2$. 
+
+Relationships: 
+
+If $X_1, ..., X_n \sim \mathcal N(\mu, \sigma^2)$ then $\frac{\bar X - \mu}{S / \sqrt{n}} \sim t_{n-1}$. 
+
+When $\nu =1$, $t_\nu = \text{Cauchy}(0,1)$. 
+
+As $\nu \to \infty$, then $t_\nu$ converges to $\mathcal N(0,1)$. 
+
+The $t$ distribution is, in some sense, a generalization of the Cauchy distribution, so it 
+is heavy-tailed.
+
+## Order Statistics
+ 
+For any real numbers, $x_1, ..., x_n$, there is a permutation $\pi$ that 
+places them in ascending order, that is, $x_{\pi_1}$ \leq ... \leq x_{\pi_n}$.
+In the context of order statistics, the notation $x_{(i)}$ is used to denote
+$x_{\pi_i}$. 
+
+The *order statistics* of a random sample $X_1, ..., X_n$ are the sample values placed in ascending order, that is, $X_{(1)}, ..., X_{(n)}$. 
+
+By construction, $X_{(1)} \leq ... \leq X_{(n)}$. $X_{(1)} = \min\{ X_1, ..., X_n\}$ and 
+$X_{(n)} = \max\{X_1, ..., X_n\}$.
+
+The sample range is $R = X_{(n)} - X_{(1)}$, the width of the interval spanned by the 
+data.
+
+The sample median is 
+
+$$M = \left\{ 
+\begin{array} 
+X_{((n+1)/2)} \quad & \text{ if $n$ is odd} \\ 
+\frac{1}{2} (X_{(n/2)} + X_{(n/2+1)}) & \text{if $n$ is even.}
+\end{array}
+\right.$$
+
+### Marginal Distributions of Order Statistics 
+
+Suppose $X_1, ..., X_n$ are i.i.d. continuous random variables with 
+pdf $f(x)$ and cdf $F(x)$. 
+
+The pdf of the $j$th order statistic, $X_{(j)}$ is 
+
+$$f_{X_{(j)}} = \frac{n!}{(j-1)!(n-j)!} f(x) F(x)^{j-1} (1-F(x))^{n-j}$$
+
+The cdf of the $j$th order statistic, $X_{(j)}$ is 
+
+$$F_{X_{(j)}} = \sum_{i=1}^n { n \choose k } F(x)^k (1-F(x))^{n-k}.$$
+
+The pdf of the maximum, $X_{(n)}$ is 
+
+$$f_{X_(n)} = nf(x) F(x)^{n-1}.$$
+
+The pdf of the minimum $X_{(1)}$ is 
+
+$$f_{X_{(1)}} = n f(x) (1-F(x))^{n-1}$$
+
+When $n$ is odd, the pdf of the median $M$ is 
+
+$$f_M(x) = \frac{n!}{\left( \frac{n-1}{2} ! \right)^2 } f(x) F(x)^{\frac{n-1}{2}} (1-F(x))^{\frac{n-1}{2}}.$$
+
+<!-- 
+```{julia}
+#| fig.width: 6
+#| fig.height: 5
+#| out.width: 75%
+
+# julia code
+using Plots
+using Distributions
+
+# Parameters
+x = range(-5, stop=5, length=100)
+degrees_of_freedom = 10
+
+# Normal Distribution
+normal_pdf = pdf.(Normal(0, 1), x)
+
+# t-Distribution
+t_pdf = pdf.(TDist(degrees_of_freedom), x)
+
+# Plotting
+plot(x, normal_pdf, label="Normal Distribution", color=:blue, linewidth=2)
+plot!(x, t_pdf, label="t-Distribution (df=$degrees_of_freedom)", color=:red, linewidth=2)
+title!("Comparison of Normal and t-Distribution")
+xlabel!("Value")
+ylabel!("Probability Density")
+```
+--> 

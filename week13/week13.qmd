@@ -1,0 +1,342 @@
+---
+title: "Week 13"
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+\newcommand{\b}[1]{\mathbf{#1}}
+\newcommand{\tt}[1]{\mathtt{#1}}
+\newcommand{\T}[0]{\mathtt{T}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+
+\newcommand{\sumint}[0]{\;\;\;\mathclap{\displaystyle\int}\mathclap{\textstyle\sum} \;\;\;}
+\newcommand{\align}[1]{\begin{aligned} #1 \end{aligned}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\DeclareMathOperator*{\plim}{p-lim}
+$$
+:::
+
+
+# Asymptotics and Convergence 
+
+Outline: 
+
+  - Convergence in probability 
+    - Weak law of large numbers 
+  - Convergence almost surely 
+    - Strong law of large numbers 
+  - Convergence in distribution 
+    - Central limit theorem 
+  - Convergence in $L^p$
+
+Asymptotics are an essential part of probability & statistics — but why do we care? 
+After all, we never have infinite data.  
+
+First, asymptotically, things usually simplify a lot. 
+
+Two important ways in which we use asymptotics are: 
+
+  1. To approximate the finite sample behavior of a procedure.
+    * Often, asymptotics provide a simple but very good approximation to something
+    very complicated.
+    * These approximations are the foundation upon which much of statistics is 
+    built. 
+  2. To provide guarantees of correctness. 
+    * If something doesn't work when you have tons of data, then hoping
+    it will somehow work well on a small amount of data is wishful thinking. Asymptotics
+    provide a sanity check that you are doing something reasonable. 
+  
+In probability, we consider the asymptotics of random variables, which involves stochastic
+convergence. 
+
+:::{.bluetip}
+Suppose you are studying the effect of a treatment to reduce tremors
+in Parkinson's disease. 
+
+You have data on treated subjects, $x_1, ..., x_n$ and controls $y_1, ..., y_n$. 
+
+What is the effect of the treatment? You compute the difference of sample means. 
+Justification? 
+
+  - We're invoking the law of large numbers here. 
+
+Is there evidence of a treatment effect? You do a t-test. Justification? 
+
+  - Based on the asymptotics of normal approximations to the data (to the 
+  sample means, which are approximately normal according to the central limit theorem).
+
+You want to do a larger study. How many subjects should you use? You do power
+calculations. Justification? 
+
+  - ... 
+:::
+
+## Deterministic Convergence and Limit Notation 
+
+Let's briefly review deterministic convergence. 
+
+Suppose $x_1, ..., x_n$ is a sequence of real numbers. 
+
+We say that $x_n$ converges to $x$ if for all $\varepsilon > 0$, there
+exists $N$ such that for all $n \geq N$, $|x_n - x| < \varepsilon$. 
+
+In other words, for $n$ sufficiently large, $|x_n - x|<\varepsilon$. 
+
+The following are equivalent ways of denoting that $x_n$ converges to x: 
+
+$$x_n \to \infty \; \; \text{ as } n \to \infty$$
+
+$$x_n \xrightarrow[n \to \infty]{} x$$
+
+$$\lim_{n \to \infty} x_n = x.$$
+
+Note that $x_n \to x$ if and only if $\lim_{n\to\infty} |x_n - x| = 0$. 
+
+## Weak Law of Large Numbers 
+
+Roughly speaking, the law of large numbers (LLN) says that the sample mean 
+converges to the mean. 
+
+There are many different versions of LLN that apply under different conditions. 
+
+Weak LLN:  If $Y_1, ..., Y_n$ are i.i.d. random variables such that 
+$\E Y_1 = \mu$ and $\Var(Y_1) < \infty$, then for all $\varepsilon > 0$, 
+
+$$P \left( \left\vert \frac{1}{n} \sum_{i=1}^n Y_i - \mu \right\vert > \varepsilon \right) \to 0$$
+
+as $n \to \infty$. 
+
+The proof uses Chebyshev's inequality.
+
+
+## Convergence in Probability 
+
+The Weak LLN is an example of convergence in probability. 
+
+A sequence of random variables $X_1, X_2, ...$ converges in probability to 
+a random variable $X$ if for all $\varepsilon > 0$, 
+
+$$P(|X_n - X| > \varepsilon) \xrightarrow[n \to \infty ]{} 0,$$
+
+or equivalently, 
+
+$$P(|X_n - X| \leq \varepsilon) \xrightarrow[n \to \infty ]{} 1.$$
+
+We write $X_n \stackrel{p}{\longrightarrow} X$ to denote convergence in probability. 
+
+Other equivalent notations you will see sometimes are 
+
+$$X_n \to X \text{ in probability}$$
+
+$$X \stackrel{pr}{\longrightarrow} X$$
+
+$$\plim_{n \to \infty} X_n = X.$$
+
+Usually, the limit is a constant, but sometimes the limit is itself a random variable. 
+
+:::{.cooltip}
+For instance, suppose $X \sim \mathcal N(0,1)$ and 
+
+$$Y_1, Y_2, ... \mid X = x \sim \mathcal N(x, \sigma^2) \; \; \text{i.i.d.}$$
+
+Then $$\frac{1}{n} \sum_{i=1}^n Y_i \xrightarrow[n \to \infty]{p} X.$$
+
+Here, the limit is itself a random variable.
+:::
+
+## Almost Sure Convergence
+
+Sometimes, a stronger form of convergence can be established. 
+
+A sequence of random variables $X_1, X_2, ...$ converges almost surely to a
+random variable $X$ if 
+
+$$P\left( \lim_{n\to \infty} X_n = X\right) = 1.$$
+
+More generally, we say an event $E$ occurs almost surely if $P(E) = 1$. 
+
+We write $X_n \stackrel{\text{a.s.}}{\longrightarrow } X$ to denote almost sure convergence.
+
+Some equivalent notations you will see sometimes are: 
+
+$$X_n \to X \; \; \text{a.s.}$$
+$$\lim_{n \to \infty } X_n \stackrel{a.s.} X$$
+$$X_n \to X \text{ with probability }1$$
+
+Recall that a random variable is defined as a function 
+mapping from the sample space to $\R$. So for each $n$, $X_n : S \to \R$. 
+$X(s)$ is a fixed value for a given $s$. 
+
+So what we're really looking at in almost sure convergence is "does $X_n(s) \xrightarrow[n \to \infty]{} X(s)$?"
+
+We could define some event that is all the elements of the sample space 
+for which this happens: $$E \coloneqq \{ s \in S : X_n(s) \longrightarrow X(s)\}.$$
+
+Sometimes sets like $E$ might fail to be measurable, but in general we won't worry 
+about that in this class. 
+
+$P(E) = 1$ if and only if $X_n \xrightarrow[]{a.s.} X$. 
+
+:::{.hottip}
+How is almost sure convergence stronger than convergence in probability? 
+
+Firstly, almost sure convergence implies convergene in probability, so it is
+stronger in the logic sense. 
+
+Consider the case where $x$ is some fixed number. 
+
+For example, if one were taking draws from a binary random variable. 
+If one drew mostly zeroes but occasionally got a 1, if that 1 happens infinitely 
+rarely, then we would have convergence in probability to 0, but we wouldn't
+have almost sure convergence because there is no $N$ such that for some $\varepsilon$, 
+all of the $X_n$ with $n \geq N$ are close to zero. 
+:::
+
+This makes it relatively easy to reason about a.s. convergence by reducing 
+to reasoning about deterministic sequences. 
+
+Why is it necessary to allow for a set $E^c$ with probability 0? 
+
+  * Suppose $X_1, X_2, ... \sim \text{Bernoulli}(q)$ i.i.d. There are 
+  sequences $x_1, x_2, ... \in \{ 0, 1 \}$ such that $\frac{1}{n} \sum_{i=1}^n x_i$ doesn't
+  converge to $q$, but the set of all such sequences has probability 0. 
+
+For example, if one considers sequences of repeated 0s and 1s where one concatenates strings
+of 0s or 1s (alternating) of length $10^i$ for the $i$th string. Clearly this sequence
+that starts with 1 zero, 10 1s, 100 0s, 1000 1s, etc., is just oscillating back 
+and forth in its cumulative mean without converging. 
+
+## Strong Law of Large Numbers 
+
+The Weak LLN shows that the sample mean converges in probability. 
+
+The strong LLN shows that the sample mean converges almost surely. 
+
+Strong LLN: If $X_1, X_2, ...$ are i.i.d. and $\E |X| < \infty$, then 
+$$\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow[n \to \infty]{a.s.} \E X.$$
+
+This is harder to show, so we won't prove it here. Optional reading: See
+Durrett, Section 1.7 for the proof.
+
+## Equivalent Definition for Almost Sure Convergence 
+
+It turns out that $X_n \stackrel{a.s.}{\longrightarrow} X$ if and
+only if 
+
+$P\left( \lim_{n\to\infty} |X_n - X| < \varepsilon \right) = 1.$$
+
+for all $\varepsilon > 0$. 
+
+Proof: 
+Define the following events: 
+$$E_{\varepsilon} = \{ s \in S : \limsup_{n \to \infty} |X_n(s) - X(s)| < \varepsilon\},$$
+
+$$E = \{ s \in S : \lim_{n\to\infty} |X_n(s) - X(s)| = 0\}.$$
+
+We can analyze these events using properties of deterministic convergence. First,
+if $X_n \stackrel{a.s.}{\longrightarrow} X$ ... 
+
+
+## Relationship between a.s. convergence and in probability 
+
+If $X_n \stackrel{a.s.}{\longrightarrow} X$ then $X_n \stackrel{p}{\longrightarrow} X$. 
+
+However, the converse is not true: there are sequences that converge in 
+probability but not almost surely. 
+
+A classic example: Suppose $X \sim \text{Uniform}(0,1)$ and 
+
+$$
+\begin{aligned}
+Y_1 = \mathbb{1}(0 < X < 1) \quad & Y_2 = \mathbb{1}(0 < X < \frac{1}{2}) \quad & Y_3 = \mathbb{1}(\frac{1}{2} \leq X < 1) \\ 
+Y_4 = \mathbb{1}(0 < X < \frac{1}{3}) \quad & Y_5 = \mathbb{1}(\frac{1}{3} \leq X < \frac{2}{3}) & Y_6 = \mathbb{1}(\frac{2}{3} \leq X < 1)
+\end{aligned}
+$$
+
+and so forth. Then for any $\varepsilon > 0$, $P(|Y_n| > \varepsilon) \to 0$, so 
+
+$$Y_n \stackrel{p}{\longrightarrow} 0,$$
+
+because we're getting more and more zeroes as $n$ increases. 
+
+However, $Y_n$ does not converge a.s. since $Y_n = 0$ and $Y_n = 1$ both occur infinitely 
+many times. In fact, in the example, $P(Y_n \text{ fails to converge}) = 1$. 
+
+We can make the last statement a little bit more formal by defining the 
+set of events which converge: 
+
+$$
+\begin{aligned}
+\text{Co}&\text{nvergent Events} = \\
+& \{s \in S : \exists y \in \mathbb R \text{ such that } \\ 
+& \forall \varepsilon > 0, \;\; \forall \text{ sufficiently large } n, |Y_n(s) - y| < \varepsilon \}
+\end{aligned}
+$$
+
+And then take the complement of this set. 
+
+## Convergence in Distribution: Background 
+
+Convergence in probability is often easier to show than a.s. convergence.
+
+There is an even weaker form of convergence that holds even more generally, called
+convergence in distribution. 
+
+A sequence of random variables $X_1, X_2,...$ convergence in distribution to a random variable $X$ if 
+
+$$F_{X_n}(x) \xrightarrow[n \to \infty]{} F_X(x)$$
+
+at all points $x \in \R$ where $F_X$ is continuous. Here $F_{X_n}$ and $F_X$ 
+denote the cdfs of $X_n$ and $X$ respectively. 
+
+We write $X_n \stackrel{d}{\longrightarrow} X$ to denote convergence in distribution.
+
+![](standalone_figures/converging_logistics/converging_logistics.svg)
+
+Convergence in distribution is also called "weak convergence."
+
+The following are equivalent ways of writing $X_n \stackrel{d}{\longrightarrow} X$. 
+
+$$
+\begin{aligned}
+X_n \stackrel{D}{\longrightarrow} X \quad \quad & X_n \Rightarrow X \\ 
+X_n \stackrel{\mathcal L}{\longrightarrow} X \quad \quad& X_n \rightsquigarrow X \\
+\mathcal L(X_n) \longrightarrow \mathcal L(X) \quad \quad & X_n \to X \text{ in distribution.}
+\end{aligned}
+$$
+
+If $D$ is the distribution of $X$, then $X_n \stackrel{d}{\longrightarrow} D$ 
+means $X_n \stackrel{d} X$. 
+
+## Central Limit Theorem 
+
+The central limit theorem (CLT) provides an example of convergence in 
+distribution. 
+
+Central limit theorem: If $X_1, X_2, ...$ are i.i.d. and $\Var(X_1) < \infty$, 
+then 
+
+$$\frac{1}{\sqrt{n}} \sum_{i=1}^n (X_i - \mu) \xrightarrow[n\to\infty]{d} \mathcal N(0,\sigma^2)$$
+
+where $\mu = \E X_1$ and $\sigma^2 = \Var(X_1)$. 
+
+The LLN tells us that $\bar X - \mu \longrightarrow 0$. In contrast, the CLT says
+that $\sqrt{n}(\bar X - \mu)$ converges in distribution to $\mathcal N(0, \sigma^2)$. 
+

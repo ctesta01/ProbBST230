@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Probability (BST 230) Notes - 14&nbsp; Week 14</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../week13/week13.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-title">Week 14</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Probability (BST 230) Notes</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Methods (BST 232) Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week1/week1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week2/week2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week3/week3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week4/week4.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week5/week5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week6/week6.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week7/week7.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week8/week8.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week9/week9.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week10/week10.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week11/week11.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week13/week13.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 13</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week14/week14.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 14</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#limit-superiors-and-limit-inferiors" id="toc-limit-superiors-and-limit-inferiors" class="nav-link active" data-scroll-target="#limit-superiors-and-limit-inferiors">Limit Superiors and Limit Inferiors</a></li>
+  <li><a href="#laws-of-large-numbers-and-clts" id="toc-laws-of-large-numbers-and-clts" class="nav-link" data-scroll-target="#laws-of-large-numbers-and-clts">Laws of Large Numbers and CLTs</a>
+  <ul class="collapse">
+  <li><a href="#weak-lln-for-uncorrelated-variables" id="toc-weak-lln-for-uncorrelated-variables" class="nav-link" data-scroll-target="#weak-lln-for-uncorrelated-variables">Weak LLN for uncorrelated variables</a></li>
+  <li><a href="#strong-form-of-the-strong-lln" id="toc-strong-form-of-the-strong-lln" class="nav-link" data-scroll-target="#strong-form-of-the-strong-lln">Strong form of the Strong LLN</a></li>
+  </ul></li>
+  <li><a href="#central-limit-theorems" id="toc-central-limit-theorems" class="nav-link" data-scroll-target="#central-limit-theorems">Central Limit Theorems</a>
+  <ul class="collapse">
+  <li><a href="#lyapunov-clt" id="toc-lyapunov-clt" class="nav-link" data-scroll-target="#lyapunov-clt">Lyapunov CLT</a></li>
+  <li><a href="#multivariate-clt" id="toc-multivariate-clt" class="nav-link" data-scroll-target="#multivariate-clt">Multivariate CLT</a></li>
+  </ul></li>
+  <li><a href="#characteristic-functions" id="toc-characteristic-functions" class="nav-link" data-scroll-target="#characteristic-functions">Characteristic Functions</a>
+  <ul class="collapse">
+  <li><a href="#refresher-on-complex-numbers" id="toc-refresher-on-complex-numbers" class="nav-link" data-scroll-target="#refresher-on-complex-numbers">Refresher on Complex Numbers</a></li>
+  <li><a href="#characteristic-functions-1" id="toc-characteristic-functions-1" class="nav-link" data-scroll-target="#characteristic-functions-1">Characteristic functions</a></li>
+  </ul></li>
+  <li><a href="#clt-proof-sketch" id="toc-clt-proof-sketch" class="nav-link" data-scroll-target="#clt-proof-sketch">CLT Proof Sketch</a></li>
+  <li><a href="#borel-cantelli-lemma" id="toc-borel-cantelli-lemma" class="nav-link" data-scroll-target="#borel-cantelli-lemma">Borel-Cantelli Lemma</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-title">Week 14</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="limit-superiors-and-limit-inferiors" class="level1">
+<h1>Limit Superiors and Limit Inferiors</h1>
+<p>The limit superior, denoted <span class="math inline">\(\limsup_{n \to \infty} x_n\)</span> is the smallest number <span class="math inline">\(u \in [-\infty, \infty]\)</span> such that for all <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(x_n &lt; u + \epsilon\)</span> for all <span class="math inline">\(n &gt; N\)</span>.</p>
+<p>The limit inferior, denoted <span class="math inline">\(\liminf_{n \to \infty} x_n\)</span> is the greatest number <span class="math inline">\(l \in [-\infty, \infty]\)</span> such that for all <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(x_n &gt; l - \epsilon\)</span> for all <span class="math inline">\(n &gt; N\)</span>.</p>
+<p><span class="math inline">\(\liminf x_n \leq \limsup x_n\)</span> always and if <span class="math inline">\(\liminf x_n = \limsup x_n\)</span> then <span class="math inline">\(\lim x_n\)</span> exists and all three are equal.</p>
+</section>
+<section id="laws-of-large-numbers-and-clts" class="level1">
+<h1>Laws of Large Numbers and CLTs</h1>
+<p>There are several versions of the law of large numbers (LLN) and central limit theorem (CLT). Different versions vary in what they show, and the conditions under which they hold. For instance, the weak LLN (WLLN) shows convergence in probability, while the SLLN shows almost sure convergence.</p>
+<section id="weak-lln-for-uncorrelated-variables" class="level2">
+<h2 class="anchored" data-anchor-id="weak-lln-for-uncorrelated-variables">Weak LLN for uncorrelated variables</h2>
+<p>Suppose <span class="math inline">\(X_1, X_2, ...\)</span> are uncorrelated random variables, that is, <span class="math inline">\(\text{Cor}(X_i, X_j) = 0\)</span> (that is, they could be dependent, just not correlated). Define <span class="math inline">\(\bar X_n = \frac{1}{n} \sum_{i=1}^n X_i\)</span>. If <span class="math inline">\(\mathbb{E}\bar X_{n} \to \mu \in \mathbb{R}\)</span> and <span class="math inline">\(\limsup \frac{1}{n} \sum_{i=1}^n \text{Var}(X_i) &lt; \infty\)</span>, then</p>
+<p><span class="math display">\[\bar X_n \xrightarrow[n\to\infty]{p} \mu.\]</span></p>
+<p>(We do not assume <span class="math inline">\(X_1, X_2, ...\)</span> are identically distributed.)</p>
+<p>Proof: By Chebyshev’s inequality, for all <span class="math inline">\(\epsilon &gt; 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(|\bar X_n - \mathbb{E}\bar X_n| &gt; \varepsilon ) &amp; \leq \frac{\text{Var}(\bar X_n)}{\epsilon^2} \\
+&amp; = \frac{\frac{1}{n^2} \sum^n_{i,j=1} \text{Cov}(X_i, X_j)}{\varepsilon^2} \\
+&amp; = \frac{\frac{1}{n^2} \sum^n_{i = 1} \text{Var}(X_i)}{n \varepsilon^2} \xrightarrow[n\to\infty]{} 0.
+\end{aligned}
+\]</span></p>
+<p>The result follows by a trivial application of Slutsky’s theorem:</p>
+<p><span class="math display">\[\bar X_n = (\bar X_n - \mathbb{E}\bar X_n) + \mathbb{E}\bar X_n \xrightarrow[p]{n \to \infty} 0 + \mu = \mu.\]</span></p>
+<div class="chilltip">
+<p>A good catch by a student is that to apply to Slutsky’s theorem, one of these need to converge in distribution while the other converges in probability. But since they both converge to a constant, so they both converge in probability and distribution.</p>
+<p>Another way is to use a sandwich approach:</p>
+<p><span class="math display">\[|\bar X_n - \mathbb{E}\bar X_n | \leq |\bar X_n - \mu| + \underbrace{|\mu - \mathbb{E}\bar X_n|}_{\to 0, \text{ by assumption}}.\]</span></p>
+</div>
+</section>
+<section id="strong-form-of-the-strong-lln" class="level2">
+<h2 class="anchored" data-anchor-id="strong-form-of-the-strong-lln">Strong form of the Strong LLN</h2>
+<p>This is sometimes called “Kolmogorov’s Strong Law.”</p>
+<p><span class="vocab">Kolmogorov’s Strong LLN.</span> Suppose <span class="math inline">\(X, X_1, X_2, ...\)</span> are i.i.d. random variables. Then <span class="math inline">\(\mathbb{E}|X| &lt; \infty\)</span> <em>if and only if</em> _{i=1}{n} X_i$ converges almost surely. In this case, the limit equals <span class="math inline">\(\mathbb{E}X\)</span>.</p>
+<p>Proof: Kallenberg, Foundations of Modern Probability, Theorem 3.23.</p>
+<p>As an aside, Kallenberg is a great reference book (not necessarily nice to learn from), but very advanced.</p>
+</section>
+</section>
+<section id="central-limit-theorems" class="level1">
+<h1>Central Limit Theorems</h1>
+<section id="lyapunov-clt" class="level2">
+<h2 class="anchored" data-anchor-id="lyapunov-clt">Lyapunov CLT</h2>
+<p>Suppose <span class="math inline">\(X_1, X_2, ...\)</span> are independent random variables with means <span class="math inline">\(\mu_i = \mathbb{E}X_i\)</span> and variances <span class="math inline">\(\sigma_i^2 = \text{Var}(X_i) &lt; \infty\)</span>. Define <span class="math inline">\(s_n^2 = \sum_{i=1}^n \sigma_i^2\)</span>. If there exists <span class="math inline">\(\delta &gt; 0\)</span> such that</p>
+<p><span class="math display">\[\frac{1}{s_n^{2+\delta}} \sum_{i=1}^n \mathbb{E}\left( | X_i - \mu_i | ^{2+\delta} \right) \xrightarrow[n\to\infty]{} 0,\]</span></p>
+<p>then</p>
+<p><span class="math display">\[\frac{1}{s_n} \sum_{i=1}^n (X_i - \mu_i) \xrightarrow[n\to\infty]{d} \mathcal N(0,1).\]</span></p>
+<p>If all of the variances were the same, the <span class="math inline">\(s_n\)</span> term would look familiar as <span class="math inline">\(s_n = \sqrt{n} \sigma\)</span>.</p>
+<p>Moral: If your sequence of random variables are iid and have finite variances, the CLT holds. If your sequence of random variables are only independent and have finite variance, we need this additional Lyapunov criteria to hold.</p>
+</section>
+<section id="multivariate-clt" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-clt">Multivariate CLT</h2>
+<p>Suppose <span class="math inline">\(X, X_1, X_2, ...\)</span> are iid <span class="math inline">\(k\)</span>-dimensional random vectors. If the covariance matrix <span class="math inline">\(\Sigma = \text{Cov}(X)\)</span> is well-defined and all of its entries are finite, then</p>
+<p><span class="math display">\[\sqrt{n}(\bar X_n - \mu ) \xrightarrow[n\to\infty]{d} \mathcal N(0,\Sigma)\]</span></p>
+<p>where <span class="math inline">\(\bar X_n = \frac{1}{n} \sum_{i=1}^n X_i\)</span> and <span class="math inline">\(\mu = \mathbb{E}X\)</span>.</p>
+<p>Note that we haven’t yet discussed convergence of random vectors in distribution yet.</p>
+<p>We defined convergence in distributions in terms of the cdfs. However, the cdf-based definition doesn’t generalize well beyond the univariate random variable case. The following equivalent definition is more commonly used and generalizes to random elements in other spaces (such as random graphs, for which there aren’t necessarily cdfs).</p>
+<p>Suppose <span class="math inline">\(X, X_1, X_2, ... \in \mathcal X\)</span>. We say <span class="math inline">\(X_n\)</span> converges in distribution to <span class="math inline">\(X\)</span> if <span class="math display">\[\mathbb{E}g(X_n) \xrightarrow[n\to\infty]{} \mathbb{E}g(X)\]</span> for all bounded and continuous functions <span class="math inline">\(g : \mathcal X \to \mathbb{R}\)</span>.</p>
+<p>It can be shown that this is equivalent to the cdf-based definition when <span class="math inline">\(\mathcal X = \mathbb{R}\)</span>.</p>
+<div class="bluetip">
+<p>Why is it not immediately obvious that this applies to cdfs?</p>
+<p>They’re not continuous. Let <span class="math inline">\(g(x) = \mathbb 1(x \leq c)\)</span>. Then</p>
+<p><span class="math display">\[\mathbb{E}g(X_n) = P(X_n \leq c) = F_{X_n}(c),\]</span></p>
+<p>but <span class="math inline">\(g\)</span> is not continuous.</p>
+</div>
+</section>
+</section>
+<section id="characteristic-functions" class="level1">
+<h1>Characteristic Functions</h1>
+<section id="refresher-on-complex-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="refresher-on-complex-numbers">Refresher on Complex Numbers</h2>
+<p>The imaginary unit <span class="math inline">\(i\)</span> is defined as <span class="math inline">\(\sqrt{-1}\)</span> so <span class="math inline">\(i^2 = -1\)</span>. Algebraically <span class="math inline">\(i\)</span> is treated like any other number, for instance,</p>
+<p><span class="math display">\[(a + ib) + (a' + ib') = (a + a') + (b + b')i\]</span> <span class="math display">\[c(a+ib) = ca + icb.\]</span></p>
+<p>An imaginary number <span class="math inline">\(z\)</span> can be represented as <span class="math inline">\(z = a+ib\)</span> where <span class="math inline">\(a \in \mathbb{R}\)</span> is the real part and <span class="math inline">\(b \in \mathbb{R}\)</span> is the imaginary part.</p>
+<p><span class="math inline">\(a + ib\)</span> can be visualized as a vector <span class="math inline">\((a,b) \in \mathbb{R}^2\)</span>.</p>
+<p>The absolute value or modulus of <span class="math inline">\(a+ib\)</span> is defined as</p>
+<p><span class="math display">\[|a + ib| = \sqrt{a^2 + b^2}\]</span></p>
+<p>For <span class="math inline">\(\theta \in \mathbb{R}\)</span>, the exponential function <span class="math inline">\(\exp(i \theta)\)</span> is defined as <span class="math inline">\(\exp(i\theta) = \cos(\theta) + i \sin(\theta)\)</span>.</p>
+<p>Thus, the real and imaginary parts of <span class="math inline">\(\exp(i \theta)\)</span> trace out the unit circle in <span class="math inline">\(\mathbb{R}^2\)</span> as <span class="math inline">\(\theta\)</span> increases. Further <span class="math inline">\(|\exp(i \theta)| = 1\)</span>.</p>
+<p>Student-instructor interaction quote: “Are we like getting into imaginary polar coordinates?” “Yeah, you could think of it that way.” “That’s terrible.”</p>
+</section>
+<section id="characteristic-functions-1" class="level2">
+<h2 class="anchored" data-anchor-id="characteristic-functions-1">Characteristic functions</h2>
+<p>The characteristic function (cf) of a random variable <span class="math inline">\(X\)</span> denoted <span class="math inline">\(\phi_X(t)\)</span> is defined for <span class="math inline">\(t \in \mathbb{R}\)</span> as</p>
+<p><span class="math display">\[\phi_X(t) = \mathbb{E}\exp(i t X) = \mathbb{E}\cos(t X) + i \mathbb{E}\sin (tX).\]</span></p>
+<p>The cf is a complex generalization of the mgf. The advantage is that the cf always exists and is finite.</p>
+<p>Properties: Suppose <span class="math inline">\(X, X_1, X_2, ...\)</span> are random variables.</p>
+<ol type="1">
+<li><span class="math inline">\(|\phi_X(t)| \leq 1\)</span> for all <span class="math inline">\(t \in \mathbb{R}\)</span>.</li>
+<li><span class="math inline">\(\phi_{cX}(t) = \phi_X(ct)\)</span> for all <span class="math inline">\(c, t \in \mathbb{R}\)</span>.</li>
+<li>If <span class="math inline">\(X_1 \perp\!\!\!\perp X_2\)</span> then <span class="math inline">\(\phi_{X_1 + X_2}(t) = \phi_{X_1}(t)\phi_{X_2}(t)\)</span> for all <span class="math inline">\(t \in \mathbb{R}\)</span>.</li>
+<li>If <span class="math inline">\(\mathbb{E}|X|^k &lt; \infty\)</span> then <span class="math inline">\(\frac{d^k \phi_X}{dt^k}(0) = i^k \mathbb{E}X^k.\)</span></li>
+<li><span class="math inline">\(X_1 \stackrel{d}{=} X_2\)</span> if and only if <span class="math inline">\(\phi_{X_1}(t) = \phi_{X_2}(t)\)</span> for all <span class="math inline">\(t \in \mathbb{R}\)</span>.</li>
+<li><span class="math inline">\(X_n \stackrel{d}{\to} X\)</span> if and only if <span class="math inline">\(\phi_{X_n} \to \phi_X(t)\)</span> for all <span class="math inline">\(t \in \mathbb{R}\)</span>.</li>
+</ol>
+<p>Property 1 can be proven with Jensen’s inequality.</p>
+<p>Are there distributions with mgfs that don’t exist but that do have moments? Jeff: I believe if I remember correctly, the mgf exists if all moments exist. So for the pareto distribution and the t distribution, they have some moments but not all moments exist.</p>
+</section>
+</section>
+<section id="clt-proof-sketch" class="level1">
+<h1>CLT Proof Sketch</h1>
+<p>Let <span class="math inline">\(f^{(k)}(t) = \frac{d^k f}{dt^k}(t)\)</span> denote the <span class="math inline">\(k\)</span>th derivative of <span class="math inline">\(f\)</span>.</p>
+<p>Taylor’s theorem with Lagrange remainder. If <span class="math inline">\(f(t)\)</span> has <span class="math inline">\(K\)</span> derivatives then</p>
+<p><span class="math display">\[f(t) = \sum_{k=1}^{K-1} \frac{f^{(k)}(t_0)}{k!} (t-t_0)^k + \frac{f^(K)(t_*)}{K!} (t-t_0)^K\]</span></p>
+<p>for some <span class="math inline">\(t_*\)</span> between <span class="math inline">\(t\)</span> and <span class="math inline">\(t_0\)</span>.</p>
+<p>For <span class="math inline">\(t\)</span> near <span class="math inline">\(t_0\)</span>, we often approximate <span class="math inline">\(f^{(K)}(t_*) \approx f^{(K)}(t_0).\)</span>$</p>
+<p>Thus a second-order Taylor approximation at <span class="math inline">\(t_0 = 0\)</span> would be</p>
+<p><span class="math display">\[f(t) \approx f(0) + f'(0)t + \frac{1}{2} f''(0)t^2.\]</span></p>
+<p>If <span class="math inline">\(\mathbb{E}(X) = 0\)</span> and <span class="math inline">\(\text{Var}(X) = \sigma^2\)</span>, then for <span class="math inline">\(t\)</span> near 0,</p>
+<p><span class="math display">\[\phi_X(t) \approx 1 + i \mathbb{E}(X)t - \frac{1}{2} \mathbb{E}(X^2)t^2 = 1 - \frac{1}{2}\sigma^2 t^2.\]</span></p>
+<p>If <span class="math inline">\(X,X_1,X_2,...\)</span> are iid with <span class="math inline">\(\mathbb{E}X = 0\)</span> and <span class="math inline">\(\sigma^2 = \text{Var}(X) &lt; \infty\)</span>, then</p>
+<p><span class="math display">\[\begin{aligned}
+\phi_{\frac{1}{\sqrt{n}} \sum_{k=1}^n X_k}(t) &amp; = \phi_{\sum_{k=1}^n X_k}(t / \sqrt{n}) \\
+&amp; = \prod_{k=1}^n \phi_{X_k}(t / \sqrt{n}) \quad \text{(by independence)} \\
+&amp; = \phi_X(t / \sqrt{n})^n \quad \text{(by identical distribution)} \\
+&amp; \approx (1 - \frac{1}{2} \sigma^2 (t/\sqrt n )^2)^n \\
+&amp; = (1 - \frac{1}{2} \sigma^2 t^2 / n)^n \\
+&amp; \xrightarrow[]{n\to\infty} \exp(-\frac{1}{2} \sigma^2 t^2 ) = \phi_{\mathcal N(0, \sigma^2)}(t).
+\end{aligned}\]</span></p>
+<p>Thus, as long as the approximation above is justified,</p>
+<p><span class="math display">\[\frac{1}{\sqrt{n}} \sum_{k=1}^n X_k \xrightarrow[n\to\infty]{d} \mathcal N(0, \sigma^2).\]</span></p>
+<p>To handle the case of <span class="math inline">\(\mathbb{E}X = \mu \neq 0\)</span>, apply this to <span class="math inline">\(X_i - \mu\)</span>.</p>
+</section>
+<section id="borel-cantelli-lemma" class="level1">
+<h1>Borel-Cantelli Lemma</h1>
+<p>Suppose <span class="math inline">\(A_1, A_2, ...\)</span> is a sequence of events. The number of these events containing a given element <span class="math inline">\(s \in S\)</span> is</p>
+<p><span class="math display">\[\sum_{n=1}^\infty \mathbb 1(s \in A_n).\]</span></p>
+<p>The event “<span class="math inline">\(A_n\)</span> infinitely often (i.o.)” is defined as</p>
+<p><span class="math display">\[\{ A_n \; \mathrm{i.o.}\} = \left\{ s \in S : \sum_{n=1}^\infty \mathbb 1(s \in A_n) = \infty \right\}.\]</span></p>
+<p>Equivalently, this is more commonly written as</p>
+<p><span class="math display">\[\{ A_n \; \mathrm{i.o.} \} = \bigcap_{m=1}^\infty \bigcup_{n=m}^\infty A_n.\]</span></p>
+<p>Roughly, the Borel-Cantelli lemma says that if <span class="math inline">\(P(A_n) \to 0\)</span> fast enough, then <span class="math inline">\(P(A_n \; \mathrm{i.o.}) = 0\)</span>.</p>
+<p><span class="vocab">Borel-Cantelli Lemma:</span> Suppose <span class="math inline">\(A_1, A_2, ...\)</span> is a sequence of events.</p>
+<ol type="1">
+<li>If <span class="math inline">\(\sum_{n=1}^\infty P(A_n) &lt; \infty\)</span> then <span class="math inline">\(P(A_n \; \text{i.o.}) = 0.\)</span>.</li>
+<li>If <span class="math inline">\(\sum_{n=1}^\infty P(A_n) = \infty\)</span> and <span class="math inline">\(A_1, A_2, ...\)</span> are mutually independent, then <span class="math inline">\(P(A_n \; \text{i.o.}) = 1.\)</span></li>
+</ol>
+<p>Proof: We’ll only prove 1 here. Suppose <span class="math inline">\(\sum_{n=1}^\infty P(A_n) &lt; \infty.\)</span> Define <span class="math inline">\(X(s) = \sum_{n=1}^\infty \mathbb 1(s \in A_n) \in \{ 0 1, 2, ...\} \cup \{ \infty \}\)</span>. Then</p>
+<p><span class="math display">\[P(A_n \; \text{i.o.}) = P \left( \left\{ s \in S : \sum_{n=1}^\infty \mathbb 1(s \in A_n) = \infty \right\}  \right) = P(X = \infty).\]</span></p>
+<p>If <span class="math inline">\(P(X = \infty) &gt; 0\)</span>, then <span class="math inline">\(\mathbb{E}X = \infty\)</span>. However, …</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../week13/week13.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Week 13</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
