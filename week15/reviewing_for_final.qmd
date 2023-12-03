@@ -1,0 +1,37 @@
+---
+title: "Reviewing for the Final"
+subtitle: "December 3rd, 2023"
+author: "Christian Testa"
+pdf-engine: pdflatex
+format: 
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{float}
+          \usepackage{dsfont}
+          \usepackage{bm}
+          \usepackage{cancel}
+          \usepackage{mathtools}
+          \usepackage{mathabx}
+          \usepackage{nicefrac}
+          \usepackage{enumitem}
+          \usepackage{amsmath,amssymb,latexsym}
+          \addtokomafont{disposition}{\rmfamily}
+          \DeclareMathOperator*{\argmax}{arg\,max}
+          \DeclareMathOperator*{\argmin}{arg\,min}
+          \newcommand{\items}[1]{\begin{itemize} #1 \end{itemize}}
+          \newcommand{\enums}[1]{\begin{enumerate} #1 \end{enumerate}}
+          \newcommand{\E}{\mathbb{E}}
+          \newcommand{\Var}{\text{Var}}
+          \newcommand{\Cov}{\text{Cov}}
+          \newcommand{\R}{\mathbb{R}}
+          \newcommand{\T}{\mathtt{T}}
+          \newcommand\independent{\perp\!\!\!\perp}
+          \def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+          \newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+          \newcommand*{\horzbar}{\rule[.5ex]{2.5ex}{0.5pt}}
+---
+
+Outline of Course Topics: 
+
+* 
