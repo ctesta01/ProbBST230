@@ -760,7 +760,7 @@
     "href": "week14/week14.html#strong-form-of-the-strong-lln",
     "title": "Week 14",
     "section": "Strong form of the Strong LLN",
-    "text": "Strong form of the Strong LLN\nThis is sometimes called “Kolmogorov’s Strong Law.”\nKolmogorov’s Strong LLN. Suppose \\(X, X_1, X_2, ...\\) are i.i.d. random variables. Then \\(\\mathbb{E}|X| < \\infty\\) if and only if _{i=1}{n} X_i$ converges almost surely. In this case, the limit equals \\(\\mathbb{E}X\\).\nProof: Kallenberg, Foundations of Modern Probability, Theorem 3.23.\nAs an aside, Kallenberg is a great reference book (not necessarily nice to learn from), but very advanced."
+    "text": "Strong form of the Strong LLN\nThis is sometimes called “Kolmogorov’s Strong Law.”\nKolmogorov’s Strong LLN. Suppose \\(X, X_1, X_2, ...\\) are i.i.d. random variables. Then \\(\\mathbb{E}|X| < \\infty\\) if and only if \\(\\frac{1}{n} \\sum_{i=1}{n} X_i\\) converges almost surely. In this case, the limit equals \\(\\mathbb{E}X\\).\nProof: Kallenberg, Foundations of Modern Probability, Theorem 3.23.\nAs an aside, Kallenberg is a great reference book (not necessarily nice to learn from), but very advanced."
   },
   {
     "objectID": "week14/week14.html#lyapunov-clt",

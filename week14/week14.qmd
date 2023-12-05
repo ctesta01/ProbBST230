@@ -112,9 +112,8 @@ $$|\bar X_n - \E \bar X_n | \leq |\bar X_n - \mu| + \underbrace{|\mu - \E \bar X
 This is sometimes called "Kolmogorov's Strong Law."
 
 <span class='vocab'>Kolmogorov's Strong LLN.</span> Suppose $X, X_1, X_2, ...$
-are i.i.d. random variables. Then $\E |X| < \infty$ *if and only if* \frac{1}{n}
-\sum_{i=1}{n} X_i$ converges almost surely.  In this case, the limit equals $\E
-X$. 
+are i.i.d. random variables. Then $\E |X| < \infty$ *if and only if* 
+$\frac{1}{n} \sum_{i=1}{n} X_i$ converges almost surely.  In this case, the limit equals $\E X$. 
 
 Proof: Kallenberg, Foundations of Modern Probability, Theorem 3.23.
 
