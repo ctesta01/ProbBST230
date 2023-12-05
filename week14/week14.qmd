@@ -46,6 +46,24 @@ $N$ such that $x_n > l - \epsilon$ for all $n > N$.
 $\liminf x_n \leq \limsup x_n$ always and if $\liminf x_n = \limsup x_n$ then 
 $\lim x_n$ exists and all three are equal. 
 
+# Weak Law of Large Numbers 
+
+Roughly speaking, the law of large numbers (LLN) says that the sample mean converges
+to the mean. 
+
+There are many different versions of the LLN that apply under different conditions. 
+
+*Weak LLN:* If $Y_1, ... Y_n$ are iid random variables such that $\E Y_1 = \mu$ and 
+$\Var(Y_1) < \infty$, then for all $\varepsilon > 0$, 
+
+$$P \left( \left\vert \frac{1}{n} \sum_{i=1}^n Y_i - \mu_i \right\vert > \varepsilon \right) \longrightarrow 0.$$
+
+The proof is to use Chebyshev's inequality. 
+
+The weak LLN is an example of convergence in probability. A sequence of random 
+variables $X_1, X_2, ...$ converges in probability if, for all $\varepsilon > 0$, 
+
+
 # Laws of Large Numbers and CLTs 
 
 There are several versions of the law of large numbers (LLN) and central limit 

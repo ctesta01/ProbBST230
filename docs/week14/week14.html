@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../week15/week15.html" rel="next">
 <link href="../week13/week13.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -163,6 +164,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="../week14/week14.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Week 14</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week15/week15.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 15</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -173,6 +179,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#limit-superiors-and-limit-inferiors" id="toc-limit-superiors-and-limit-inferiors" class="nav-link active" data-scroll-target="#limit-superiors-and-limit-inferiors">Limit Superiors and Limit Inferiors</a></li>
+  <li><a href="#weak-law-of-large-numbers" id="toc-weak-law-of-large-numbers" class="nav-link" data-scroll-target="#weak-law-of-large-numbers">Weak Law of Large Numbers</a></li>
   <li><a href="#laws-of-large-numbers-and-clts" id="toc-laws-of-large-numbers-and-clts" class="nav-link" data-scroll-target="#laws-of-large-numbers-and-clts">Laws of Large Numbers and CLTs</a>
   <ul class="collapse">
   <li><a href="#weak-lln-for-uncorrelated-variables" id="toc-weak-lln-for-uncorrelated-variables" class="nav-link" data-scroll-target="#weak-lln-for-uncorrelated-variables">Weak LLN for uncorrelated variables</a></li>
@@ -218,6 +225,15 @@ ul.task-list li input[type="checkbox"] {
 <p>The limit superior, denoted <span class="math inline">\(\limsup_{n \to \infty} x_n\)</span> is the smallest number <span class="math inline">\(u \in [-\infty, \infty]\)</span> such that for all <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(x_n &lt; u + \epsilon\)</span> for all <span class="math inline">\(n &gt; N\)</span>.</p>
 <p>The limit inferior, denoted <span class="math inline">\(\liminf_{n \to \infty} x_n\)</span> is the greatest number <span class="math inline">\(l \in [-\infty, \infty]\)</span> such that for all <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(x_n &gt; l - \epsilon\)</span> for all <span class="math inline">\(n &gt; N\)</span>.</p>
 <p><span class="math inline">\(\liminf x_n \leq \limsup x_n\)</span> always and if <span class="math inline">\(\liminf x_n = \limsup x_n\)</span> then <span class="math inline">\(\lim x_n\)</span> exists and all three are equal.</p>
+</section>
+<section id="weak-law-of-large-numbers" class="level1">
+<h1>Weak Law of Large Numbers</h1>
+<p>Roughly speaking, the law of large numbers (LLN) says that the sample mean converges to the mean.</p>
+<p>There are many different versions of the LLN that apply under different conditions.</p>
+<p><em>Weak LLN:</em> If <span class="math inline">\(Y_1, ... Y_n\)</span> are iid random variables such that <span class="math inline">\(\mathbb{E}Y_1 = \mu\)</span> and <span class="math inline">\(\text{Var}(Y_1) &lt; \infty\)</span>, then for all <span class="math inline">\(\varepsilon &gt; 0\)</span>,</p>
+<p><span class="math display">\[P \left( \left\vert \frac{1}{n} \sum_{i=1}^n Y_i - \mu_i \right\vert &gt; \varepsilon \right) \longrightarrow 0.\]</span></p>
+<p>The proof is to use Chebyshev’s inequality.</p>
+<p>The weak LLN is an example of convergence in probability. A sequence of random variables <span class="math inline">\(X_1, X_2, ...\)</span> converges in probability if, for all <span class="math inline">\(\varepsilon &gt; 0\)</span>,</p>
 </section>
 <section id="laws-of-large-numbers-and-clts" class="level1">
 <h1>Laws of Large Numbers and CLTs</h1>
@@ -497,6 +513,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../week15/week15.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-title">Week 15</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

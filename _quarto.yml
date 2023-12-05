@@ -20,6 +20,7 @@ book:
     - week11/week11.qmd
     - week13/week13.qmd
     - week14/week14.qmd
+    - week15/week15.qmd
 
 format:
   html:

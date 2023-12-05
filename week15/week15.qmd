@@ -1,0 +1,309 @@
+---
+title: "Week 15"
+---
+
+::: content-hidden
+$$
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\EX}[0]{\mathbb{E} X}
+\newcommand{\EY}[0]{\mathbb{E} Y}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\t}[1]{\text{#1}}
+\newcommand{\b}[1]{\mathbf{#1}}
+\newcommand{\tt}[1]{\mathtt{#1}}
+\newcommand{\T}[0]{\mathtt{T}}
+
+% 1 create conditionally independent symbol:
+\newcommand\independent{\perp\!\!\!\perp}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\newcommand{\Var}[0]{\text{Var}}
+\newcommand{\Cov}[0]{\text{Cov}}
+\newcommand{\Cor}[0]{\text{Cor}}
+\newcommand{\e}[0]{\epsilon}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\newcommand{\argmax}[0]{\text{argmax}}
+
+\newcommand{\sumint}[0]{\;\;\;\mathclap{\displaystyle\int}\mathclap{\textstyle\sum} \;\;\;}
+\newcommand{\align}[1]{\begin{aligned} #1 \end{aligned}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\DeclareMathOperator*{\plim}{p-lim}
+$$
+:::
+
+<!-- Start of what won't be on the Final --> 
+
+# Finishing up the Borel-Cantelli Lemma 
+
+Suppose $A_1, A_2, ...$ is a sequence of events. 
+
+1. If $\sum_{n=1}^\infty P(A_n) < \infty$ then 
+$$P(A_n \text{ i.o.}) = 0.$$
+
+2. If $\sum_{n=1}^\infty P(A_n) = \infty$ and $A_1, A_2, ...$ are
+mutually independent, then $(A_n \text{ i.o.}) = 1.$
+
+Proof: We'll only prove 1 here. Suppose $\sum_{n=1}^\infty P(A_n) < \infty.$ Define $X(s) = \sum_{n=1}^\infty \mathbb 1(s \in A_n) \in \{ 0, 1, 2, ... \} \cup \{ \infty \}.$ Then 
+
+$$P(A_n \text{ i.o.}) = P\left( \left\{ s \in S : \sum_{n=1}^\infty \mathbb 1(s \in A_n) = \infty \right\}\right) = P(X = \infty).$$
+
+If $P(X = \infty) > 0$, then $\E X = \infty$. However, 
+
+$$\E X = \sum_{n=1}^\infty P(A_n) < \infty$$
+
+by assumption, so it must be the case that $P(X = \infty) = 0$. 
+
+:::{.hottip}
+TJ asks if this requires the monotone convergence theorem. 
+
+I think about: 
+$$\E X = \sum_{n=1}^\infty P(A_n) $$
+:::
+
+# Proof of SLLN for Bounded Random Variables 
+
+Suppose $X_1, X_2, ...$ iid and $P(|X| < c) = 1$ for some $c$. 
+
+Let $\varepsilon > 0$. By Hoeffding's inequality, defining $\mu = \E X_1$, 
+
+$$P(|\bar X_n - \mu| > \varepsilon) \leq 2 \exp (-\frac{1}{2} \varepsilon^2 n / c^2).$$
+
+Define $A_n$ to be the event that $|\bar X_n - \mu| > \varepsilon$. Then
+
+$$\sum_{n=1}^\infty P(A_n) \leq \sum_{n=1}^\infty 2 \exp (-\frac{1}{2} \varepsilon^2 n/c^2) < \infty.$$
+
+Thus, by Borel-Cantelli, $P(A_n \text{ i.o.}) = 0$. Consequently, 
+
+$$P\left( \limsup_{n\to\infty} |\bar X_n - \mu| \leq \varepsilon \right) = P(\{ A_n \text{ i.o.}^c\}) = 1.$$ 
+
+Since this holds for all $\varepsilon > 0$, this implies that 
+
+$$\bar X_n \xrightarrow[n\to\infty]{a.s.} \mu.$$
+
+# Random Walks and Markov Chains 
+
+Outline: 
+
+  - Intro 
+  - Generating Functions
+  - Simple Random Walks
+  - Branching Processes
+
+## Introduction 
+
+A stochastic process is an infinite-dimensional random object. 
+
+This sounds complicated, but we've already been working with 
+stochastic processes. For example, a sequence of random variables
+$X_1, X_2, ...$ is a stochastic process. 
+
+More generally, a stochastic process may be a random function, such as a 
+random function $H(x)$ on the real numbers $x \in \R$. 
+
+A Markov chain is a sequence $X_1, X_2, ...$ such that
+
+$$X_{t+1} \independent X_{1:t-1} \mid X_{t}.$$
+
+Before looking at Markov chains in general, we'll look at random 
+walks and branching processes. 
+
+$$X = (X_1, X_2, ...)$$
+$$X(s) = (X_1(s), X_2(s), ...)$$
+
+It could also be that for every sample in the sample space gives 
+us a different function $H(s)(x)$. A classic example of this 
+is Gaussian Processes. The core idea is that a random function 
+is also a stochastic process. 
+
+## Random Walks 
+
+Random walks are canonical examples of Markov chains. 
+
+A sequence of random variables $Y_0, Y_1, ...$ is a random 
+ralk if $Y_0 = 0$ (it doesn't have to) and $Y_n = \sum_{n=1}^n X_i$
+where $X_1, X_2, ...$ are iid. 
+
+It is a *simple random walk* with parameter $p$ if $X_i \in \{ -1, 1\}$
+such that $P(X_i = 1) = p$ and $P(X_i = -1) = q = 1-p$. 
+
+From the LLN and CLT, we know the asymptotics of 
+$\frac{1}{n} (Y_n - \E Y_n)$ and $\frac{1}{\sqrt{n}}(Y_n - \E Y_n).$
+
+However, a lot more can be said about the properties of $Y_n$. 
+
+Since much of statistics involves sample averages, 
+understanding these properties can be useful. 
+
+## Generating Functions 
+
+The analysis of random walks (and many other combinatorial objects)
+is simplified by the use of generating functions. 
+
+The generating function (gf) of a sequence of real numbers, 
+
+$$a_0, a_1, a_2, ... \in \R$ is 
+
+$$G_a(s) = \sum_{n=0}^\infty a_n s^n.$$
+
+Generating functions are closely related to mgfs for discrete
+r.v.s but they afford more flexibility since the $a_n$s may be negative 
+and do not necessarily sum to 1. 
+
+The probability generating function (pgf) of a random variable $X$ is 
+
+$$G_X(s) = \E (s^X).$$
+
+The relationship between the pgf and mgf is simply that 
+
+$$M_X(t) = G_X(e^t).$$
+
+The gf of $a = (1, 1, 1, 1, ...)$ is the geometric series
+
+$$G_a(s) = \sum_{n=0}^\infty s^n = \frac{1}{1-s}.$$
+
+For a fixed $N$, suppose $a_n = { n \choose n } \mathbb 1(0 \leq n \leq N)$ 
+is the binomial coefficient. The gf of $a_0, a_1, a_2, ...$ is 
+
+$$G_a(s) = \sum_{n=0}^\infty a_n s^n = \sum_{n=0}^N { N \choose n} s^n = (1+s)^N.$$
+
+(This uses the Binomial Theorem.)
+
+Suppose $a_n = {2n \choose n}$ for $n = 0, 1, 2, ...$. These are called the 
+central binomial coefficients and their gf is 
+
+$$G_a(s) = \sum_{n=0}^\infty { 2n \choose n} s^n = (1-4s)^{-1/2}.$$
+
+The central binomial coefficients are the elements going straight down
+the middle of Pascal's triangle. 
+
+:::{.cooltip}
+$$G(s) = \sum_{n=0}^\infty s_n = \frac{1}{1-s}$$
+
+$$G'(s) = \sum_{n=0}^\infty n s^{n-1} = \frac{1}{(1-s)^2}.$$
+
+$$s = -1/2$$
+
+$$G'(-1/2) = \sum_{n=0}^\infty n (-1/2)^{n-1} = \frac{1}{(1+1/2)^2} = 4/9.$$
+
+$$\sum_{n=1}^\infty (-1)^{n-1} \frac{n}{2^{n-1}} = \sum_{k=0}^\infty (-1)^k \frac{k+1}{2^k}.$$
+:::
+
+The convolution of $a_n$ and $b_n$ is the sequence $c_n$ defined by 
+
+$$c_n = a_0 b_0 + a_1 b_n-1 + ... + a_n b_0 = \sum_{k=0}^n a_k b_{n-k}.$$
+
+The convolution $c$ is denoted $a * b$. 
+
+Convolution formula. $G_{a * b}(s) = G_a(s) G_b(s).$
+
+$$
+\begin{aligned}
+G_{a*b}(s) & = \sum_{n=0}^\infty \left( \sum_{k=0}^n a_k b_{n-k} \right) s^n  \\ 
+& = \sum_{n=0}^\infty \sum_{k=0}^n a_k s^{k} b_{n-k} s^{n-k} \\ 
+& = \sum_{n=0}^\infty \sum_{k=0}^\infty a_k s^{k} b_{n-k} s^{n-k} \\ 
+& = \left( \sum_{k=0}^\infty a_k s^k \right) \left( \sum_{j=0}^\infty b_j s^{j} \right) = G_a(s) G_b(s). \\ 
+\end{aligned}
+$$
+
+:::{.cooltip}
+The Fast Fourier Transform underlies a lot of signal processing, and the Fourier
+transform is quite similar to this. They're basically a fast way of computing 
+convolutions by first converting sequences to something like the generating function
+and then multiplying element-wise. 
+:::
+
+
+## Simple Random Walks 
+
+Let $Y_n$ be a simple random walk with parameter $p$ and 
+let $T_0 = \min\{ n > 0 : Y_n = 0\}$ be the first time that 
+$Y_n$ returns to the origin.  (If $Y_n \neq 0$ for all $n > 0$ then
+we define $T_0 = \infty$.)
+
+Define $a_n = P(T_0 = n)$ and $b_n = P(Y_n = 0)$. 
+
+The generating functions of these two sequences are 
+
+$$G_a(s) = \sum_{n=0}^\infty a_n s^n \quad \text{ and } \quad G_b(s) = \sum_{n=0}^\infty b_n s^n.$$
+
+
+Theorem: 
+
+1. $G_b(s) = 1 + G_a(s) G_b(s)$
+
+2. $G_b(s) = (1-4pqs^2)^{-1/2}
+
+3. $G_a(s) = 1- (1-4pqs^2)^{1/2}$
+
+Before proving this result, let's see how it's useful. 
+
+The probability of eveer returning to the origin is 
+
+$$\sum_{n=0}^\infty P(T_0 = n) = \sum_{n=0}^\infty a_n = G_a(1) = 1-(1-4pq)^{1/2} = 1 - |p-q|$$
+
+after simplifying a bit using the fact that $p + q = 1$. 
+
+Thus, after $p = q = 1/2$, then the probability of returning is 1. 
+
+As $p$ gets smaller, the probability of returning tends to 0. 
+
+If $p = q = 1/2$, the expected time of first return is 
+
+$$\begin{aligned}
+\sum_{n=0}^\infty nP(T_0 = n) & = \sum_{n=0}^\infty n a_n = G_a'(1)  \\ 
+& = \frac{d}{ds} \large \vert_{s=1} \left(1-(1-s^2)^{1/2}\right) \\ 
+& = - \frac{1}{2} (1-s^2)^{-1/2} (-2s) \large \vert_{s=1} = \infty.
+\end{aligned}
+$$
+
+<!--
+grimmett and stirzaker probability and random processes
+--> 
+
+## Branching Processes 
+
+A branching process is a mathematical model of the size of a population of individuals 
+over time. 
+
+Let $Z_n$ denote the number of individuals at generation $n$. For simplicity, assume 
+$Z_0 = 1$. 
+
+Suppose that generation $n$, individual $i$ has a random number of offspring, $X_{n, i}$. 
+
+Assume only the offspring survive to the next generation. 
+
+Assume the numbers of offspring $X_{n,1}, X_{n,2}, ...$ are iid with common 
+pgf $G_X(s)$. 
+
+To analyze this branching process, we'll use some more properties of generating functions. 
+
+*Compounding formula.$ Suppose $X_1, X_2, ...$ are iid with 
+common pgf $G_X(s)$ and $N \in \{ 0, 1, 2, ...\}$ is a random variable pgf 
+$G_N(s)$. Then the pgf of the compound variable $Z=X_1 + ... + X_n$ is 
+$$G_Z(s) = G_N(G_X(s)).$$
+
+Moment formulas. If $X$ has pgf $G(s)$, then 
+
+1. $G(1) = 1.$
+2. $\E(X) = G'(1)$. 
+3. $\E(X(X-1) \cdots (X-k+1)) = G^{(k)}(1).$
+4. $\Var(X) = G''(1) + G'(1) (1-G'(1))$. 
+
+At generation $n$, the total number of offspring is 
+
+$$Z_{n+1} = X_{n,1} + X_{n,2} + ... + X_{n, Z_n}.$$
+
+Thus, by the compounding formula, the pgf of $Z_{n+1}$ is 
+
+$$G_{Z_{n+1}} = G_{Z_n} ( G_X(s)).$$
+
+Iterating this formula yields that 
+
+$$\begin{aligned}
+G_{Z_n}(s) = G_{Z_{n-1}}(G_X(s)) = G_{Z_{n-2}}(G_X(G_X(s))) \\ 
+& = G_X(G_X(\cdots G_X(s) \cdots ))
+\end{aligned}
+$$
+

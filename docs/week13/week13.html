@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -164,6 +227,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="../week14/week14.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 14</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../week15/week15.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Week 15</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -183,7 +251,22 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#equivalent-definition-for-almost-sure-convergence" id="toc-equivalent-definition-for-almost-sure-convergence" class="nav-link" data-scroll-target="#equivalent-definition-for-almost-sure-convergence">Equivalent Definition for Almost Sure Convergence</a></li>
   <li><a href="#relationship-between-a.s.-convergence-and-in-probability" id="toc-relationship-between-a.s.-convergence-and-in-probability" class="nav-link" data-scroll-target="#relationship-between-a.s.-convergence-and-in-probability">Relationship between a.s. convergence and in probability</a></li>
   <li><a href="#convergence-in-distribution-background" id="toc-convergence-in-distribution-background" class="nav-link" data-scroll-target="#convergence-in-distribution-background">Convergence in Distribution: Background</a></li>
-  <li><a href="#central-limit-theorem" id="toc-central-limit-theorem" class="nav-link" data-scroll-target="#central-limit-theorem">Central Limit Theorem</a></li>
+  <li><a href="#central-limit-theorem" id="toc-central-limit-theorem" class="nav-link" data-scroll-target="#central-limit-theorem">Central Limit Theorem</a>
+  <ul class="collapse">
+  <li><a href="#example-minimum-of-uniforms" id="toc-example-minimum-of-uniforms" class="nav-link" data-scroll-target="#example-minimum-of-uniforms">Example: Minimum of Uniforms</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#convergence-in-lp" id="toc-convergence-in-lp" class="nav-link" data-scroll-target="#convergence-in-lp">Convergence in <span class="math inline">\(L^p\)</span></a></li>
+  <li><a href="#relationships-between-modes-of-convergence" id="toc-relationships-between-modes-of-convergence" class="nav-link" data-scroll-target="#relationships-between-modes-of-convergence">Relationships Between Modes of Convergence</a></li>
+  <li><a href="#continuous-mapping-theorem" id="toc-continuous-mapping-theorem" class="nav-link" data-scroll-target="#continuous-mapping-theorem">Continuous Mapping Theorem</a></li>
+  <li><a href="#slutskys-theorem" id="toc-slutskys-theorem" class="nav-link" data-scroll-target="#slutskys-theorem">Slutsky’s Theorem</a>
+  <ul class="collapse">
+  <li><a href="#example-asymptotics-of-t-statistics-for-non-normal-data" id="toc-example-asymptotics-of-t-statistics-for-non-normal-data" class="nav-link" data-scroll-target="#example-asymptotics-of-t-statistics-for-non-normal-data">Example: Asymptotics of <span class="math inline">\(t\)</span> statistics for non-normal data</a></li>
+  </ul></li>
+  <li><a href="#delta-method" id="toc-delta-method" class="nav-link" data-scroll-target="#delta-method">Delta Method</a>
+  <ul class="collapse">
+  <li><a href="#example-with-odds-of-an-outcome" id="toc-example-with-odds-of-an-outcome" class="nav-link" data-scroll-target="#example-with-odds-of-an-outcome">Example with Odds of an Outcome</a></li>
+  <li><a href="#delta-method-1" id="toc-delta-method-1" class="nav-link" data-scroll-target="#delta-method-1">Delta method</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -386,6 +469,181 @@ X_n \stackrel{\mathcal L}{\longrightarrow} X \quad \quad&amp; X_n \rightsquigarr
 <p><span class="math display">\[\frac{1}{\sqrt{n}} \sum_{i=1}^n (X_i - \mu) \xrightarrow[n\to\infty]{d} \mathcal N(0,\sigma^2)\]</span></p>
 <p>where <span class="math inline">\(\mu = \mathbb{E}X_1\)</span> and <span class="math inline">\(\sigma^2 = \text{Var}(X_1)\)</span>.</p>
 <p>The LLN tells us that <span class="math inline">\(\bar X - \mu \longrightarrow 0\)</span>. In contrast, the CLT says that <span class="math inline">\(\sqrt{n}(\bar X - \mu)\)</span> converges in distribution to <span class="math inline">\(\mathcal N(0, \sigma^2)\)</span>.</p>
+<p>Convergence in distribution is really a property of the sequence of distributions, rather than a the sequence of random variables.</p>
+<p>In particular, any dependence among <span class="math inline">\(X_1, X_2, ...\)</span> is irrelevant to convergence in distribution. All that matters is their distributions <span class="math inline">\(\mathcal L(X_1), \mathcal L(X_2), ...\)</span>.</p>
+<p>Convergence in distribution means <span class="math inline">\(\mathcal L(X_n)\)</span> is close (in a certain sense) to <span class="math inline">\(\mathcal L(X)\)</span> as <span class="math inline">\(n \to \infty\)</span>.</p>
+<p>In contrast, a.s. convergence means <span class="math inline">\(X_n(s)\)</span> gets close to <span class="math inline">\(X(s)\)</span> as <span class="math inline">\(n \to \infty\)</span> for all <span class="math inline">\(s\)</span> in some set with probability 1.</p>
+<p>And convergence in probability means <span class="math inline">\(X_n\)</span> is close to <span class="math inline">\(X\)</span> with high probability as <span class="math inline">\(n \to \infty\)</span>.</p>
+<section id="example-minimum-of-uniforms" class="level3">
+<h3 class="anchored" data-anchor-id="example-minimum-of-uniforms">Example: Minimum of Uniforms</h3>
+<p>This is an example of convergence in probability and in distribution that doesn’t involve the LLN or CLT.</p>
+<p>Suppose <span class="math inline">\(X_1, X_2, ... \sim \text{Uniform}(0,1)\)</span> iid and define</p>
+<p><span class="math display">\[M_n = \min \{ X_1, ..., X_n \}.\]</span></p>
+<p>Intuitively, <span class="math inline">\(M_n\)</span> should converge to 0. Formally, for <span class="math inline">\(\varepsilon \in (0,1),\)</span>$</p>
+<p><span class="math display">\[\begin{aligned}
+P(|M_n - 0| &gt; \varepsilon) &amp; = P(M_n &gt; \varepsilon) \\
+&amp; = P(X_1 &gt; \varepsilon, ..., X_n &gt; \varepsilon) \\
+&amp; = \prod_{i=1}^n P(X_i &gt; \varepsilon) \\
+&amp; = (1-\varepsilon)^n \xrightarrow[n\to\infty]{} 0.
+\end{aligned}\]</span></p>
+<p>Therefore <span class="math inline">\(M_n \xrightarrow[]{p} 0.\)</span></p>
+<p>So <span class="math inline">\(M_n \xrightarrow[]{p} 0\)</span>, but can we say more? How quickly does <span class="math inline">\(M_n\)</span> converge to 0? What is the asymptotic distribution of <span class="math inline">\(M_n\)</span> near 0?</p>
+<p>From the calculation above, if we set <span class="math inline">\(\varepsilon = x/n\)</span>, then <span class="math display">\[P(n M_n \leq x ) = 1 - P(M_n &gt; x/n) \xrightarrow[n\to\infty]{} 1 - \exp(-x),\]</span> the cdf of <span class="math inline">\(\text{Exponential}(1)\)</span>. Therefore,</p>
+<p><span class="math display">\[nM_n \xrightarrow[n\to\infty]{d} \text{Exponential}(1).\]</span></p>
+<p>Thus <span class="math inline">\(M_n\)</span> is approximately distributed as <span class="math inline">\(\text{Exponential}(n)\)</span> when <span class="math inline">\(n\)</span> is large. This gives us a precise characterization of the asymptotic distribution of <span class="math inline">\(M_n\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="convergence-in-lp" class="level1">
+<h1>Convergence in <span class="math inline">\(L^p\)</span></h1>
+<p>Suppose <span class="math inline">\(1 \leq p &lt; \infty\)</span> and <span class="math inline">\(X, X_1, X_2, ... \in L^p\)</span>, that is <span class="math inline">\(\mathbb{E}|X|^p &lt; \infty\)</span> and <span class="math inline">\(\mathbb{E}|X_n|^p &lt; \infty\)</span> for all <span class="math inline">\(n\)</span>.</p>
+<p>Then <span class="math inline">\(X_1, X_2, ...\)</span> converges in <span class="math inline">\(L^p\)</span> to <span class="math inline">\(X\)</span> if</p>
+<p><span class="math display">\[\mathbb{E}|X_n - X|^p \xrightarrow[n\to\infty]{} 0.\]</span></p>
+<p>We write <span class="math inline">\(X_n \xrightarrow[]{L^p} X\)</span> to denote convergence in <span class="math inline">\(L^p\)</span>.</p>
+<p>Convergence in <span class="math inline">\(L^p\)</span> is also called convergence in the <span class="math inline">\(p\)</span>th mean.</p>
+<p>The most important cases are when <span class="math inline">\(p = 1\)</span> or <span class="math inline">\(p = 2\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}|X_n - X| \to 0\)</span> is called convergence in mean</li>
+<li><span class="math inline">\(\mathbb{E}|X_n - X|^2\)</span> is called convergence in mean square.</li>
+</ul>
+<p>If <span class="math inline">\(X_n \xrightarrow[]{L^p} X\)</span> then <span class="math inline">\(\mathbb{E}|X_n|^p \to \mathbb{E}|X|^p\)</span>.</p>
+</section>
+<section id="relationships-between-modes-of-convergence" class="level1">
+<h1>Relationships Between Modes of Convergence</h1>
+<p>If <span class="math inline">\(X_n \xrightarrow[]{a.s.} X\)</span> then <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span>.</p>
+<p>Partial converse: if <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span> then there is a subsequence <span class="math inline">\(n_1, n_2, ...\)</span> such that <span class="math inline">\(X_{n_k} \xrightarrow[]{a.s.} X\)</span>.</p>
+<p>If <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span> then <span class="math inline">\(X \xrightarrow[]{d} X\)</span>.</p>
+<p>Partial converse: if <span class="math inline">\(X_n \xrightarrow[]{d}\)</span> and <span class="math inline">\(P(X=c) = 1\)</span> for some constant <span class="math inline">\(c\)</span>, then <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span>.</p>
+<p>If <span class="math inline">\(X_n \xrightarrow[]{L^p} X\)</span> then <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span>.</p>
+<p>Partial converse: if <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span> and <span class="math inline">\(|X_n| \leq |Y|\)</span> for some <span class="math inline">\(Y \in L^p\)</span>, then <span class="math inline">\(|X| \in L^p\)</span> and <span class="math inline">\(X_n \xrightarrow[]{L^p} X\)</span>.</p>
+</section>
+<section id="continuous-mapping-theorem" class="level1">
+<h1>Continuous Mapping Theorem</h1>
+<p>Often we know a sequence of <span class="math inline">\(X_n\)</span> converges, but we really want to know about <span class="math inline">\(g(X_n)\)</span> for some function <span class="math inline">\(g(x)\)</span>.</p>
+<p>The <span class="vocab">Continuous Mapping Theorem</span> states that: Suppose <span class="math inline">\(X, X_1, X_2, ... \in \mathcal X\)</span> and <span class="math inline">\(g : \mathcal X \to \mathbb R\)</span> is a function that is continuous at all <span class="math inline">\(x\)</span> in some set <span class="math inline">\(A \subset \mathcal X\)</span> such that <span class="math inline">\(P(X \in A) = 1\)</span>.</p>
+<p>If <span class="math inline">\(X_n \xrightarrow[]{a.s.} X\)</span> then <span class="math inline">\(g(X_n) \xrightarrow[]{a.s.} g(X)\)</span>. If <span class="math inline">\(X_n \xrightarrow[]{p} X\)</span> then <span class="math inline">\(g(X_n) \xrightarrow[]{p} g(X)\)</span>. If <span class="math inline">\(X_n \xrightarrow[]{d} X\)</span> then <span class="math inline">\(g(X_n) \xrightarrow[]{d} g(X)\)</span>.</p>
+<p>Example: If the sample variance <span class="math inline">\(S_n^2\)</span> converges (a.s., or in probability, or in distribution) to <span class="math inline">\(\sigma^2\)</span> then the sample standard deviation <span class="math inline">\(S_n = \sqrt{S_n^2}\)</span> converges in the same sense to <span class="math inline">\(\sigma\)</span>.</p>
+</section>
+<section id="slutskys-theorem" class="level1">
+<h1>Slutsky’s Theorem</h1>
+<p>Slutsky’s theorem is a result about the convergence of sums, products, or ratios.</p>
+<p><span class="vocab">Slutsky’s theorem.</span> If <span class="math inline">\(X_1, X_2, \ldots\)</span> and <span class="math inline">\(Y_1, Y_2, \ldots\)</span> are random variables such that <span class="math inline">\(X_n \xrightarrow{d} X\)</span> and <span class="math inline">\(Y_n \xrightarrow{p} c\)</span> for some random variable <span class="math inline">\(X\)</span> and constant <span class="math inline">\(c\)</span>, then</p>
+<ul>
+<li><span class="math inline">\(X_n + Y_n \xrightarrow{d} X + c\)</span>,</li>
+<li><span class="math inline">\(X_n Y_n \xrightarrow{d} Xc\)</span>, and</li>
+<li><span class="math inline">\(X_n / Y_n \xrightarrow{d} X/c\)</span> if <span class="math inline">\(c \neq 0\)</span>.</li>
+</ul>
+<p>Convergence of <span class="math inline">\(Y_n\)</span> to a constant is necessary; the result doesn’t hold in general if <span class="math inline">\(Y_n \xrightarrow{p} Y\)</span> for a random variable <span class="math inline">\(Y\)</span>.</p>
+<section id="example-asymptotics-of-t-statistics-for-non-normal-data" class="level2">
+<h2 class="anchored" data-anchor-id="example-asymptotics-of-t-statistics-for-non-normal-data">Example: Asymptotics of <span class="math inline">\(t\)</span> statistics for non-normal data</h2>
+<p>Suppose <span class="math inline">\(X_1, \ldots, X_n\)</span> i.i.d. with variance <span class="math inline">\(\sigma^2 \in (0, \infty)\)</span>, and let <span class="math display">\[ T_n = \frac{\sqrt{n}(\bar{X}_n - \mu)}{S_n} \]</span> where <span class="math inline">\(\bar{X}_n\)</span> is the sample mean, <span class="math inline">\(\mu = \mathbb{E}X_1\)</span> is the mean, and <span class="math inline">\(S_n\)</span> is the sample standard deviation.</p>
+<p>By the CLT, <span class="math inline">\(\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} Z\)</span> where <span class="math inline">\(Z \sim \mathcal{N}(0, \sigma^2)\)</span>.</p>
+<p>By the Strong LLN, <span class="math display">\[ S_n^2 = \left( \frac{1}{n-1} \sum_{i=1}^n X_i^2 \right) - \frac{n}{n-1}\bar{X}_n^2 \xrightarrow{\text{a.s.}} \mathbb{E}(X_1^2)-(\mathbb{E}X_1)^2 = \sigma^2. \]</span></p>
+<p>Thus, <span class="math inline">\(S_n^2 \xrightarrow{p} \sigma^2\)</span>, so by continuous mapping theorem, <span class="math inline">\(S_n \xrightarrow{p} \sigma\)</span>.</p>
+<p>Therefore, by Slutsky’s theorem, <span class="math display">\[ T_n = \frac{\sqrt{n}(\bar{X}_n - \mu)}{S_n} \xrightarrow{d} \frac{Z}{\sigma} \sim \mathcal{N}(0, 1). \]</span> as <span class="math inline">\(n \to \infty\)</span>.</p>
+</section>
+</section>
+<section id="delta-method" class="level1">
+<h1>Delta Method</h1>
+<p>Suppose we know that <span class="math inline">\(\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} \mathcal{N}(0, \sigma^2)\)</span>, for instance, by the CLT.</p>
+<p>However, what if we are actually interested in <span class="math inline">\(g(\bar{X}_n)\)</span> for some function <span class="math inline">\(g(x)\)</span>?</p>
+<p>The delta method tells us how to derive the asymptotic distribution of <span class="math inline">\(g(\bar{X}_n)\)</span>.</p>
+<p>More generally, the delta method applies not only to sample means <span class="math inline">\(\bar{X}_n\)</span> but to arbitrary random variables <span class="math inline">\(Y_n\)</span> and a constant <span class="math inline">\(\theta\)</span> such that <span class="math inline">\(\sqrt{n}(Y_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2)\)</span>.</p>
+<section id="example-with-odds-of-an-outcome" class="level2">
+<h2 class="anchored" data-anchor-id="example-with-odds-of-an-outcome">Example with Odds of an Outcome</h2>
+<p>Suppose <span class="math inline">\(X_1, \ldots, X_n \sim \text{Bernoulli}(\theta)\)</span> i.i.d.</p>
+<p>For instance, outcomes representing success/failure of a medical treatment.</p>
+<p>The odds of success are <span class="math inline">\(g(\theta) = \theta / (1 - \theta)\)</span>, and we could estimate this via <span class="math inline">\(g(\bar{X}_n) = \bar{X}_n / (1 - \bar{X}_n)\)</span>.</p>
+<p>By the SLLN and the continuous mapping theorem, we know <span class="math inline">\(\bar{X}_n \xrightarrow{\text{a.s.}} \mathbb{E}X_1 = \theta\)</span> and <span class="math inline">\(g(\bar{X}_n) \xrightarrow{\text{a.s.}} \theta / (1 - \theta)\)</span>.</p>
+<p>But how variable is the estimate <span class="math inline">\(g(\bar{X}_n)\)</span>? For instance, how could we form approximate standard errors for this estimate?</p>
+<p>The delta method provides a simple approximation to the distribution of <span class="math inline">\(g(\bar{X}_n)\)</span> that is asymptotically good.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ lubridate 1.9.2     ✔ tibble    3.2.1
+✔ purrr     1.0.1     ✔ tidyr     1.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">prob =</span> .<span class="dv">3</span>)  <span class="sc">/</span> <span class="dv">10000</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>df_curve <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, .<span class="dv">7</span>, <span class="at">length.out =</span> <span class="dv">1000</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="at">y =</span> x<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>x))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">'cadetblue'</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Distribution of "</span>, <span class="fu">bar</span>(X), <span class="st">" for "</span>, theta, <span class="st">" = 0.3"</span>))) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_density(bins = 50, fill = "cadetblue"): Ignoring unknown
+parameters: `bins`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"The odds function"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> y)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">bins =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">'cadetblue'</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Distribution of "</span>, <span class="fu">g</span>(<span class="fu">bar</span>(X)), <span class="st">" for "</span>, theta, <span class="st">" = 0.3"</span>))) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom_density(bins = 50, fill = "cadetblue"): Ignoring unknown
+parameters: `bins`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt1 <span class="sc">/</span> plt2 <span class="sc">/</span> plt3 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week13_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="delta-method-1" class="level2">
+<h2 class="anchored" data-anchor-id="delta-method-1">Delta method</h2>
+<p>Suppose <span class="math inline">\(Y_1, Y_2, \ldots\)</span> is a sequence of random variables such that</p>
+<p><span class="math display">\[
+\sqrt{n}(Y_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+\]</span></p>
+<p>for some <span class="math inline">\(\theta \in \mathbb{R}\)</span> and some <span class="math inline">\(\sigma^2 &gt; 0\)</span>. Suppose <span class="math inline">\(g\)</span> is a function such that the derivative <span class="math inline">\(g'(\theta)\)</span> exists and is nonzero at <span class="math inline">\(\theta\)</span>. Then</p>
+<p><span class="math display">\[
+\sqrt{n}(g(Y_n) - g(\theta)) \xrightarrow{d} \mathcal{N}(0, (g'(\theta))^2 \sigma^2).
+\]</span></p>
+<p>If <span class="math inline">\(Y \sim \mathcal{N}(\theta, \sigma^2/n)\)</span> and <span class="math inline">\(g(y) = ay + b\)</span>, then by the affine transformation property, <span class="math inline">\(g(Y) \sim \mathcal{N}(a\theta + b, a^2\sigma^2/n)\)</span>, that is,</p>
+<p><span class="math display">\[
+\sqrt{n}(g(Y) - g(\theta)) \sim \mathcal{N}(0, (g'(\theta))^2 \sigma^2).
+\]</span></p>
+<p>The intuition for the delta method is that <span class="math inline">\(g\)</span> is approximately linear near <span class="math inline">\(\theta\)</span>, and <span class="math inline">\(Y_n\)</span> is close to <span class="math inline">\(\theta\)</span> when <span class="math inline">\(n\)</span> is large. Thus, <span class="math inline">\(g(Y_n)\)</span> can be approximated as an affine transformation of <span class="math inline">\(Y_n\)</span>.</p>
+<p>Suppose <span class="math inline">\(X_1, \ldots, X_n \sim \text{Bernoulli}(\theta)\)</span> i.i.d. where <span class="math inline">\(\theta \in (0, 1)\)</span>, and let <span class="math inline">\(\sigma^2 = \text{Var}(X_1)\)</span>. Note that <span class="math inline">\(\sigma^2 = \theta(1 - \theta)\)</span>. By the CLT, since <span class="math inline">\(\mathbb{E}X_1 = \theta\)</span> and <span class="math inline">\(\sigma^2 \in (0, \infty)\)</span>,</p>
+<p><span class="math display">\[
+\sqrt{n}(\bar{X}_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2).
+\]</span></p>
+<p>Define <span class="math inline">\(g(\theta) = \theta/(1 - \theta)\)</span>. Then for all <span class="math inline">\(\theta \in (0, 1)\)</span>,</p>
+<p><span class="math display">\[
+g'(\theta) = \frac{(1 - \theta) - \theta(-1)}{(1 - \theta)^2} = \frac{1}{(1 - \theta)^2} \neq 0.
+\]</span></p>
+<p>Therefore, by the delta method,</p>
+<p><span class="math display">\[
+\sqrt{n}(g(\bar{X}_n) - g(\theta)) \xrightarrow{d} \mathcal{N}(0, \frac{\theta}{(1 - \theta)^3}).
+\]</span></p>
+<p>Thus, using somewhat imprecise notation,</p>
+<p><span class="math display">\[
+g(\bar{X}_n) \approx \mathcal{N}\left(g(\theta), \frac{\theta}{n(1 - \theta)^3}\right).
+\]</span></p>
+<p>In particular, the standard error of <span class="math inline">\(g(\bar{X}_n)\)</span> is approximately</p>
+<p><span class="math display">\[
+\text{se}(g(\bar{X}_n)) \approx \sqrt{\frac{\theta}{n(1 - \theta)^3}}.
+\]</span></p>
+<p>However, in practice, we don’t know <span class="math inline">\(\theta\)</span>, so we would need to plug in an estimate of <span class="math inline">\(\theta\)</span>, for instance,</p>
+<p><span class="math display">\[
+\text{se}(g(\bar{X}_n)) \approx \sqrt{\frac{\bar{X}_n}{n(1 - \bar{X}_n)^3}}.
+\]</span></p>
+<p>We can use this to form approximate confidence intervals for <span class="math inline">\(g(\theta)\)</span>, for instance, an approximate 95% interval would be</p>
+<p>$$ g({X}_n) (g({X}_n)).</p>
 
 
 </section>

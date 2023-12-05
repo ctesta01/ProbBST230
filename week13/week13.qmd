@@ -340,3 +340,245 @@ where $\mu = \E X_1$ and $\sigma^2 = \Var(X_1)$.
 The LLN tells us that $\bar X - \mu \longrightarrow 0$. In contrast, the CLT says
 that $\sqrt{n}(\bar X - \mu)$ converges in distribution to $\mathcal N(0, \sigma^2)$. 
 
+Convergence in distribution is really a property of the sequence of distributions, 
+rather than a the sequence of random variables. 
+
+In particular, any dependence among $X_1, X_2, ...$ is irrelevant to convergence 
+in distribution. All that matters is their distributions $\mathcal L(X_1), \mathcal L(X_2), ...$. 
+
+Convergence in distribution means $\mathcal L(X_n)$ is close (in a certain sense)
+to $\mathcal L(X)$ as $n \to \infty$. 
+
+In contrast, a.s. convergence means $X_n(s)$ gets close to $X(s)$ as
+$n \to \infty$ for all $s$ in some set with probability 1. 
+
+And convergence in probability means $X_n$ is close to $X$ with 
+high probability as $n \to \infty$. 
+
+### Example: Minimum of Uniforms 
+
+This is an example of convergence in probability and in distribution that 
+doesn't involve the LLN or CLT. 
+
+Suppose $X_1, X_2, ... \sim \text{Uniform}(0,1)$ iid and define 
+
+$$M_n = \min \{ X_1, ..., X_n \}.$$
+
+Intuitively, $M_n$ should converge to 0. Formally, for $\varepsilon \in (0,1),$$
+
+$$\begin{aligned}
+P(|M_n - 0| > \varepsilon) & = P(M_n > \varepsilon) \\ 
+& = P(X_1 > \varepsilon, ..., X_n > \varepsilon) \\ 
+& = \prod_{i=1}^n P(X_i > \varepsilon) \\ 
+& = (1-\varepsilon)^n \xrightarrow[n\to\infty]{} 0.
+\end{aligned}$$
+
+Therefore $M_n \xrightarrow[]{p} 0.$
+
+So $M_n \xrightarrow[]{p} 0$, but can we say more? How quickly does $M_n$ 
+converge to 0? What is the asymptotic distribution of $M_n$ near 0? 
+
+From the calculation above, if we set $\varepsilon = x/n$, then 
+$$P(n M_n \leq x ) = 1 - P(M_n > x/n) \xrightarrow[n\to\infty]{} 1 - \exp(-x),$$
+the cdf of $\text{Exponential}(1)$. Therefore, 
+
+$$nM_n \xrightarrow[n\to\infty]{d} \text{Exponential}(1).$$
+
+Thus $M_n$ is approximately distributed as $\text{Exponential}(n)$ when 
+$n$ is large. This gives us a precise characterization of the asymptotic distribution
+of $M_n$. 
+
+# Convergence in $L^p$
+
+Suppose $1 \leq p < \infty$ and $X, X_1, X_2, ... \in L^p$, that is 
+$\E |X|^p < \infty$ and $\E |X_n|^p < \infty$ for all $n$. 
+
+Then $X_1, X_2, ...$ converges in $L^p$ to $X$ if 
+
+$$\E|X_n - X|^p \xrightarrow[n\to\infty]{} 0.$$
+
+We write $X_n \xrightarrow[]{L^p} X$ to denote convergence in $L^p$. 
+
+Convergence in $L^p$ is also called convergence in the $p$th mean. 
+
+The most important cases are when $p = 1$ or $p = 2$. 
+
+  * $\E|X_n - X| \to 0$ is called convergence in mean 
+  * $\E|X_n - X|^2$ is called convergence in mean square. 
+
+If $X_n \xrightarrow[]{L^p} X$ then $\E|X_n|^p \to \E|X|^p$. 
+
+# Relationships Between Modes of Convergence 
+
+If $X_n \xrightarrow[]{a.s.} X$ then $X_n \xrightarrow[]{p} X$. 
+
+Partial converse: if $X_n \xrightarrow[]{p} X$ then there is a subsequence 
+$n_1, n_2, ...$ such that $X_{n_k} \xrightarrow[]{a.s.} X$. 
+
+If $X_n \xrightarrow[]{p} X$ then $X \xrightarrow[]{d} X$.
+
+Partial converse: if $X_n \xrightarrow[]{d}$ and $P(X=c) = 1$ for some constant
+$c$, then $X_n \xrightarrow[]{p} X$. 
+
+If $X_n \xrightarrow[]{L^p} X$ then $X_n \xrightarrow[]{p} X$. 
+
+Partial converse: if $X_n \xrightarrow[]{p} X$ and $|X_n| \leq |Y|$ 
+for some $Y \in L^p$, then $|X| \in L^p$ and $X_n \xrightarrow[]{L^p} X$. 
+
+# Continuous Mapping Theorem 
+
+Often we know a sequence of $X_n$ converges, but we really want to know about 
+$g(X_n)$ for some function $g(x)$. 
+
+The <span class='vocab'>Continuous Mapping Theorem</span> states that: 
+Suppose $X, X_1, X_2, ... \in \mathcal X$ and $g : \mathcal X \to \mathbb R$ is 
+a function that is continuous at all $x$ in some set $A \subset \mathcal X$ such that 
+$P(X \in A) = 1$. 
+
+If $X_n \xrightarrow[]{a.s.} X$ then $g(X_n) \xrightarrow[]{a.s.} g(X)$. 
+If $X_n \xrightarrow[]{p} X$ then $g(X_n) \xrightarrow[]{p} g(X)$. 
+If $X_n \xrightarrow[]{d} X$ then $g(X_n) \xrightarrow[]{d} g(X)$. 
+
+Example: If the sample variance $S_n^2$ converges (a.s., or in probability, or
+in distribution) to $\sigma^2$ then the sample standard deviation 
+$S_n = \sqrt{S_n^2}$ converges in the same sense to $\sigma$. 
+
+# Slutsky's Theorem 
+
+Slutsky's theorem is a result about the convergence of sums, products, or ratios. 
+
+<span class='vocab'>Slutsky's theorem.</span> If $X_1, X_2, \ldots$ and $Y_1, Y_2, \ldots$ are random variables such that $X_n \xrightarrow{d} X$ and $Y_n \xrightarrow{p} c$ for some random variable $X$ and constant $c$, then
+
+- $X_n + Y_n \xrightarrow{d} X + c$,
+- $X_n Y_n \xrightarrow{d} Xc$, and
+- $X_n / Y_n \xrightarrow{d} X/c$ if $c \neq 0$.
+
+Convergence of $Y_n$ to a constant is necessary; the result doesn't hold in general if $Y_n \xrightarrow{p} Y$ for a random variable $Y$.
+
+## Example: Asymptotics of $t$ statistics for non-normal data
+
+Suppose $X_1, \ldots, X_n$ i.i.d. with variance $\sigma^2 \in (0, \infty)$, and let
+$$ T_n = \frac{\sqrt{n}(\bar{X}_n - \mu)}{S_n} $$
+where $\bar{X}_n$ is the sample mean, $\mu = \mathbb{E}X_1$ is the mean, and $S_n$ is the sample standard deviation.
+
+By the CLT, $\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} Z$ where $Z \sim \mathcal{N}(0, \sigma^2)$.
+
+By the Strong LLN,
+$$ S_n^2 = \left( \frac{1}{n-1} \sum_{i=1}^n X_i^2 \right) - \frac{n}{n-1}\bar{X}_n^2 \xrightarrow{\text{a.s.}} \mathbb{E}(X_1^2)-(\mathbb{E}X_1)^2 = \sigma^2. $$
+
+Thus, $S_n^2 \xrightarrow{p} \sigma^2$, so by continuous mapping theorem, $S_n \xrightarrow{p} \sigma$.
+
+Therefore, by Slutsky's theorem,
+$$ T_n = \frac{\sqrt{n}(\bar{X}_n - \mu)}{S_n} \xrightarrow{d} \frac{Z}{\sigma} \sim \mathcal{N}(0, 1). $$ as $n \to \infty$.
+
+# Delta Method 
+
+Suppose we know that $\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} \mathcal{N}(0, \sigma^2)$, for instance, by the CLT.
+
+However, what if we are actually interested in $g(\bar{X}_n)$ for some function $g(x)$?
+
+The delta method tells us how to derive the asymptotic distribution of $g(\bar{X}_n)$.
+
+More generally, the delta method applies not only to sample means $\bar{X}_n$ but to arbitrary random variables $Y_n$ and a constant $\theta$ such that $\sqrt{n}(Y_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2)$.
+
+## Example with Odds of an Outcome 
+
+Suppose $X_1, \ldots, X_n \sim \text{Bernoulli}(\theta)$ i.i.d.
+
+For instance, outcomes representing success/failure of a medical treatment.
+
+The odds of success are $g(\theta) = \theta / (1 - \theta)$, and we could estimate this via $g(\bar{X}_n) = \bar{X}_n / (1 - \bar{X}_n)$.
+
+By the SLLN and the continuous mapping theorem, we know $\bar{X}_n \xrightarrow{\text{a.s.}} \mathbb{E}X_1 = \theta$ and $g(\bar{X}_n) \xrightarrow{\text{a.s.}} \theta / (1 - \theta)$.
+
+But how variable is the estimate $g(\bar{X}_n)$? For instance, how could we form approximate standard errors for this estimate?
+
+The delta method provides a simple approximation to the distribution of $g(\bar{X}_n)$ that is asymptotically good.
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(patchwork)
+
+theta <- 0.3
+
+n <- 200 
+
+df <- tibble(x = rbinom(n = 200, size = 10000, prob = .3)  / 10000,
+  y = x/(1-x)
+)
+
+df_curve <- tibble(x = seq(0, .7, length.out = 1000),
+y = x/(1-x))
+
+theme_set(theme_bw())
+
+plt1 <- ggplot(df, aes(x = x)) + geom_density(bins = 50, fill = 'cadetblue') + ggtitle(expression(paste("Distribution of ", bar(X), " for ", theta, " = 0.3"))) + xlim(c(0,.7))
+plt2 <- ggplot(df, aes(x = x, y = y)) + geom_line() + ggtitle("The odds function")
+plt3 <- ggplot(df, aes(x = y)) + geom_density(bins = 50, fill = 'cadetblue') + ggtitle(expression(paste("Distribution of ", g(bar(X)), " for ", theta, " = 0.3"))) + xlim(c(0,.7))
+
+plt1 / plt2 / plt3 
+```
+
+## Delta method
+
+Suppose $Y_1, Y_2, \ldots$ is a sequence of random variables such that
+
+$$
+\sqrt{n}(Y_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+$$
+
+for some $\theta \in \mathbb{R}$ and some $\sigma^2 > 0$. Suppose $g$ is a function such that the derivative $g'(\theta)$ exists and is nonzero at $\theta$. Then
+
+$$
+\sqrt{n}(g(Y_n) - g(\theta)) \xrightarrow{d} \mathcal{N}(0, (g'(\theta))^2 \sigma^2).
+$$
+
+If $Y \sim \mathcal{N}(\theta, \sigma^2/n)$ and $g(y) = ay + b$, then by the affine transformation property, $g(Y) \sim \mathcal{N}(a\theta + b, a^2\sigma^2/n)$, that is,
+
+$$
+\sqrt{n}(g(Y) - g(\theta)) \sim \mathcal{N}(0, (g'(\theta))^2 \sigma^2).
+$$
+
+The intuition for the delta method is that $g$ is approximately linear near $\theta$, and $Y_n$ is close to $\theta$ when $n$ is large. Thus, $g(Y_n)$ can be approximated as an affine transformation of $Y_n$.
+
+Suppose $X_1, \ldots, X_n \sim \text{Bernoulli}(\theta)$ i.i.d. where $\theta \in (0, 1)$, and let $\sigma^2 = \text{Var}(X_1)$. Note that $\sigma^2 = \theta(1 - \theta)$. By the CLT, since $\mathbb{E}X_1 = \theta$ and $\sigma^2 \in (0, \infty)$,
+
+$$
+\sqrt{n}(\bar{X}_n - \theta) \xrightarrow{d} \mathcal{N}(0, \sigma^2).
+$$
+
+Define $g(\theta) = \theta/(1 - \theta)$. Then for all $\theta \in (0, 1)$,
+
+$$
+g'(\theta) = \frac{(1 - \theta) - \theta(-1)}{(1 - \theta)^2} = \frac{1}{(1 - \theta)^2} \neq 0.
+$$
+
+Therefore, by the delta method,
+
+$$
+\sqrt{n}(g(\bar{X}_n) - g(\theta)) \xrightarrow{d} \mathcal{N}(0, \frac{\theta}{(1 - \theta)^3}).
+$$
+
+Thus, using somewhat imprecise notation,
+
+$$
+g(\bar{X}_n) \approx \mathcal{N}\left(g(\theta), \frac{\theta}{n(1 - \theta)^3}\right).
+$$
+
+In particular, the standard error of $g(\bar{X}_n)$ is approximately
+
+$$
+\text{se}(g(\bar{X}_n)) \approx \sqrt{\frac{\theta}{n(1 - \theta)^3}}.
+$$
+
+However, in practice, we don't know $\theta$, so we would need to plug in an estimate of $\theta$, for instance,
+
+$$
+\text{se}(g(\bar{X}_n)) \approx \sqrt{\frac{\bar{X}_n}{n(1 - \bar{X}_n)^3}}.
+$$
+
+We can use this to form approximate confidence intervals for $g(\theta)$, for instance, an approximate 95% interval would be
+
+$$
+g(\bar{X}_n) \pm 1.96 \cdot \text{se}(g(\bar{X}_n)).
